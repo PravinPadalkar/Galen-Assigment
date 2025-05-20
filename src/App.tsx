@@ -13,7 +13,7 @@ function App() {
         <MenuBar />
       </Sider>
       <Layout>
-        <Header className="">
+        <Header className="bg-white">
           <MyHeader />
         </Header>
         <Content className="">
