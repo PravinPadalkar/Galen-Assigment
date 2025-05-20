@@ -1,27 +1,23 @@
-import { Layout } from "antd";
+import { ConfigProvider } from "antd";
 import "./App.css";
-import MyHeader from "./Components/MyHeader";
-import MenuBar from "./Components/MenuBar";
-import MyCalender from "./Components/MyCalender";
+import MyLayout from "./Components/MyLayout";
+import { BrowserRouter, Routes, Route } from "react-router";
 
 function App() {
-  const { Header, Footer, Sider, Content } = Layout;
-
   return (
-    <Layout className="0 text-white min-h-screen">
-      <Sider className="bg-[#3DBCA2]" width={"250px"}>
-        <MenuBar />
-      </Sider>
-      <Layout>
-        <Header className="">
-          <MyHeader />
-        </Header>
-        <Content className="">
-          <MyCalender />
-        </Content>
-        <Footer className="">Footer</Footer>
-      </Layout>
-    </Layout>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: "#3DBCA2",
+        },
+      }}
+    >
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MyLayout />} />
+        </Routes>
+      </BrowserRouter>
+    </ConfigProvider>
   );
 }
 
