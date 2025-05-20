@@ -1,6 +1,5 @@
-import { SettingOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Button, Dropdown, Space } from "antd";
+import { Button, Dropdown } from "antd";
 
 const MyDropDown = () => {
   const items: MenuProps["items"] = [
@@ -14,19 +13,18 @@ const MyDropDown = () => {
     },
     {
       key: "2",
-      label: "Profile",
+      label: "My Profile",
       extra: "⌘P",
     },
     {
       key: "3",
-      label: "Billing",
-      extra: "⌘B",
+      label: "Subscription",
+      extra: "⌘S",
     },
     {
       key: "4",
-      label: "Settings",
-      icon: <SettingOutlined />,
-      extra: "⌘S",
+      label: "Logout",
+      extra: "⌘L",
     },
   ];
 
