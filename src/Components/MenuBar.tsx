@@ -1,6 +1,5 @@
 import { CalendarOutlined, HistoryOutlined, MedicineBoxFilled } from "@ant-design/icons";
 import { Button, Divider } from "antd";
-import React from "react";
 
 const MenuBar = () => {
   return (
@@ -10,11 +9,11 @@ const MenuBar = () => {
         <MedicineBoxFilled className="text-3xl" />
       </div>
       <Divider>Menu</Divider>
-      <div className="w-full">
-        <Button icon={<CalendarOutlined />} iconPosition="start" size="large" ghost block className="border-0 text-xl">
+      <div className="w-full flex  flex-col items-start">
+        <Button icon={<CalendarOutlined />} iconPosition="start" size="large" ghost className="border-0 text-xl">
           Appointments
         </Button>
-        <Button icon={<HistoryOutlined />} iconPosition="start" size="large" block ghost className="border-0 text-xl">
+        <Button icon={<HistoryOutlined />} iconPosition="start" size="large" ghost className="border-0 text-xl">
           Past Appointments
         </Button>
       </div>

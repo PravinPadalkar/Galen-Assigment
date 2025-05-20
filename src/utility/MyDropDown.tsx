@@ -1,5 +1,6 @@
 import type { MenuProps } from "antd";
 import { Button, Dropdown } from "antd";
+import { Link } from "react-router";
 
 const MyDropDown = () => {
   const items: MenuProps["items"] = [
@@ -30,9 +31,9 @@ const MyDropDown = () => {
 
   return (
     <Dropdown menu={{ items }} trigger={["click"]}>
-      <a onClick={(e) => e.preventDefault()}>
+      <Link to="#" onClick={(e) => e.preventDefault()}>
         <Button className="border-0">My Profile</Button>
-      </a>
+      </Link>
     </Dropdown>
   );
 };
