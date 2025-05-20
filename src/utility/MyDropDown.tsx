@@ -26,9 +26,10 @@ const MyDropDown = () => {
     <Dropdown menu={{ items }} trigger={["click"]}>
       <Link to="#" onClick={(e) => e.preventDefault()}>
         <Button
+          type="text"
           color="primary"
           className="outline-none border-0 text-lg"
-          icon={<Avatar size="large" icon={<UserOutlined />} />}
+          icon={<Avatar icon={<UserOutlined />} />}
         >
           Head Doctor
         </Button>
