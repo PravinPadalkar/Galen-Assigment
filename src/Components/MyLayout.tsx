@@ -17,7 +17,6 @@ const MyLayout = () => {
         <Content className="">
           <MyCalender />
         </Content>
-        <Footer className="">Footer</Footer>
       </Layout>
     </Layout>
   );
