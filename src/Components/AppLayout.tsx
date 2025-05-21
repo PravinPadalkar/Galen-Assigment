@@ -1,11 +1,12 @@
 import { Layout } from "antd";
-import MyHeader from "./MyHeader";
+
 import MenuBar from "./MenuBar";
-import MyCalender from "./MyCalender";
+import Calender from "./Calender";
 import { useState } from "react";
 import type { BookedSlotsDetailsType } from "../Helper/types";
+import Navbar from "./Navbar";
 
-const MyLayout = () => {
+const AppLayout = () => {
   const [bookedSlotsDetails, setBookedSlotsDetails] = useState<BookedSlotsDetailsType[]>([
     {
       doctorId: "1",
@@ -24,14 +25,14 @@ const MyLayout = () => {
       </Sider>
       <Layout>
         <Header className="bg-white">
-          <MyHeader />
+          <Navbar />
         </Header>
         <Content className="">
-          <MyCalender bookedSlotsDetails={bookedSlotsDetails} />
+          <Calender bookedSlotsDetails={bookedSlotsDetails} />
         </Content>
       </Layout>
     </Layout>
   );
 };
 
-export default MyLayout;
+export default AppLayout;

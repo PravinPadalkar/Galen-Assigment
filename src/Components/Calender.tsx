@@ -1,4 +1,4 @@
-import { Badge, Calendar } from "antd";
+import { Badge, Calendar as AntCalender } from "antd";
 import type { CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
 import CalenderHeader from "../utility/CalenderHeader";
@@ -7,7 +7,7 @@ import type { BookedSlotsDetailsType } from "../Helper/types";
 type MyCalenderProps = {
   bookedSlotsDetails: BookedSlotsDetailsType[];
 };
-const MyCalender = ({ bookedSlotsDetails }: MyCalenderProps) => {
+const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
   const getListData = (value: Dayjs) => {
     return bookedSlotsDetails.filter((item) => item.date === value.format("DD/MM/YYYY"));
   };
@@ -32,7 +32,7 @@ const MyCalender = ({ bookedSlotsDetails }: MyCalenderProps) => {
     return dateCellRender(current);
   };
   return (
-    <Calendar
+    <AntCalender
       headerRender={({ value, onChange }) => {
         return <CalenderHeader value={value} onChange={onChange} />;
       }}
@@ -41,4 +41,4 @@ const MyCalender = ({ bookedSlotsDetails }: MyCalenderProps) => {
   );
 };
 
-export default MyCalender;
+export default Calender;
