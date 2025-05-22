@@ -13,9 +13,8 @@ const items: MenuItem[] = [
     label: "List View",
     key: "list",
   },
-
 ];
-const MyHeader = () => {
+const Navbar = () => {
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
   };
@@ -37,4 +36,4 @@ const MyHeader = () => {
   );
 };
 
-export default MyHeader;
+export default Navbar;
