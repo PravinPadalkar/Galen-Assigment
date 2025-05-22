@@ -2,9 +2,9 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
 import dayjs from "dayjs";
 import { Dayjs } from "dayjs";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import AvailabilityDrawer from "./AvailabilityDrawer";
-import { SlotDurationType, type doctorDetailsType } from "../Helper/types";
+import { SlotDurationEnum, type doctorDetailsType, type DoctorsWeeklyScheduleType } from "../Helper/types";
 
 type CalenderHeaderProps = {
   value: Dayjs;
@@ -13,21 +13,63 @@ type CalenderHeaderProps = {
 const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
   const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(false);
   const [isAppointmentDrawerOpen, setIsAppointmentDrawerOpen] = useState(false);
-  const drawerContainerRef = useRef<HTMLDivElement | null>(null);
 
   const [doctersDetails, setDoctersDetails] = useState<doctorDetailsType[]>([
     {
       doctorId: "1",
       doctorName: "Pravin Padalkar",
-      slotDuration: SlotDurationType.sixty,
-      doctorsWeeklySchedule: [
-        {
-          dayOfWeek: "SUN",
-          isChecked: true,
-          slotStartTime: "9.00 AM",
-          slotEndTime: "10.00 AM",
-        },
-      ],
+      slotDuration: SlotDurationEnum.thirty,
+    },
+  ]);
+  const [doctorsWeeklySchedule, setDoctorsWeeklySchedule] = useState<DoctorsWeeklyScheduleType[]>([
+    {
+      doctorId: "1",
+      dayOfWeek: "SUN",
+      isAvailable: true,
+      slotStartTime: "9.00 AM",
+      slotEndTime: "10.00 AM",
+    },
+    {
+      doctorId: "1",
+      dayOfWeek: "MON",
+      isAvailable: true,
+      slotStartTime: "9.00 AM",
+      slotEndTime: "10.00 AM",
+    },
+    {
+      doctorId: "1",
+      dayOfWeek: "TUS",
+      isAvailable: true,
+      slotStartTime: "9.00 AM",
+      slotEndTime: "10.00 AM",
+    },
+    {
+      doctorId: "1",
+      dayOfWeek: "WED",
+      isAvailable: true,
+      slotStartTime: "9.00 AM",
+      slotEndTime: "10.00 AM",
+    },
+    {
+      doctorId: "1",
+      dayOfWeek: "THU",
+      isAvailable: true,
+      slotStartTime: "9.00 AM",
+      slotEndTime: "10.00 AM",
+    },
+    {
+      doctorId: "1",
+      dayOfWeek: "FRI",
+      isAvailable: true,
+      slotStartTime: "9.00 AM",
+      slotEndTime: "10.00 AM",
+    },
+    {
+      doctorId: "1",
+      dayOfWeek: "SAT",
+      isAvailable: false,
+      slotStartTime: "9.00 AM",
+      slotEndTime: "10.00 AM",
     },
   ]);
   const handleLeftArrow = () => {
@@ -48,7 +90,7 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
           <Button type="default" shape="circle" icon={<RightOutlined />} onClick={handleRightArrow} />
         </div>
       </div>
-      <div ref={drawerContainerRef} className="flex relative gap-4 items-center">
+      <div className="flex gap-4 items-center">
         {/* Availability */}
         <Button type="primary" onClick={() => setIsAvailabilityDrawerOpen(true)}>
           set Availability
@@ -56,12 +98,16 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
         <Drawer
           title={<h1 className="text-xl font-bold">Set Availability</h1>}
           width={600}
-          getContainer={() => drawerContainerRef.current!}
-          style={{ position: "absolute" }}
           onClose={() => setIsAvailabilityDrawerOpen(false)}
           open={isAvailabilityDrawerOpen}
         >
-          <AvailabilityDrawer />
+          <AvailabilityDrawer
+            doctersDetails={doctersDetails}
+            setDoctersDetails={setDoctersDetails}
+            doctorsWeeklySchedule={doctorsWeeklySchedule}
+            setDoctorsWeeklySchedule={setDoctorsWeeklySchedule}
+            setIsAvailabilityDrawerOpen={setIsAvailabilityDrawerOpen}
+          />
         </Drawer>
 
         {/* Appointment */}
@@ -71,6 +117,7 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
         <Drawer
           title="New Appointment"
           onClose={() => setIsAppointmentDrawerOpen(false)}
+          width={600}
           open={isAppointmentDrawerOpen}
         ></Drawer>
       </div>
