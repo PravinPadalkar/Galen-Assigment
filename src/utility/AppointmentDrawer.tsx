@@ -1,29 +1,42 @@
-import { Steps } from "antd";
-import { useState } from "react";
+import { Divider, Steps } from "antd";
+import type { Dayjs } from "dayjs";
 import StepOneContent from "./StepOneContent";
 import StepTwoContent from "./StepTwoContent";
 import StepThreeContent from "./StepThreeContent";
+import { useState } from "react";
 
-const AppointmentDrawer = () => {
-  const [current, setCurrent] = useState<number>(0);
+type AppointmentDrawerPropsType = {
+  current: number;
+};
+const AppointmentDrawer = ({ current }: AppointmentDrawerPropsType) => {
+  const [selectedDate, setSelectedDate] = useState<Dayjs | undefined>(undefined);
+  const [selectedSlot, setSelectedSlot] = useState<string | undefined>(undefined);
   const steps = [
     {
       title: "Select Doctor",
-      content: <StepOneContent current={current} setCurrent={setCurrent} />,
+      content: <StepOneContent />,
     },
     {
       title: "Pick a Slot",
-      content: <StepTwoContent current={current} setCurrent={setCurrent} />,
+      content: (
+        <StepTwoContent
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          selectedSlot={selectedSlot}
+          setSelectedSlot={setSelectedSlot}
+        />
+      ),
     },
     {
       title: "Patient's Details",
-      content: <StepThreeContent current={current} setCurrent={setCurrent} />,
+      content: <StepThreeContent />,
     },
   ];
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
   return (
     <div>
       <Steps current={current} items={items} size="small" className="w-[500px] mx-auto mb-8" />
+      <Divider />
       <div>{steps[current].content}</div>
     </div>
   );

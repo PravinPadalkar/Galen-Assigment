@@ -1,10 +1,12 @@
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
 import dayjs from "dayjs";
 import { Dayjs } from "dayjs";
 import AvailabilityDrawer from "./AvailabilityDrawer";
 import AppointmentDrawer from "./AppointmentDrawer";
 import { useData } from "../hooks/useData";
+import DrawerFooter from "./DrawerFooter";
+import { useState } from "react";
 
 type CalenderHeaderProps = {
   value: Dayjs;
@@ -19,6 +21,9 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
   const handleRightArrow = () => {
     onChange(value.add(1, "month"));
   };
+
+  // Used For Appointment Drawer
+  const [current, setCurrent] = useState<number>(0);
   return (
     <section className="flex  justify-between px-4">
       <div className="p-6  flex gap-8 ">
@@ -50,12 +55,14 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
           New Appointment
         </Button>
         <Drawer
+          closable
           title="New Appointment"
           onClose={() => setIsAppointmentDrawerOpen(false)}
           width={600}
           open={isAppointmentDrawerOpen}
+          footer={<DrawerFooter current={current} setCurrent={setCurrent} />}
         >
-          <AppointmentDrawer />
+          <AppointmentDrawer current={current} />
         </Drawer>
       </div>
     </section>
