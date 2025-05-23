@@ -3,16 +3,16 @@ import "./App.css";
 import { Routes, Route } from "react-router";
 import AppLayout from "./Components/AppLayout";
 import ThemeProvider from "./Provider/ThemeProvider";
-import DataProvider from "./Provider/DoctorDetailsProvider";
+import DoctorDetailsProvider from "./Provider/DoctorDetailsProvider";
 
 function App() {
   return (
     <ThemeProvider>
-      <DataProvider>
+      <DoctorDetailsProvider>
         <Routes>
           <Route path="/" element={<AppLayout />} />
         </Routes>
-      </DataProvider>
+      </DoctorDetailsProvider>
     </ThemeProvider>
   );
 }
