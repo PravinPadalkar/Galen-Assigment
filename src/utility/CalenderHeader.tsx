@@ -5,6 +5,7 @@ import { Dayjs } from "dayjs";
 import { useState } from "react";
 import AvailabilityDrawer from "./AvailabilityDrawer";
 import { SlotDurationEnum, type doctorDetailsType, type DoctorsWeeklyScheduleType } from "../Helper/types";
+import AppointmentDrawer from "./AppointmentDrawer";
 
 type CalenderHeaderProps = {
   value: Dayjs;
@@ -119,7 +120,9 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
           onClose={() => setIsAppointmentDrawerOpen(false)}
           width={600}
           open={isAppointmentDrawerOpen}
-        ></Drawer>
+        >
+          <AppointmentDrawer />
+        </Drawer>
       </div>
     </section>
   );
