@@ -2,77 +2,17 @@ import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
 import dayjs from "dayjs";
 import { Dayjs } from "dayjs";
-import { useState } from "react";
 import AvailabilityDrawer from "./AvailabilityDrawer";
-import { SlotDurationEnum, type doctorDetailsType, type DoctorsWeeklyScheduleType } from "../Helper/types";
 import AppointmentDrawer from "./AppointmentDrawer";
+import { useData } from "../hooks/useData";
 
 type CalenderHeaderProps = {
   value: Dayjs;
   onChange: (date: Dayjs) => void;
 };
 const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
-  const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(false);
-  const [isAppointmentDrawerOpen, setIsAppointmentDrawerOpen] = useState(false);
-
-  const [doctersDetails, setDoctersDetails] = useState<doctorDetailsType[]>([
-    {
-      doctorId: "1",
-      doctorName: "Pravin Padalkar",
-      slotDuration: SlotDurationEnum.thirty,
-    },
-  ]);
-  const [doctorsWeeklySchedule, setDoctorsWeeklySchedule] = useState<DoctorsWeeklyScheduleType[]>([
-    {
-      doctorId: "1",
-      dayOfWeek: "SUN",
-      isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
-    },
-    {
-      doctorId: "1",
-      dayOfWeek: "MON",
-      isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
-    },
-    {
-      doctorId: "1",
-      dayOfWeek: "TUS",
-      isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
-    },
-    {
-      doctorId: "1",
-      dayOfWeek: "WED",
-      isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
-    },
-    {
-      doctorId: "1",
-      dayOfWeek: "THU",
-      isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
-    },
-    {
-      doctorId: "1",
-      dayOfWeek: "FRI",
-      isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
-    },
-    {
-      doctorId: "1",
-      dayOfWeek: "SAT",
-      isAvailable: false,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
-    },
-  ]);
+  const { isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen } = useData();
+  const { isAppointmentDrawerOpen, setIsAppointmentDrawerOpen } = useData();
   const handleLeftArrow = () => {
     onChange(value.subtract(1, "month"));
   };
@@ -102,13 +42,7 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
           onClose={() => setIsAvailabilityDrawerOpen(false)}
           open={isAvailabilityDrawerOpen}
         >
-          <AvailabilityDrawer
-            doctersDetails={doctersDetails}
-            setDoctersDetails={setDoctersDetails}
-            doctorsWeeklySchedule={doctorsWeeklySchedule}
-            setDoctorsWeeklySchedule={setDoctorsWeeklySchedule}
-            setIsAvailabilityDrawerOpen={setIsAvailabilityDrawerOpen}
-          />
+          <AvailabilityDrawer />
         </Drawer>
 
         {/* Appointment */}

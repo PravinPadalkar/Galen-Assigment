@@ -15,6 +15,10 @@ interface DataContextType {
   setDoctorsWeeklySchedule: React.Dispatch<React.SetStateAction<DoctorsWeeklyScheduleType[]>>;
   bookedSlotsDetails: BookedSlotsDetailsType[];
   setBookedSlotsDetails: React.Dispatch<React.SetStateAction<BookedSlotsDetailsType[]>>;
+  isAvailabilityDrawerOpen: boolean;
+  setIsAvailabilityDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isAppointmentDrawerOpen: boolean;
+  setIsAppointmentDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export const dataContext = createContext<DataContextType | undefined>(undefined);
 
@@ -87,6 +91,8 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
       bookedSlots: ["10:00 AM", "10:30 AM", "11:30 AM"],
     },
   ]);
+  const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(false);
+  const [isAppointmentDrawerOpen, setIsAppointmentDrawerOpen] = useState(false);
   return (
     <dataContext.Provider
       value={{
@@ -98,6 +104,10 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
         setDoctorsWeeklySchedule,
         bookedSlotsDetails,
         setBookedSlotsDetails,
+        isAvailabilityDrawerOpen,
+        setIsAvailabilityDrawerOpen,
+        isAppointmentDrawerOpen,
+        setIsAppointmentDrawerOpen,
       }}
     >
       {children}

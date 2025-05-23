@@ -1,24 +1,18 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Button, Divider, Select, TimePicker, Tooltip } from "antd";
-import type { doctorDetailsType, DoctorsWeeklyScheduleType, SlotDurationEnum } from "../Helper/types";
+import type { DoctorsWeeklyScheduleType, SlotDurationEnum } from "../Helper/types";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
+import { useData } from "../hooks/useData";
 
-type AvailabilityDrawerProps = {
-  doctersDetails: doctorDetailsType[];
-  setDoctersDetails: React.Dispatch<React.SetStateAction<doctorDetailsType[]>>;
-  doctorsWeeklySchedule: DoctorsWeeklyScheduleType[];
-  setDoctorsWeeklySchedule: React.Dispatch<React.SetStateAction<DoctorsWeeklyScheduleType[]>>;
-  setIsAvailabilityDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const AvailabilityDrawer = ({
-  doctersDetails,
-  setDoctersDetails,
-  doctorsWeeklySchedule,
-  setDoctorsWeeklySchedule,
-  setIsAvailabilityDrawerOpen,
-}: AvailabilityDrawerProps) => {
+const AvailabilityDrawer = () => {
+  const {
+    doctersDetails,
+    setDoctersDetails,
+    doctorsWeeklySchedule,
+    setDoctorsWeeklySchedule,
+    setIsAvailabilityDrawerOpen,
+  } = useData();
   const format = "HH:mm:A";
 
   const [tempSchedule, setTempSchedule] = useState<DoctorsWeeklyScheduleType[]>([]);
