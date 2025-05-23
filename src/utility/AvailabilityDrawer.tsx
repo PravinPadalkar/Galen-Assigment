@@ -3,7 +3,7 @@ import { Button, Divider, Select, TimePicker, Tooltip } from "antd";
 import type { DoctorsWeeklyScheduleType, SlotDurationEnum } from "../Helper/types";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-import { useData } from "../hooks/useData";
+import { useDoctorDetails } from "../hooks/useDoctorDetails";
 
 const AvailabilityDrawer = () => {
   const {
@@ -12,7 +12,7 @@ const AvailabilityDrawer = () => {
     doctorsWeeklySchedule,
     setDoctorsWeeklySchedule,
     setIsAvailabilityDrawerOpen,
-  } = useData();
+  } = useDoctorDetails();
   const format = "HH:mm:A";
 
   const [tempSchedule, setTempSchedule] = useState<DoctorsWeeklyScheduleType[]>([]);

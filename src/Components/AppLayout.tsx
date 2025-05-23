@@ -2,10 +2,10 @@ import { Layout } from "antd";
 import MenuBar from "./MenuBar";
 import Calender from "./Calender";
 import Navbar from "./Navbar";
-import { useData } from "../hooks/useData";
+import { useDoctorDetails } from "../hooks/useDoctorDetails";
 
 const AppLayout = () => {
-  const { bookedSlotsDetails } = useData();
+  const { bookedSlotsDetails } = useDoctorDetails();
   const { Header, Sider, Content } = Layout;
   return (
     <Layout className="0 text-white min-h-screen">

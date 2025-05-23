@@ -1,10 +1,10 @@
-import { CloseOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { Button, Drawer } from "antd";
 import dayjs from "dayjs";
 import { Dayjs } from "dayjs";
 import AvailabilityDrawer from "./AvailabilityDrawer";
 import AppointmentDrawer from "./AppointmentDrawer";
-import { useData } from "../hooks/useData";
+import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import DrawerFooter from "./DrawerFooter";
 import { useState } from "react";
 
@@ -13,8 +13,8 @@ type CalenderHeaderProps = {
   onChange: (date: Dayjs) => void;
 };
 const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
-  const { isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen } = useData();
-  const { isAppointmentDrawerOpen, setIsAppointmentDrawerOpen } = useData();
+  const { isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen } = useDoctorDetails();
+  const { isAppointmentDrawerOpen, setIsAppointmentDrawerOpen } = useDoctorDetails();
   const handleLeftArrow = () => {
     onChange(value.subtract(1, "month"));
   };

@@ -6,9 +6,7 @@ import {
   type DoctorsWeeklyScheduleType,
 } from "../Helper/types";
 
-interface DataContextType {
-  data: string;
-  setData: React.Dispatch<React.SetStateAction<string>>;
+interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
   setDoctersDetails: React.Dispatch<React.SetStateAction<doctorDetailsType[]>>;
   doctorsWeeklySchedule: DoctorsWeeklyScheduleType[];
@@ -20,10 +18,9 @@ interface DataContextType {
   isAppointmentDrawerOpen: boolean;
   setIsAppointmentDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export const dataContext = createContext<DataContextType | undefined>(undefined);
+export const doctorsDetailsContext = createContext<DoctorDetailsContextType | undefined>(undefined);
 
-const DataProvider = ({ children }: { children: React.ReactNode }) => {
-  const [data, setData] = useState("hello");
+const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
   const [doctersDetails, setDoctersDetails] = useState<doctorDetailsType[]>([
     {
       doctorId: "1",
@@ -94,10 +91,8 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(false);
   const [isAppointmentDrawerOpen, setIsAppointmentDrawerOpen] = useState(false);
   return (
-    <dataContext.Provider
+    <doctorsDetailsContext.Provider
       value={{
-        data,
-        setData,
         doctersDetails,
         setDoctersDetails,
         doctorsWeeklySchedule,
@@ -111,7 +106,7 @@ const DataProvider = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       {children}
-    </dataContext.Provider>
+    </doctorsDetailsContext.Provider>
   );
 };
-export default DataProvider;
+export default DoctorDetailsProvider;
