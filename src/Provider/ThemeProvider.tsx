@@ -10,7 +10,6 @@ const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
         },
         components: {
           Calendar: {
-            fullBg: "#e6f7ff", // background of selected cell
             fullPanelBg: "#3DBCA2",
             itemActiveBg: "#ebeff0", // active date background
             colorBgTextActive: "#1677ff", // active date text color
