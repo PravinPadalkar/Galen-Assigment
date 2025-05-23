@@ -18,8 +18,7 @@ export interface doctorDetailsType {
 export interface BookedSlotsDetailsType {
   doctorId: string;
   date: string;
-  slotStartTime: string;
-  slotEndTime: string;
+  bookedSlots: string[];
   doctorName: string;
   patientName: string;
   familyMembers?: string;

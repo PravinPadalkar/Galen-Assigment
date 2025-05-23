@@ -13,8 +13,7 @@ const AppLayout = () => {
       doctorName: "Pravin",
       date: "21/05/2025",
       patientName: "sohel khan",
-      slotEndTime: "10 PM",
-      slotStartTime: "12PM",
+      bookedSlots: ["10:00 AM", "10:30 AM", "11:30 AM"],
     },
   ]);
   const { Header, Sider, Content } = Layout;
