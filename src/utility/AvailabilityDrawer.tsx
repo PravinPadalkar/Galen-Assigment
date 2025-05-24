@@ -22,7 +22,11 @@ const AvailabilityDrawer = () => {
     setSelectedSlot(doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration);
   }, [doctorsWeeklySchedule]);
 
-  const handleChange = (dayOfWeek: String, key: "isAvailable" | "startTime" | "endTime", value: boolean | string) => {
+  const handleChange = (
+    dayOfWeek: String,
+    key: "isAvailable" | "slotStartTime" | "slotEndTime",
+    value: boolean | string
+  ) => {
     setTempSchedule((prev) => prev.map((item) => (item.dayOfWeek == dayOfWeek ? { ...item, [key]: value } : item)));
   };
   const onSave = () => {
@@ -72,7 +76,7 @@ const AvailabilityDrawer = () => {
               <div className="flex gap-2 items-center">
                 <TimePicker
                   allowClear={false}
-                  onChange={(e) => handleChange(weekData.dayOfWeek, "startTime", e.format(format))}
+                  onChange={(e) => handleChange(weekData.dayOfWeek, "slotStartTime", e.format(format))}
                   defaultValue={weekData.slotStartTime ? dayjs(weekData.slotStartTime, format) : undefined}
                   placeholder="Start Time"
                   showNow={false}
@@ -82,7 +86,7 @@ const AvailabilityDrawer = () => {
                 <p>-</p>
                 <TimePicker
                   allowClear={false}
-                  onChange={(e) => handleChange(weekData.dayOfWeek, "endTime", e.format(format))}
+                  onChange={(e) => handleChange(weekData.dayOfWeek, "slotEndTime", e.format(format))}
                   defaultValue={weekData.slotStartTime ? dayjs(weekData.slotEndTime, format) : undefined}
                   placeholder="End Time"
                   showNow={false}

@@ -37,7 +37,8 @@ const StepTwoContent = ({
     const slotEndTime = weekData?.slotEndTime;
     const slotDuration = doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration || 30;
     const BookedSlots: string[] =
-      bookedSlotsDetails.find((item) => selectedDate?.isSame(item.date, "date"))?.bookedSlots || [];
+      bookedSlotsDetails.find((item) => selectedDate?.isSame(dayjs(item.date, "DD/MM/YYYY"), "date"))?.bookedSlots ||
+      [];
     //calculate total slots
 
     const TotalSlots: string[] = [];
@@ -46,13 +47,14 @@ const StepTwoContent = ({
     for (let current = start; current.isBefore(end) && isAvailable; current = current.add(slotDuration, "minute")) {
       TotalSlots.push(current.format("hh:mm:A"));
     }
+    console.log(TotalSlots, "\n", BookedSlots);
     return TotalSlots.filter((slot) => !BookedSlots.includes(slot));
   };
 
   useEffect(() => {
     const AvailableSlots: string[] = calculateAvailableSlots();
     setSlotArray(AvailableSlots);
-  }, [selectedDate]);
+  }, [selectedDate, doctersDetails, bookedSlotsDetails]);
 
   return (
     <>

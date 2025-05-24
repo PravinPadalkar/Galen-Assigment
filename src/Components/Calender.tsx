@@ -20,7 +20,11 @@ const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
       <ul className="events">
         {listData?.slotInfo.map((item, i) => (
           <li key={i}>
-            <Badge status="success" text={`${listData.doctorName}/${item.patientName}/${item.slotTime}`} />
+            <Badge
+              status="success"
+              text={`${listData.doctorName}/${item.patientName}/${item.slotTime}`}
+              onClick={() => console.log("patientName", item.patientName)}
+            />
           </li>
         ))}
       </ul>

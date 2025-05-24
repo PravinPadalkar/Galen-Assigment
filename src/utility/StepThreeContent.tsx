@@ -43,7 +43,7 @@ const StepThreeContent = ({
         bookedSlots: [selectedSlot as string],
         slotInfo: [
           {
-            slotTime: selectedSlot,
+            slotTime: selectedSlot as string,
             patientName: values.patientName,
             emailId: values.email,
             familyMembers: values.name,
