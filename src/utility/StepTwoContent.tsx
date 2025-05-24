@@ -2,14 +2,14 @@ import { Button, DatePicker, Divider, type DatePickerProps } from "antd";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { useDoctorDetails } from "../hooks/useDoctorDetails";
 type StepOneContentPropType = {
-  selectedDate: Dayjs | undefined;
-  setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs | undefined>>;
+  selectedDate: Dayjs;
+  setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
   selectedSlot: string | undefined;
   setSelectedSlot: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 const StepTwoContent = ({ selectedDate, setSelectedDate, selectedSlot, setSelectedSlot }: StepOneContentPropType) => {
-  // console.log(selectedSlot, selectedDate);
   const onChange: DatePickerProps["onChange"] = (date) => {
     // console.log(date.format("DD/MM/YYYY"), date.format("ddd"));
     setSelectedDate(date);
@@ -17,45 +17,60 @@ const StepTwoContent = ({ selectedDate, setSelectedDate, selectedSlot, setSelect
   const disablePastDates = (current: Dayjs) => {
     return current < dayjs().startOf("day");
   };
+  const { doctorsWeeklySchedule, doctersDetails, bookedSlotsDetails } = useDoctorDetails();
   const [slotArray, setSlotArray] = useState<React.ReactNode[]>();
-  useEffect(() => {
-    const isAvailable = true;
-    const date = "23/05/2025";
-    const slotStartTime = "10:00 AM";
-    const slotEndTime = "3:00 PM";
-    const slotDuration = 30;
-    const BookedSlots: string[] = ["10:00 AM", "03:00 PM ", "11:30 AM", "02:00 PM"];
-    const TotalSlots: string[] = [];
+
+  const calculateAvailableSlots = (): string[] => {
+    //match selected Date's week with the doctorScheduledWeek
+    const weekData = doctorsWeeklySchedule.find(
+      (weekData) => weekData.dayOfWeek.toLowerCase() == selectedDate.format("ddd").toLowerCase()
+    );
+    const isAvailable = weekData?.isAvailable;
+    const slotStartTime = weekData?.slotStartTime;
+    const slotEndTime = weekData?.slotEndTime;
+    const slotDuration = doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration || 30;
+    const BookedSlots: string[] =
+      bookedSlotsDetails.find((item) => selectedDate?.isSame(item.date, "date"))?.bookedSlots || [];
 
     //calculate total slots
-    const start = dayjs(slotStartTime, "hh:mm A");
-    const end = dayjs(slotEndTime, "hh:mm A");
+    const TotalSlots: string[] = [];
+    const start = dayjs(slotStartTime, "hh:mm:A");
+    const end = dayjs(slotEndTime, "hh:mm:A");
     for (let current = start; current.isBefore(end) && isAvailable; current = current.add(slotDuration, "minute")) {
-      TotalSlots.push(current.format("hh:mm A"));
+      console.log(current);
+      TotalSlots.push(current.format("hh:mm:A"));
     }
-    const AvailableSlots: string[] = TotalSlots.filter((slot) => !BookedSlots.includes(slot));
+    return TotalSlots.filter((slot) => !BookedSlots.includes(slot));
+  };
 
-    // console.log("TotalSlots", TotalSlots);
-    // console.log("BookedSlots", BookedSlots);
-    // console.log("AvailableSlots", AvailableSlots);
+  useEffect(() => {
+    const AvailableSlots: string[] = calculateAvailableSlots();
     setSlotArray(AvailableSlots);
-  }, []);
+  }, [selectedDate]);
 
   return (
     <>
-      <h1 className="text-lg font-bold">Pick A Slot</h1>
-      <div className="flex gap-2 items-center justify-end mb-8">
-        <label className="text-sm" htmlFor="selectDate">
-          Select Date:
-        </label>
-        <DatePicker id="selectDate" disabledDate={disablePastDates} onChange={onChange} />
+      <div className="flex gap-2 items-center justify-between mb-4">
+        <h1 className="text-lg ">Pick A Slot</h1>
+        <div className="flex items-center gap-2">
+          <label className="text-sm" htmlFor="selectDate">
+            Select Date:
+          </label>
+          <DatePicker
+            id="selectDate"
+            allowClear={false}
+            defaultOpen
+            disabledDate={disablePastDates}
+            onChange={onChange}
+          />
+        </div>
       </div>
       <Divider />
       {slotArray?.length === 0 ? (
-        <div className="text-center">No Available Slot</div>
+        <div className="text-center font-bold">No Available Slot</div>
       ) : (
         <div>
-          <h1 className=" mb-4">Available Slots</h1>
+          <h1 className=" font-bold mb-4">Available Slots for Date: {selectedDate.format("DD/MM/YYYY")}</h1>
           <div className="flex gap-4 mt-4 flex-wrap">
             {slotArray?.map((slot, i) => (
               <Button key={i} onClick={() => setSelectedSlot(slot?.toString())}>
@@ -63,6 +78,13 @@ const StepTwoContent = ({ selectedDate, setSelectedDate, selectedSlot, setSelect
               </Button>
             ))}
           </div>
+
+          {selectedSlot && (
+            <div>
+              <Divider />
+              <p className="font-bold">{`Selected Slot : ${selectedSlot} / ${selectedDate.format("Do MMM YYYY")}`}</p>
+            </div>
+          )}
         </div>
       )}
     </>

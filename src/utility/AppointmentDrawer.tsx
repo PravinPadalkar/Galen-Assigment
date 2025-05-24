@@ -4,13 +4,15 @@ import StepOneContent from "./StepOneContent";
 import StepTwoContent from "./StepTwoContent";
 import StepThreeContent from "./StepThreeContent";
 import { useState } from "react";
+import dayjs from "dayjs";
 
 type AppointmentDrawerPropsType = {
   current: number;
 };
 const AppointmentDrawer = ({ current }: AppointmentDrawerPropsType) => {
-  const [selectedDate, setSelectedDate] = useState<Dayjs | undefined>(undefined);
+  const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().startOf("day"));
   const [selectedSlot, setSelectedSlot] = useState<string | undefined>(undefined);
+  // console.log(selectedDate.format("DD/MM/YYYY"), selectedDate.format("ddd"));
   const steps = [
     {
       title: "Select Doctor",

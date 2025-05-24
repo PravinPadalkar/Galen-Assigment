@@ -1,6 +1,6 @@
 export enum SlotDurationEnum {
-  thirty = "thirty",
-  sixty = "sixty",
+  thirty = 30,
+  sixty = 60,
 }
 export interface DoctorsWeeklyScheduleType {
   doctorId: string;
