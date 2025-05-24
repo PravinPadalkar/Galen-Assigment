@@ -8,8 +8,9 @@ import dayjs from "dayjs";
 
 type AppointmentDrawerPropsType = {
   current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
 };
-const AppointmentDrawer = ({ current }: AppointmentDrawerPropsType) => {
+const AppointmentDrawer = ({ current, setCurrent }: AppointmentDrawerPropsType) => {
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().startOf("day"));
   const [selectedSlot, setSelectedSlot] = useState<string | undefined>(undefined);
   const [selectedDoctorId, setSelectedDoctorId] = useState<string | undefined>(undefined);
@@ -42,6 +43,8 @@ const AppointmentDrawer = ({ current }: AppointmentDrawerPropsType) => {
           setSelectedDoctorId={setSelectedDoctorId}
           setSelectedSlot={setSelectedSlot}
           selectedSlot={selectedSlot}
+          current={current}
+          setCurrent={setCurrent}
         />
       ),
     },

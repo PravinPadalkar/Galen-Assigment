@@ -19,7 +19,6 @@ const StepTwoContent = ({
   selectedDoctorId,
   setSelectedDoctorId,
 }: StepTwoContentPropType) => {
-  console.log(selectedDoctorId);
   const { doctorsWeeklySchedule, doctersDetails, bookedSlotsDetails } = useDoctorDetails();
   const [slotArray, setSlotArray] = useState<React.ReactNode[]>();
   const onDateChange: DatePickerProps["onChange"] = (date) => {
@@ -45,7 +44,6 @@ const StepTwoContent = ({
     const start = dayjs(slotStartTime, "hh:mm:A");
     const end = dayjs(slotEndTime, "hh:mm:A");
     for (let current = start; current.isBefore(end) && isAvailable; current = current.add(slotDuration, "minute")) {
-      console.log(current);
       TotalSlots.push(current.format("hh:mm:A"));
     }
     return TotalSlots.filter((slot) => !BookedSlots.includes(slot));

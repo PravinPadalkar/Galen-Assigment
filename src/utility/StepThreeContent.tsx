@@ -11,6 +11,8 @@ type StepThreeContentPropType = {
   setSelectedSlot: React.Dispatch<React.SetStateAction<string | undefined>>;
   selectedDoctorId: string | undefined;
   setSelectedDoctorId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  current: number;
+  setCurrent: React.Dispatch<React.SetStateAction<number>>;
 };
 type FieldType = {
   patientName: string;
@@ -25,8 +27,9 @@ const StepThreeContent = ({
   setSelectedDoctorId,
   setSelectedSlot,
   selectedSlot,
+  setCurrent,
 }: StepThreeContentPropType) => {
-  const { bookedSlotsDetails, setBookedSlotsDetails } = useDoctorDetails();
+  const { bookedSlotsDetails, setBookedSlotsDetails, setIsAppointmentDrawerOpen } = useDoctorDetails();
   const [form] = Form.useForm();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
@@ -71,9 +74,11 @@ const StepThreeContent = ({
     }
 
     form.resetFields();
+    setCurrent(0);
     setSelectedSlot(undefined);
     setSelectedDoctorId(undefined);
     setSelectedDate(dayjs().startOf("day"));
+    setIsAppointmentDrawerOpen(false);
   };
   return (
     <>

@@ -62,7 +62,7 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
           open={isAppointmentDrawerOpen}
           footer={<DrawerFooter current={current} setCurrent={setCurrent} />}
         >
-          <AppointmentDrawer current={current} />
+          <AppointmentDrawer current={current} setCurrent={setCurrent} />
         </Drawer>
       </div>
     </section>
