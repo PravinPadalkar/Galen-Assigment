@@ -13,7 +13,7 @@ const AvailabilityDrawer = () => {
     setDoctorsWeeklySchedule,
     setIsAvailabilityDrawerOpen,
   } = useDoctorDetails();
-  const format = "HH:mm:A";
+  const format = "hh:mm:A";
 
   const [tempSchedule, setTempSchedule] = useState<DoctorsWeeklyScheduleType[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<SlotDurationEnum>();

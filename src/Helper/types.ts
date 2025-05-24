@@ -1,6 +1,6 @@
 export enum SlotDurationEnum {
-  thirty = "thirty",
-  sixty = "sixty",
+  thirty = 30,
+  sixty = 60,
 }
 export interface DoctorsWeeklyScheduleType {
   doctorId: string;
@@ -18,9 +18,14 @@ export interface doctorDetailsType {
 export interface BookedSlotsDetailsType {
   doctorId: string;
   date: string;
-  bookedSlots: string[];
   doctorName: string;
+  bookedSlots: string[];
+  slotInfo: slotInfoType[];
+}
+export interface slotInfoType {
+  slotTime: string;
   patientName: string;
-  familyMembers?: string;
+  familyMembers: string;
+  emailId: string;
   note?: string;
 }

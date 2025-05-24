@@ -24,8 +24,8 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
   const [doctersDetails, setDoctersDetails] = useState<doctorDetailsType[]>([
     {
       doctorId: "1",
-      doctorName: "Pravin Padalkar",
-      slotDuration: SlotDurationEnum.thirty,
+      doctorName: "TestDoctor",
+      slotDuration: SlotDurationEnum.sixty,
     },
   ]);
   const [doctorsWeeklySchedule, setDoctorsWeeklySchedule] = useState<DoctorsWeeklyScheduleType[]>([
@@ -33,59 +33,67 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
       doctorId: "1",
       dayOfWeek: "SUN",
       isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
+      slotStartTime: "09:00 AM",
+      slotEndTime: "12:00 PM",
     },
     {
       doctorId: "1",
       dayOfWeek: "MON",
       isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
+      slotStartTime: "09:00 AM",
+      slotEndTime: "11:00 AM",
     },
     {
       doctorId: "1",
-      dayOfWeek: "TUS",
+      dayOfWeek: "TUE",
       isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
+      slotStartTime: "09:00 AM",
+      slotEndTime: "03:00 PM",
     },
     {
       doctorId: "1",
       dayOfWeek: "WED",
       isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
+      slotStartTime: "09:00 AM",
+      slotEndTime: "04:00 PM",
     },
     {
       doctorId: "1",
       dayOfWeek: "THU",
       isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
+      slotStartTime: "09:00 AM",
+      slotEndTime: "10:00 AM",
     },
     {
       doctorId: "1",
       dayOfWeek: "FRI",
       isAvailable: true,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
+      slotStartTime: "09:00 AM",
+      slotEndTime: "12:00 PM",
     },
     {
       doctorId: "1",
       dayOfWeek: "SAT",
-      isAvailable: false,
-      slotStartTime: "9.00 AM",
-      slotEndTime: "10.00 AM",
+      isAvailable: true,
+      slotStartTime: "09:00 AM",
+      slotEndTime: "11:00 AM",
     },
   ]);
   const [bookedSlotsDetails, setBookedSlotsDetails] = useState<BookedSlotsDetailsType[]>([
     {
       doctorId: "1",
-      doctorName: "Pravin",
-      date: "21/05/2025",
-      patientName: "sohel khan",
+      doctorName: "Test",
+      date: "24/05/2025",
       bookedSlots: ["10:00 AM", "10:30 AM", "11:30 AM"],
+      slotInfo: [
+        {
+          slotTime: "10:00 AM",
+          patientName: "test",
+          emailId: "abc@gmail.com",
+          familyMembers: "N/A",
+          note: "Immediate Care",
+        },
+      ],
     },
   ]);
   const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(false);
