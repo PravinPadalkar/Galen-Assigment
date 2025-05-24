@@ -4,6 +4,7 @@ import type { DoctorsWeeklyScheduleType, SlotDurationEnum } from "../Helper/type
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
+import useApp from "antd/es/app/useApp";
 
 const AvailabilityDrawer = () => {
   const {
@@ -14,7 +15,7 @@ const AvailabilityDrawer = () => {
     setIsAvailabilityDrawerOpen,
   } = useDoctorDetails();
   const format = "hh:mm:A";
-
+  const { message } = useApp();
   const [tempSchedule, setTempSchedule] = useState<DoctorsWeeklyScheduleType[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<SlotDurationEnum>();
   useEffect(() => {
@@ -35,6 +36,7 @@ const AvailabilityDrawer = () => {
         prev.map((doctor) => (doctor.doctorId == "1" ? { ...doctor, slotDuration: selectedSlot } : doctor))
       );
     }
+    message.success("Scheduled Changed Successfully!!");
     setDoctorsWeeklySchedule(tempSchedule);
     setIsAvailabilityDrawerOpen(false);
   };

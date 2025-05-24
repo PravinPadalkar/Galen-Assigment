@@ -3,6 +3,7 @@ import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import type { BookedSlotsDetailsType, slotInfoType } from "../Helper/types";
+import useApp from "antd/es/app/useApp";
 
 type StepThreeContentPropType = {
   selectedDate: Dayjs;
@@ -30,6 +31,7 @@ const StepThreeContent = ({
   setCurrent,
 }: StepThreeContentPropType) => {
   const { bookedSlotsDetails, setBookedSlotsDetails, setIsAppointmentDrawerOpen } = useDoctorDetails();
+  const { message } = useApp();
   const [form] = Form.useForm();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
@@ -72,7 +74,7 @@ const StepThreeContent = ({
         prevState.map((item) => (item.date == existingDateDetails.date ? newEntry : item))
       );
     }
-
+    message.success("Appointment Booked Successfully!!!");
     form.resetFields();
     setCurrent(0);
     setSelectedSlot(undefined);
