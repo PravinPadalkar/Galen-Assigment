@@ -22,7 +22,6 @@ type FieldType = {
 const StepThreeContent = ({
   selectedDate,
   setSelectedDate,
-  selectedDoctorId,
   setSelectedDoctorId,
   setSelectedSlot,
   selectedSlot,
@@ -31,8 +30,6 @@ const StepThreeContent = ({
   const [form] = Form.useForm();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
-    console.log(bookedSlotsDetails);
     const existingDateDetails = bookedSlotsDetails.find((item) => item.date == selectedDate.format("DD/MM/YYYY"));
     let newEntry: BookedSlotsDetailsType;
     if (!existingDateDetails) {
@@ -67,25 +64,21 @@ const StepThreeContent = ({
           } as slotInfoType,
         ],
       };
-      console.log(bookedSlotsDetails);
+
       setBookedSlotsDetails((prevState) =>
         prevState.map((item) => (item.date == existingDateDetails.date ? newEntry : item))
       );
     }
-    console.log(existingDateDetails, selectedDoctorId, selectedSlot);
+
     form.resetFields();
     setSelectedSlot(undefined);
     setSelectedDoctorId(undefined);
     setSelectedDate(dayjs().startOf("day"));
   };
-
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
   return (
     <>
       <h1 className="text-2xl mb-8">Enter Patient's Details</h1>
-      <Form form={form} layout="vertical" onFinish={onFinish} onFinishFailed={onFinishFailed}>
+      <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item<FieldType>
           label="patientName"
           name="patientName"
