@@ -12,11 +12,12 @@ type AppointmentDrawerPropsType = {
 const AppointmentDrawer = ({ current }: AppointmentDrawerPropsType) => {
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().startOf("day"));
   const [selectedSlot, setSelectedSlot] = useState<string | undefined>(undefined);
+  const [selectedDoctorId, setSelectedDoctorId] = useState<string | undefined>(undefined);
   // console.log(selectedDate.format("DD/MM/YYYY"), selectedDate.format("ddd"));
   const steps = [
     {
       title: "Select Doctor",
-      content: <StepOneContent />,
+      content: <StepOneContent selectedDoctorId={selectedDoctorId} setSelectedDoctorId={setSelectedDoctorId} />,
     },
     {
       title: "Pick a Slot",
@@ -26,12 +27,23 @@ const AppointmentDrawer = ({ current }: AppointmentDrawerPropsType) => {
           setSelectedDate={setSelectedDate}
           selectedSlot={selectedSlot}
           setSelectedSlot={setSelectedSlot}
+          selectedDoctorId={selectedDoctorId}
+          setSelectedDoctorId={setSelectedDoctorId}
         />
       ),
     },
     {
       title: "Patient's Details",
-      content: <StepThreeContent />,
+      content: (
+        <StepThreeContent
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          selectedDoctorId={selectedDoctorId}
+          setSelectedDoctorId={setSelectedDoctorId}
+          setSelectedSlot={setSelectedSlot}
+          selectedSlot={selectedSlot}
+        />
+      ),
     },
   ];
   const items = steps.map((item) => ({ key: item.title, title: item.title }));

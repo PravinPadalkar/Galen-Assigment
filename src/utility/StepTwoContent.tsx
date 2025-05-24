@@ -1,25 +1,33 @@
-import { Button, DatePicker, Divider, type DatePickerProps } from "antd";
+import { Button, DatePicker, Divider, Select, type DatePickerProps } from "antd";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
-type StepOneContentPropType = {
+type StepTwoContentPropType = {
   selectedDate: Dayjs;
   setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
   selectedSlot: string | undefined;
   setSelectedSlot: React.Dispatch<React.SetStateAction<string | undefined>>;
+  selectedDoctorId: string | undefined;
+  setSelectedDoctorId: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
-const StepTwoContent = ({ selectedDate, setSelectedDate, selectedSlot, setSelectedSlot }: StepOneContentPropType) => {
-  const onChange: DatePickerProps["onChange"] = (date) => {
-    // console.log(date.format("DD/MM/YYYY"), date.format("ddd"));
+const StepTwoContent = ({
+  selectedDate,
+  setSelectedDate,
+  selectedSlot,
+  setSelectedSlot,
+  selectedDoctorId,
+  setSelectedDoctorId,
+}: StepTwoContentPropType) => {
+  console.log(selectedDoctorId);
+  const { doctorsWeeklySchedule, doctersDetails, bookedSlotsDetails } = useDoctorDetails();
+  const [slotArray, setSlotArray] = useState<React.ReactNode[]>();
+  const onDateChange: DatePickerProps["onChange"] = (date) => {
     setSelectedDate(date);
   };
   const disablePastDates = (current: Dayjs) => {
     return current < dayjs().startOf("day");
   };
-  const { doctorsWeeklySchedule, doctersDetails, bookedSlotsDetails } = useDoctorDetails();
-  const [slotArray, setSlotArray] = useState<React.ReactNode[]>();
-
   const calculateAvailableSlots = (): string[] => {
     //match selected Date's week with the doctorScheduledWeek
     const weekData = doctorsWeeklySchedule.find(
@@ -31,8 +39,8 @@ const StepTwoContent = ({ selectedDate, setSelectedDate, selectedSlot, setSelect
     const slotDuration = doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration || 30;
     const BookedSlots: string[] =
       bookedSlotsDetails.find((item) => selectedDate?.isSame(item.date, "date"))?.bookedSlots || [];
-
     //calculate total slots
+
     const TotalSlots: string[] = [];
     const start = dayjs(slotStartTime, "hh:mm:A");
     const end = dayjs(slotEndTime, "hh:mm:A");
@@ -50,6 +58,27 @@ const StepTwoContent = ({ selectedDate, setSelectedDate, selectedSlot, setSelect
 
   return (
     <>
+      <div className="mb-6">
+        <h1 className="text-base font-bold">
+          Selected Doctor : {doctersDetails.find((doctor) => doctor.doctorId == selectedDoctorId)?.doctorName}
+        </h1>
+        <Select
+          showSearch
+          className="w-full my-2"
+          placeholder="Search to Select"
+          defaultValue={doctersDetails.find((doctor) => doctor.doctorId == selectedDoctorId)?.doctorName}
+          optionFilterProp="label"
+          onChange={(e) => setSelectedDoctorId(e)}
+          filterSort={(optionA, optionB) =>
+            (optionA?.label ?? "").toLowerCase().localeCompare((optionB?.label ?? "").toLowerCase())
+          }
+          options={doctersDetails.map((doctor) => ({
+            label: doctor.doctorName,
+            value: doctor.doctorId,
+          }))}
+        />
+      </div>
+      <Divider />
       <div className="flex gap-2 items-center justify-between mb-4">
         <h1 className="text-lg ">Pick A Slot</h1>
         <div className="flex items-center gap-2">
@@ -61,7 +90,7 @@ const StepTwoContent = ({ selectedDate, setSelectedDate, selectedSlot, setSelect
             allowClear={false}
             defaultOpen
             disabledDate={disablePastDates}
-            onChange={onChange}
+            onChange={onDateChange}
           />
         </div>
       </div>
