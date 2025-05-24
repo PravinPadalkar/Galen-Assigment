@@ -24,7 +24,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
   const [doctersDetails, setDoctersDetails] = useState<doctorDetailsType[]>([
     {
       doctorId: "1",
-      doctorName: "Pravin Padalkar",
+      doctorName: "TestDoctor",
       slotDuration: SlotDurationEnum.sixty,
     },
   ]);
@@ -74,18 +74,26 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
     {
       doctorId: "1",
       dayOfWeek: "SAT",
-      isAvailable: false,
+      isAvailable: true,
       slotStartTime: "09:00 AM",
-      slotEndTime: "10:00 AM",
+      slotEndTime: "11:00 AM",
     },
   ]);
   const [bookedSlotsDetails, setBookedSlotsDetails] = useState<BookedSlotsDetailsType[]>([
     {
       doctorId: "1",
-      doctorName: "Pravin",
+      doctorName: "Test",
       date: "24/05/2025",
-      patientName: "sohel khan",
       bookedSlots: ["10:00 AM", "10:30 AM", "11:30 AM"],
+      slotInfo: [
+        {
+          slotTime: "10:00 AM",
+          patientName: "test",
+          emailId: "abc@gmail.com",
+          familyMembers: "N/A",
+          note: "Immediate Care",
+        },
+      ],
     },
   ]);
   const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(false);

@@ -9,17 +9,18 @@ type MyCalenderProps = {
 };
 const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
   const getListData = (value: Dayjs) => {
-    return bookedSlotsDetails.filter((item) => item.date === value.format("DD/MM/YYYY"));
+    return bookedSlotsDetails.find((item) => item.date === value.format("DD/MM/YYYY"));
   };
 
   //To Pass Data From The List
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
+
     return (
       <ul className="events">
-        {listData.map((item) => (
-          <li key={item.doctorId}>
-            <Badge status="success" text={`${item.doctorName}/${item.patientName}/${item.bookedSlots[0]}`} />
+        {listData?.slotInfo.map((item, i) => (
+          <li key={i}>
+            <Badge status="success" text={`${listData.doctorName}/${item.patientName}/${item.slotTime}`} />
           </li>
         ))}
       </ul>
