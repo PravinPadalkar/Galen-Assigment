@@ -90,18 +90,18 @@ const StepThreeContent = ({
     <>
       <h1 className="text-2xl mb-8">Enter Patient's Details</h1>
       <Form form={form} layout="vertical" onFinish={onFinish}>
-        <Form.Item<FieldType> label="patientName" name="patientName">
-          <Input required />
-        </Form.Item>
-        <h2 className="mb-2 font-bold">Family Member's Info (Optional)</h2>
-        <Form.Item<FieldType> label="name" name="name" rules={[{ required: true, message: "Please Enter the Name!" }]}>
+        <Form.Item<FieldType>
+          label="Patient's  Name"
+          name="patientName"
+          rules={[{ required: true, message: "Please Enter the Name!" }]}
+        >
           <Input />
         </Form.Item>
-        <Form.Item<FieldType>
-          label="Email ID"
-          name="email"
-          rules={[{ required: true, message: "Please Enter the email ID!" }]}
-        >
+        <h2 className="mb-2 font-bold">Family Member's Info (Optional)</h2>
+        <Form.Item<FieldType> label="name" name="name">
+          <Input />
+        </Form.Item>
+        <Form.Item<FieldType> label="Email ID" name="email">
           <Input type="email" />
         </Form.Item>
         <Form.Item<FieldType> label="Note" name="note">
