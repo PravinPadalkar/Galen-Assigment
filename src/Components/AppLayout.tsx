@@ -2,10 +2,8 @@ import { App, Layout } from "antd";
 import MenuBar from "./MenuBar";
 import Calender from "./Calender";
 import Navbar from "./Navbar";
-import { useDoctorDetails } from "../hooks/useDoctorDetails";
 
 const AppLayout = () => {
-  const { bookedSlotsDetails } = useDoctorDetails();
   const { Header, Sider, Content } = Layout;
   return (
     <App>
@@ -18,7 +16,7 @@ const AppLayout = () => {
             <Navbar />
           </Header>
           <Content className="">
-            <Calender bookedSlotsDetails={bookedSlotsDetails} />
+            <Calender />
           </Content>
         </Layout>
       </Layout>

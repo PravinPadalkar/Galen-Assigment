@@ -17,7 +17,7 @@ const items: MenuItem[] = [
   },
 ];
 const Navbar = () => {
-  const [current, setCurrent] = useState("Calender View");
+  const [current] = useState("Calender View");
   const onClick: MenuProps["onClick"] = (e) => {
     console.log("click ", e);
   };
