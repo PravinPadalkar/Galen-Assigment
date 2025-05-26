@@ -12,21 +12,24 @@ const Calender = () => {
   const { message } = useApp();
   const { bookedSlotsDetails, setBookedSlotsDetails } = useDoctorDetails();
   const confirmDelete = (date: string, time: string) => {
-    message.info("Appointment deleted successfully");
-    setBookedSlotsDetails((prev) => {
-      return prev.map((item) => {
-        if (item.date.localeCompare(date)) {
-          return {
-            ...item,
-            bookedSlots: item.bookedSlots.filter((slotTime) => slotTime.localeCompare(time)),
-            slotInfo: item.slotInfo.filter((slots) => slots.slotTime.localeCompare(time)),
-          };
-        }
-        return item;
+    try {
+      setBookedSlotsDetails((prev) => {
+        return prev.map((item) => {
+          if (item.date.localeCompare(date)) {
+            return {
+              ...item,
+              bookedSlots: item.bookedSlots.filter((slotTime) => slotTime.localeCompare(time)),
+              slotInfo: item.slotInfo.filter((slots) => slots.slotTime.localeCompare(time)),
+            };
+          }
+          return item;
+        });
       });
-    });
-
-    setIsModelOpen(false);
+      setIsModelOpen(false);
+      message.info("Appointment deleted successfully");
+    } catch {
+      message.error("Deletion Failed");
+    }
   };
   const getListData = (value: Dayjs) => {
     return bookedSlotsDetails.find((item) => item.date === value.format("DD/MM/YYYY"));
@@ -107,27 +110,27 @@ const Calender = () => {
       >
         {modalSlotDetails && (
           <div className="flex flex-col gap-3">
-            <div>
+            <span>
               <p>Patient Name:</p> <p className="font-bold"> {modalSlotDetails.patientName}</p>
-            </div>
-            <div>
+            </span>
+            <span>
               <p>Email ID:</p>
               <p className="font-bold"> {modalSlotDetails.email}</p>
-            </div>
-            <div>
+            </span>
+            <span>
               <p>Slot Time:</p>
               <p className="font-bold"> {modalSlotDetails.slotTime + " / " + modalSlotDetails.slotDate}</p>
-            </div>
-            <div>
+            </span>
+            <span>
               <p>Doctor Name:</p> <p className="font-bold"> {modalSlotDetails.doctorName}</p>
-            </div>
+            </span>
             <div className="flex gap-16">
-              <div>
+              <span>
                 Family Members: <p className="font-bold">{modalSlotDetails.familyMember}</p>
-              </div>
-              <div>
+              </span>
+              <span>
                 Note: <p className="font-bold"> {modalSlotDetails.note}</p>
-              </div>
+              </span>
             </div>
           </div>
         )}
