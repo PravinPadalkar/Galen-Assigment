@@ -100,9 +100,6 @@ const Calender = () => {
           >
             <Button key="submit" variant="solid" shape="circle" color="danger" icon={<DeleteFilled />}></Button>
           </Popconfirm>,
-          <Button key="back" onClick={() => setIsModelOpen(false)}>
-            Close
-          </Button>,
           <Button key="okay" onClick={() => setIsModelOpen(false)} type="primary">
             Okay
           </Button>,
@@ -111,25 +108,27 @@ const Calender = () => {
         {modalSlotDetails && (
           <div className="flex flex-col gap-3">
             <span>
-              <p>Patient Name:</p> <p className="font-bold"> {modalSlotDetails.patientName}</p>
+              <p className="font-bold">Patient Name:</p> <p> {modalSlotDetails.patientName}</p>
             </span>
             <span>
-              <p>Email ID:</p>
-              <p className="font-bold"> {modalSlotDetails.email}</p>
+              <p className="font-bold">Email ID:</p>
+              <p>{modalSlotDetails.email && "N/A"}</p>
             </span>
             <span>
-              <p>Slot Time:</p>
-              <p className="font-bold"> {modalSlotDetails.slotTime + " / " + modalSlotDetails.slotDate}</p>
+              <p className="font-bold">Slot Time:</p>
+              <p> {modalSlotDetails.slotTime + " / " + modalSlotDetails.slotDate}</p>
             </span>
             <span>
-              <p>Doctor Name:</p> <p className="font-bold"> {modalSlotDetails.doctorName}</p>
+              <p className="font-bold">Doctor Name:</p> <p> {modalSlotDetails.doctorName}</p>
             </span>
             <div className="flex gap-16">
               <span>
-                Family Members: <p className="font-bold">{modalSlotDetails.familyMember}</p>
+                <p className="font-bold">Family Members: </p>
+                <p>{modalSlotDetails.familyMember && "N/A"}</p>
               </span>
               <span>
-                Note: <p className="font-bold"> {modalSlotDetails.note}</p>
+                <p className="font-bold">Additional Note: </p>
+                <p> {modalSlotDetails.note}</p>
               </span>
             </div>
           </div>
