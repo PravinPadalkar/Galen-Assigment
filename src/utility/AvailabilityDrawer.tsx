@@ -36,7 +36,7 @@ const AvailabilityDrawer = () => {
         prev.map((doctor) => (doctor.doctorId == "1" ? { ...doctor, slotDuration: selectedSlot } : doctor))
       );
     }
-    message.success("Scheduled Changed Successfully!!");
+    message.success("Schedule Updated Successfully!!");
     setDoctorsWeeklySchedule(tempSchedule);
     setIsAvailabilityDrawerOpen(false);
   };

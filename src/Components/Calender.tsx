@@ -1,22 +1,15 @@
-import { Badge, Calendar as AntCalender, Modal } from "antd";
+import { Badge, Calendar as AntCalender, Modal as AntdModal } from "antd";
 import type { CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
 import CalenderHeader from "../utility/CalenderHeader";
-import type { BookedSlotsDetailsType } from "../Helper/types";
+import type { BookedSlotsDetailsType, modalData } from "../Helper/types";
 import { useState } from "react";
+import Modal from "../utility/Modal";
 
 type MyCalenderProps = {
   bookedSlotsDetails: BookedSlotsDetailsType[];
 };
-type modalData = {
-  modalId: string;
-  slotTime: string;
-  doctorName: string;
-  patientName: string;
-  familyMember: string | undefined;
-  email: string;
-  note: string | undefined;
-};
+
 const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
   const getListData = (value: Dayjs) => {
     return bookedSlotsDetails.find((item) => item.date === value.format("DD/MM/YYYY"));
@@ -44,6 +37,7 @@ const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
                   email: emailId,
                   slotTime: slotTime,
                   doctorName: listData.doctorName,
+                  slotDate: value.format("DD-MM-YYYY"),
                 });
               }}
             />
@@ -66,35 +60,14 @@ const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
         }}
         cellRender={cellRender}
       />
-      <Modal
-        title="Slot Details"
+      <AntdModal
+        title={<p className="text-base text-center mb-8">Appointment Details</p>}
         open={isModalOpen}
         onCancel={() => setIsModelOpen(false)}
         onOk={() => setIsModelOpen(false)}
       >
-        {modalData && (
-          <>
-            <p>
-              <strong>Patient:</strong> {modalData.patientName}
-            </p>
-            <p>
-              <strong>Email:</strong> {modalData.email}
-            </p>
-            <p>
-              <strong>Slot Time:</strong> {modalData.slotTime}
-            </p>
-            <p>
-              <strong>Doctor:</strong> {modalData.doctorName}
-            </p>
-            <p>
-              <strong>Family Members:</strong> {modalData.familyMember}
-            </p>
-            <p>
-              <strong>Note:</strong> {modalData.note}
-            </p>
-          </>
-        )}
-      </Modal>
+        <Modal modalData={modalData} />
+      </AntdModal>
     </>
   );
 };
