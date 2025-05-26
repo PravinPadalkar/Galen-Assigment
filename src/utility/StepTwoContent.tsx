@@ -53,7 +53,7 @@ const StepTwoContent = ({
         TotalSlots.push(current.format("hh:mm:A"));
       }
     }
-    console.log(TotalSlots, "\n", BookedSlots);
+    // console.log(TotalSlots, "\n", BookedSlots);
     return TotalSlots.filter((slot) => !BookedSlots.includes(slot));
   };
 

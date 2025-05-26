@@ -7,7 +7,6 @@ type FooterPropsType = {
 };
 
 const DrawerFooter = ({ current, setCurrent, selectedSlot }: FooterPropsType) => {
-  console.log(current);
   if (current == 0) {
     return (
       <Button type="primary" onClick={() => setCurrent((prev) => prev + 1)}>
