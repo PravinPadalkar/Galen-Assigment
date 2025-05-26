@@ -91,7 +91,7 @@ const StepThreeContent = ({
       <h1 className="text-2xl mb-8">Enter Patient's Details</h1>
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item<FieldType>
-          label="Patient's  Name"
+          label="Name of patient"
           name="patientName"
           rules={[{ required: true, message: "Please Enter the Name!" }]}
         >
