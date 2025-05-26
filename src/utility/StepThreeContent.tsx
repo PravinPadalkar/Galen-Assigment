@@ -3,6 +3,7 @@ import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import type { BookedSlotsDetailsType, slotInfoType } from "../Helper/types";
+import useApp from "antd/es/app/useApp";
 
 type StepThreeContentPropType = {
   selectedDate: Dayjs;
@@ -30,66 +31,67 @@ const StepThreeContent = ({
   setCurrent,
 }: StepThreeContentPropType) => {
   const { bookedSlotsDetails, setBookedSlotsDetails, setIsAppointmentDrawerOpen } = useDoctorDetails();
+  const { message } = useApp();
   const [form] = Form.useForm();
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    const existingDateDetails = bookedSlotsDetails.find((item) => item.date == selectedDate.format("DD/MM/YYYY"));
-    let newEntry: BookedSlotsDetailsType;
-    if (!existingDateDetails) {
-      newEntry = {
-        doctorId: "1",
-        doctorName: "Test",
-        date: selectedDate.format("DD/MM/YYYY"),
-        bookedSlots: [selectedSlot as string],
-        slotInfo: [
-          {
-            slotTime: selectedSlot as string,
-            patientName: values.patientName,
-            emailId: values.email,
-            familyMembers: values.name,
-            note: values.note,
-          },
-        ] as slotInfoType[],
-      };
-      setBookedSlotsDetails((prevState) => [...prevState, newEntry]);
-    } else {
-      newEntry = {
-        ...existingDateDetails,
-        bookedSlots: [...existingDateDetails.bookedSlots, selectedSlot as string],
-        slotInfo: [
-          ...existingDateDetails.slotInfo,
-          {
-            slotTime: selectedSlot as string,
-            patientName: values.patientName,
-            emailId: values.email,
-            familyMembers: values.name,
-            note: values.note,
-          } as slotInfoType,
-        ],
-      };
+    try {
+      const existingDateDetails = bookedSlotsDetails.find((item) => item.date == selectedDate.format("DD/MM/YYYY"));
+      let newEntry: BookedSlotsDetailsType;
+      if (!existingDateDetails) {
+        newEntry = {
+          doctorId: "1",
+          doctorName: "Test",
+          date: selectedDate.format("DD/MM/YYYY"),
+          bookedSlots: [selectedSlot as string],
+          slotInfo: [
+            {
+              slotTime: selectedSlot as string,
+              patientName: values.patientName,
+              emailId: values.email,
+              familyMembers: values.name,
+              note: values.note,
+            },
+          ] as slotInfoType[],
+        };
+        setBookedSlotsDetails((prevState) => [...prevState, newEntry]);
+      } else {
+        newEntry = {
+          ...existingDateDetails,
+          bookedSlots: [...existingDateDetails.bookedSlots, selectedSlot as string],
+          slotInfo: [
+            ...existingDateDetails.slotInfo,
+            {
+              slotTime: selectedSlot as string,
+              patientName: values.patientName,
+              emailId: values.email,
+              familyMembers: values.name,
+              note: values.note,
+            } as slotInfoType,
+          ],
+        };
 
-      setBookedSlotsDetails((prevState) =>
-        prevState.map((item) => (item.date == existingDateDetails.date ? newEntry : item))
-      );
+        setBookedSlotsDetails((prevState) =>
+          prevState.map((item) => (item.date == existingDateDetails.date ? newEntry : item))
+        );
+      }
+      message.success("Appointment Booked Successfully!!!");
+      form.resetFields();
+      setCurrent(0);
+      setSelectedSlot(undefined);
+      setSelectedDoctorId(undefined);
+      setSelectedDate(dayjs().startOf("day"));
+      setIsAppointmentDrawerOpen(false);
+    } catch {
+      message.error("Submission Failed");
     }
-
-    form.resetFields();
-    setCurrent(0);
-    setSelectedSlot(undefined);
-    setSelectedDoctorId(undefined);
-    setSelectedDate(dayjs().startOf("day"));
-    setIsAppointmentDrawerOpen(false);
   };
   return (
     <>
       <h1 className="text-2xl mb-8">Enter Patient's Details</h1>
       <Form form={form} layout="vertical" onFinish={onFinish}>
-        <Form.Item<FieldType>
-          label="patientName"
-          name="patientName"
-          rules={[{ required: true, message: "Please Enter the Patient's Name!" }]}
-        >
-          <Input />
+        <Form.Item<FieldType> label="patientName" name="patientName">
+          <Input required />
         </Form.Item>
         <h2 className="mb-2 font-bold">Family Member's Info (Optional)</h2>
         <Form.Item<FieldType> label="name" name="name" rules={[{ required: true, message: "Please Enter the Name!" }]}>
@@ -100,7 +102,7 @@ const StepThreeContent = ({
           name="email"
           rules={[{ required: true, message: "Please Enter the email ID!" }]}
         >
-          <Input />
+          <Input type="email" />
         </Form.Item>
         <Form.Item<FieldType> label="Note" name="note">
           <Input />

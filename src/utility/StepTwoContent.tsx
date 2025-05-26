@@ -44,10 +44,16 @@ const StepTwoContent = ({
     const TotalSlots: string[] = [];
     const start = dayjs(slotStartTime, "hh:mm:A");
     const end = dayjs(slotEndTime, "hh:mm:A");
-    for (let current = start; current.isBefore(end) && isAvailable; current = current.add(slotDuration, "minute")) {
-      TotalSlots.push(current.format("hh:mm:A"));
+    if (slotDuration == 30) {
+      for (let current = start; current.isBefore(end) && isAvailable; current = current.add(slotDuration, "minute")) {
+        TotalSlots.push(current.format("hh:mm:A"));
+      }
+    } else {
+      for (let current = start; current.isBefore(end) && isAvailable; current = current.add(1, "hour")) {
+        TotalSlots.push(current.format("hh:mm:A"));
+      }
     }
-    console.log(TotalSlots, "\n", BookedSlots);
+    // console.log(TotalSlots, "\n", BookedSlots);
     return TotalSlots.filter((slot) => !BookedSlots.includes(slot));
   };
 

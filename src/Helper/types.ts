@@ -29,3 +29,14 @@ export interface slotInfoType {
   emailId: string;
   note?: string;
 }
+
+export type ModalSlotDetails = {
+  modalId: string;
+  slotDate: string;
+  slotTime: string;
+  doctorName: string;
+  patientName: string;
+  familyMember: string | undefined;
+  email: string;
+  note: string | undefined;
+};

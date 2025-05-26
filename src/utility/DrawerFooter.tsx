@@ -3,24 +3,28 @@ import { Button } from "antd";
 type FooterPropsType = {
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
+  selectedSlot: string | undefined;
 };
 
-const DrawerFooter = ({ current, setCurrent }: FooterPropsType) => {
-  return (
-    <div className="flex gap-4">
-      {current !== 2 ? (
-        <Button type="primary" onClick={() => setCurrent((prev) => prev + 1)}>
+const DrawerFooter = ({ current, setCurrent, selectedSlot }: FooterPropsType) => {
+  if (current == 0) {
+    return (
+      <Button type="primary" onClick={() => setCurrent((prev) => prev + 1)}>
+        Next
+      </Button>
+    );
+  } else if (current == 1) {
+    return (
+      <div className="flex gap-4">
+        <Button type="primary" disabled={!selectedSlot} onClick={() => setCurrent((prev) => prev + 1)}>
           Next
         </Button>
-      ) : (
-        // <Button type="primary" onClick={() => console.log("Form Clicked")}>
-        //   Save
-        // </Button>
-        <></>
-      )}
-      {current > 0 && current <= 2 && <Button onClick={() => setCurrent((prev) => prev - 1)}>Previous</Button>}
-    </div>
-  );
+        <Button onClick={() => setCurrent((prev) => prev - 1)}>Previous</Button>
+      </div>
+    );
+  } else {
+    return <Button onClick={() => setCurrent((prev) => prev - 1)}>Previous</Button>;
+  }
 };
 
 export default DrawerFooter;

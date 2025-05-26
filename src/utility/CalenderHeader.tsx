@@ -15,6 +15,7 @@ type CalenderHeaderProps = {
 const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
   const { isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen } = useDoctorDetails();
   const { isAppointmentDrawerOpen, setIsAppointmentDrawerOpen } = useDoctorDetails();
+  const [selectedSlot, setSelectedSlot] = useState<string | undefined>(undefined);
   const handleLeftArrow = () => {
     onChange(value.subtract(1, "month"));
   };
@@ -60,9 +61,14 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
           onClose={() => setIsAppointmentDrawerOpen(false)}
           width={600}
           open={isAppointmentDrawerOpen}
-          footer={<DrawerFooter current={current} setCurrent={setCurrent} />}
+          footer={<DrawerFooter current={current} setCurrent={setCurrent} selectedSlot={selectedSlot} />}
         >
-          <AppointmentDrawer current={current} setCurrent={setCurrent} />
+          <AppointmentDrawer
+            current={current}
+            setCurrent={setCurrent}
+            selectedSlot={selectedSlot}
+            setSelectedSlot={setSelectedSlot}
+          />
         </Drawer>
       </div>
     </section>

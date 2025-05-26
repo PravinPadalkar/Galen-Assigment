@@ -1,13 +1,12 @@
 import { CalendarOutlined, HistoryOutlined, MedicineBoxFilled } from "@ant-design/icons";
-import { Button, Divider, Menu } from "antd";
+import { Menu } from "antd";
 import type { MenuProps } from "antd";
-import { useState } from "react";
 
 type MenuItem = Required<MenuProps>["items"][number];
 const MenuBar = () => {
   const items: MenuItem[] = [
     { key: "1", icon: <CalendarOutlined />, label: "Appointment" },
-    { key: "2", icon: <HistoryOutlined />, label: "Past Appointment" },
+    { key: "2", icon: <HistoryOutlined />, label: "Past Appointment", disabled: true },
   ];
   return (
     <section className="flex flex-col items-center justify-center py-4 ">
