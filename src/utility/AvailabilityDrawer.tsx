@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import useApp from "antd/es/app/useApp";
-
+type SlotTimeErrorType = {
+  dayOfWeek: string;
+  msg: string;
+};
 const AvailabilityDrawer = () => {
   const {
     doctersDetails,
@@ -18,17 +21,36 @@ const AvailabilityDrawer = () => {
   const { message } = useApp();
   const [tempSchedule, setTempSchedule] = useState<DoctorsWeeklyScheduleType[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<SlotDurationEnum>();
+  const [slotTimeError, setSlotTimeError] = useState<SlotTimeErrorType>();
   useEffect(() => {
     setTempSchedule(doctorsWeeklySchedule);
     setSelectedSlot(doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration);
   }, [doctorsWeeklySchedule]);
-
+  console.log(slotTimeError);
   const handleChange = (
-    dayOfWeek: String,
+    dayOfWeek: string,
     key: "isAvailable" | "slotStartTime" | "slotEndTime",
     value: boolean | string
   ) => {
-    setTempSchedule((prev) => prev.map((item) => (item.dayOfWeek == dayOfWeek ? { ...item, [key]: value } : item)));
+    setTempSchedule((prev) =>
+      prev.map((item) => {
+        if (item.dayOfWeek == dayOfWeek) {
+          let newItem = { ...item, [key]: value };
+          if (key == "slotEndTime" || key == "slotStartTime") {
+            console.log("checking");
+            let start = dayjs(newItem.slotStartTime, "hh:mm:A");
+            let end = dayjs(newItem.slotEndTime, "hh:mm:A");
+            if (end.isBefore(start) || end.isSame(start) || start.isAfter(end)) {
+              setSlotTimeError({ dayOfWeek, msg: "EndTime Cannot Be Smaller Or Equal to StartTime" });
+            } else {
+              setSlotTimeError(undefined);
+            }
+          }
+          return newItem;
+        }
+        return item;
+      })
+    );
   };
   const onSave = () => {
     if (selectedSlot) {
@@ -75,7 +97,7 @@ const AvailabilityDrawer = () => {
               <h1 className="font-bold  ">{weekData.dayOfWeek}</h1>
             </div>
             {weekData.isAvailable ? (
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center relative">
                 <TimePicker
                   allowClear={false}
                   onChange={(e) => handleChange(weekData.dayOfWeek, "slotStartTime", e.format(format))}
@@ -95,6 +117,9 @@ const AvailabilityDrawer = () => {
                   minuteStep={30}
                   format={format}
                 ></TimePicker>
+                {weekData.dayOfWeek == slotTimeError?.dayOfWeek && (
+                  <p className="text-[12px] text-red-500 absolute top-10 text-nowrap">{slotTimeError.msg}</p>
+                )}
               </div>
             ) : (
               <div>Unavailable</div>
@@ -110,11 +135,12 @@ const AvailabilityDrawer = () => {
               />
             </Tooltip>
           </div>
+
           <Divider />
         </div>
       ))}
       <div className="flex gap-4">
-        <Button type="primary" onClick={() => onSave()}>
+        <Button type="primary" disabled={slotTimeError ? true : false} onClick={() => onSave()}>
           Save
         </Button>
         <Button type="default" onClick={() => oncancel()}>
