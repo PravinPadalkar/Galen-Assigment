@@ -100,7 +100,10 @@ const StepThreeContent = ({
         <Form.Item<FieldType>
           label="Email ID"
           name="email"
-          rules={[{ required: true, message: "Please Enter the email ID!" }]}
+          rules={[
+            { required: true, message: "Please Enter the email ID!" },
+            { pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Please A Valid Email" },
+          ]}
         >
           <Input />
         </Form.Item>
