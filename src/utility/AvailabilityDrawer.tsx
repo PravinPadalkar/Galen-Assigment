@@ -26,7 +26,6 @@ const AvailabilityDrawer = () => {
     setTempSchedule(doctorsWeeklySchedule);
     setSelectedSlot(doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration);
   }, [doctorsWeeklySchedule]);
-  console.log(slotTimeError);
   const handleChange = (
     dayOfWeek: string,
     key: "isAvailable" | "slotStartTime" | "slotEndTime",

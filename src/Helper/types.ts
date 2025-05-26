@@ -30,7 +30,7 @@ export interface slotInfoType {
   note?: string;
 }
 
-export type modalData = {
+export type ModalSlotDetails = {
   modalId: string;
   slotDate: string;
   slotTime: string;

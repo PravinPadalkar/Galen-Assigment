@@ -1,20 +1,37 @@
-import { Badge, Calendar as AntCalender, Modal as AntdModal } from "antd";
+import { Badge, Calendar as AntCalender, Modal, Button, Popconfirm } from "antd";
 import type { CalendarProps } from "antd";
 import type { Dayjs } from "dayjs";
 import CalenderHeader from "../utility/CalenderHeader";
-import type { BookedSlotsDetailsType, modalData } from "../Helper/types";
+import type { ModalSlotDetails } from "../Helper/types";
 import { useState } from "react";
-import Modal from "../utility/Modal";
+import { DeleteFilled } from "@ant-design/icons";
+import useApp from "antd/es/app/useApp";
+import { useDoctorDetails } from "../hooks/useDoctorDetails";
 
-type MyCalenderProps = {
-  bookedSlotsDetails: BookedSlotsDetailsType[];
-};
+const Calender = () => {
+  const { message } = useApp();
+  const { bookedSlotsDetails, setBookedSlotsDetails } = useDoctorDetails();
+  const confirmDelete = (date: string, time: string) => {
+    message.info("Appointment deleted successfully");
+    setBookedSlotsDetails((prev) => {
+      return prev.map((item) => {
+        if (item.date.localeCompare(date)) {
+          return {
+            ...item,
+            bookedSlots: item.bookedSlots.filter((slotTime) => slotTime.localeCompare(time)),
+            slotInfo: item.slotInfo.filter((slots) => slots.slotTime.localeCompare(time)),
+          };
+        }
+        return item;
+      });
+    });
 
-const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
+    setIsModelOpen(false);
+  };
   const getListData = (value: Dayjs) => {
     return bookedSlotsDetails.find((item) => item.date === value.format("DD/MM/YYYY"));
   };
-  const [modalData, setModalData] = useState<modalData | undefined>(undefined);
+  const [modalSlotDetails, setModalSlotDetails] = useState<ModalSlotDetails>();
   const [isModalOpen, setIsModelOpen] = useState<boolean>(false);
   //To Pass Data From The List
   const dateCellRender = (value: Dayjs) => {
@@ -29,7 +46,7 @@ const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
               text={`${listData.doctorName}/${patientName}/${slotTime}`}
               onClick={() => {
                 setIsModelOpen(true);
-                setModalData({
+                setModalSlotDetails({
                   familyMember: familyMembers,
                   modalId: i.toString(),
                   note: note,
@@ -60,14 +77,61 @@ const Calender = ({ bookedSlotsDetails }: MyCalenderProps) => {
         }}
         cellRender={cellRender}
       />
-      <AntdModal
+      <Modal
         title={<p className="text-base text-center mb-8">Appointment Details</p>}
         open={isModalOpen}
         onCancel={() => setIsModelOpen(false)}
         onOk={() => setIsModelOpen(false)}
+        footer={[
+          <Popconfirm
+            key="popconfirm"
+            title="Delete the Appointment"
+            description="Are you sure to delete this Appointment?"
+            onConfirm={() => {
+              if (modalSlotDetails) {
+                confirmDelete(modalSlotDetails.slotDate, modalSlotDetails.slotTime);
+              }
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button key="submit" variant="solid" shape="circle" color="danger" icon={<DeleteFilled />}></Button>
+          </Popconfirm>,
+          <Button key="back" onClick={() => setIsModelOpen(false)}>
+            Close
+          </Button>,
+          <Button key="okay" onClick={() => setIsModelOpen(false)} type="primary">
+            Okay
+          </Button>,
+        ]}
       >
-        <Modal modalData={modalData} />
-      </AntdModal>
+        {modalSlotDetails && (
+          <div className="flex flex-col gap-3">
+            <div>
+              <p>Patient Name:</p> <p className="font-bold"> {modalSlotDetails.patientName}</p>
+            </div>
+            <div>
+              <p>Email ID:</p>
+              <p className="font-bold"> {modalSlotDetails.email}</p>
+            </div>
+            <div>
+              <p>Slot Time:</p>
+              <p className="font-bold"> {modalSlotDetails.slotTime + " / " + modalSlotDetails.slotDate}</p>
+            </div>
+            <div>
+              <p>Doctor Name:</p> <p className="font-bold"> {modalSlotDetails.doctorName}</p>
+            </div>
+            <div className="flex gap-16">
+              <div>
+                Family Members: <p className="font-bold">{modalSlotDetails.familyMember}</p>
+              </div>
+              <div>
+                Note: <p className="font-bold"> {modalSlotDetails.note}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </Modal>
     </>
   );
 };
