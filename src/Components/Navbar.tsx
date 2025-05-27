@@ -19,21 +19,23 @@ const items: MenuItem[] = [
 const Navbar = () => {
   const [current] = useState("Calender View");
   const onClick: MenuProps["onClick"] = (e) => {
-    console.log("click ", e);
+    console.log(e);
   };
 
   return (
-    <nav className="flex justify-between items-center h-full">
-      <div className="flex items-center justify-between w-full">
-        <div className="w-full">
-          <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
-        </div>
-        <div className="flex justify-center items-center gap-3">
-          <Badge count={0} showZero>
-            <BellOutlined className="text-2xl" />
-          </Badge>
-          <MyDropDown />
-        </div>
+    <nav className="flex justify-between items-center ">
+      <Menu
+        onClick={onClick}
+        style={{ width: "100%", border: "none", height: "60px" }}
+        selectedKeys={[current]}
+        mode="horizontal"
+        items={items}
+      />
+      <div className="flex justify-center items-center gap-3">
+        <Badge count={0} showZero>
+          <BellOutlined className="text-2xl" />
+        </Badge>
+        <MyDropDown />
       </div>
     </nav>
   );

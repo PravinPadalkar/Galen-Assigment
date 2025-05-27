@@ -1,10 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import {
-  SlotDurationEnum,
-  type BookedSlotsDetailsType,
-  type doctorDetailsType,
-  type DoctorsWeeklyScheduleType,
-} from "../Helper/types";
+import { type BookedSlotsDetailsType, type doctorDetailsType, type DoctorsWeeklyScheduleType } from "../Helper/types";
 
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
@@ -29,7 +24,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
           {
             doctorId: "1",
             doctorName: "TestDoctor",
-            slotDuration: SlotDurationEnum.thirty,
+            slotDuration: "thirty",
           },
         ];
   });
@@ -123,7 +118,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
     return stored ? JSON.parse(stored) : false;
   });
   useEffect(() => {
-    localStorage.setItem("doctorDetails", JSON.stringify(doctersDetails));
+    localStorage.setItem("doctersDetails", JSON.stringify(doctersDetails));
     localStorage.setItem("doctorsWeeklySchedule", JSON.stringify(doctorsWeeklySchedule));
     localStorage.setItem("bookedSlotDetails", JSON.stringify(bookedSlotsDetails));
     localStorage.setItem("isAvailabilityDrawerOpen", JSON.stringify(isAvailabilityDrawerOpen));

@@ -8,7 +8,7 @@ import { DeleteFilled } from "@ant-design/icons";
 import useApp from "antd/es/app/useApp";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 
-const Calender = () => {
+const Calendar = () => {
   const { message } = useApp();
   const { bookedSlotsDetails, setBookedSlotsDetails } = useDoctorDetails();
   const confirmDelete = (date: string, time: string) => {
@@ -128,7 +128,7 @@ const Calender = () => {
               </span>
               <span>
                 <p className="font-bold">Additional Note: </p>
-                <p> {modalSlotDetails.note}</p>
+                <p> {modalSlotDetails.note && "N/A"}</p>
               </span>
             </div>
           </div>
@@ -138,4 +138,4 @@ const Calender = () => {
   );
 };
 
-export default Calender;
+export default Calendar;
