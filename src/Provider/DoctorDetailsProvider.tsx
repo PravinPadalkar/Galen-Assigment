@@ -1,10 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import {
-  SlotDurationEnum,
-  type BookedSlotsDetailsType,
-  type doctorDetailsType,
-  type DoctorsWeeklyScheduleType,
-} from "../Helper/types";
+import { type BookedSlotsDetailsType, type doctorDetailsType, type DoctorsWeeklyScheduleType } from "../Helper/types";
 
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
