@@ -40,7 +40,7 @@ const CalenderHeader = ({ value, onChange }: CalenderHeaderProps) => {
       <div className="flex gap-4 items-center">
         {/* Availability */}
         <Button type="primary" onClick={() => setIsAvailabilityDrawerOpen(true)}>
-          set Availability
+          Set Availability
         </Button>
         <Drawer
           title={<h1 className="text-xl font-bold">Set Availability</h1>}
