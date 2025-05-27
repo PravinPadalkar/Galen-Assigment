@@ -29,7 +29,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
           {
             doctorId: "1",
             doctorName: "TestDoctor",
-            slotDuration: SlotDurationEnum.thirty,
+            slotDuration: "thirty",
           },
         ];
   });
@@ -123,7 +123,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
     return stored ? JSON.parse(stored) : false;
   });
   useEffect(() => {
-    localStorage.setItem("doctorDetails", JSON.stringify(doctersDetails));
+    localStorage.setItem("doctersDetails", JSON.stringify(doctersDetails));
     localStorage.setItem("doctorsWeeklySchedule", JSON.stringify(doctorsWeeklySchedule));
     localStorage.setItem("bookedSlotDetails", JSON.stringify(bookedSlotsDetails));
     localStorage.setItem("isAvailabilityDrawerOpen", JSON.stringify(isAvailabilityDrawerOpen));
