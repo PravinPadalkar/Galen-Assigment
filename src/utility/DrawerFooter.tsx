@@ -16,10 +16,10 @@ const DrawerFooter = ({ current, setCurrent, selectedSlot }: FooterPropsType) =>
   } else if (current == 1) {
     return (
       <div className="flex gap-4">
+        <Button onClick={() => setCurrent((prev) => prev - 1)}>Previous</Button>
         <Button type="primary" disabled={!selectedSlot} onClick={() => setCurrent((prev) => prev + 1)}>
           Next
         </Button>
-        <Button onClick={() => setCurrent((prev) => prev - 1)}>Previous</Button>
       </div>
     );
   } else {
