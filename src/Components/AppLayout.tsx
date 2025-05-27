@@ -7,7 +7,7 @@ const AppLayout = () => {
   const { Header, Sider, Content } = Layout;
   return (
     <App>
-      <Layout className="0 text-white min-h-screen">
+      <Layout className="0 text-white min-h-screen hidden 2xl:flex">
         <Sider className="bg-[#3DBCA2]" width={"250px"}>
           <MenuBar />
         </Sider>
@@ -15,16 +15,14 @@ const AppLayout = () => {
           <Header className="bg-white border  shadow-md">
             <Navbar />
           </Header>
-          <Content className="hidden 2xl:block">
-            <Calendar />
-          </Content>
           <Content>
-            <div className="min-h-[calc(100vh-96px)]  flex 2xl:hidden items-center justify-center font-bold text-xl">
-              Please Login Through Computer To Access
-            </div>
+            <Calendar />
           </Content>
         </Layout>
       </Layout>
+      <div className="min-h-[calc(100vh-96px)]  flex 2xl:hidden items-center justify-center font-bold text-xl">
+        Please Login Through Computer To Access
+      </div>
     </App>
   );
 };
