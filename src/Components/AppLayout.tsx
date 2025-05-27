@@ -19,7 +19,7 @@ const AppLayout = () => {
             <Calendar />
           </Content>
           <Content>
-            <div className="min-h-[calc(100vh-96px)] flex items-center justify-center font-bold text-xl">
+            <div className="min-h-[calc(100vh-96px)]  flex 2xl:hidden items-center justify-center font-bold text-xl">
               Please Login Through Computer To Access
             </div>
           </Content>
