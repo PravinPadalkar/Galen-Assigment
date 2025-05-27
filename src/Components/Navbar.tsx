@@ -7,8 +7,8 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 const items: MenuItem[] = [
   {
-    label: "Calender View",
-    key: "calender",
+    label: "Calendar View",
+    key: "calendar",
   },
   {
     label: "List View",
