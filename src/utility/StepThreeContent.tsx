@@ -98,7 +98,7 @@ const StepThreeContent = ({
           <Input />
         </Form.Item>
         <h2 className="mb-2 font-bold">Family Member's Info (Optional)</h2>
-        <Form.Item<FieldType> label="name" name="name">
+        <Form.Item<FieldType> label="Name" name="name">
           <Input />
         </Form.Item>
         <Form.Item<FieldType> label="Email ID" name="email">
