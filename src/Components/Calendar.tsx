@@ -128,7 +128,7 @@ const Calendar = () => {
               </span>
               <span>
                 <p className="font-bold">Additional Note: </p>
-                <p> {modalSlotDetails.note}</p>
+                <p> {modalSlotDetails.note && "N/A"}</p>
               </span>
             </div>
           </div>
