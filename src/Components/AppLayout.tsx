@@ -2,22 +2,23 @@ import { App, Layout } from "antd";
 import MenuBar from "./MenuBar";
 import Navbar from "./Navbar";
 import Calendar from "./Calendar";
+import { useState } from "react";
+import ListView from "./ListView";
 
 const AppLayout = () => {
   const { Header, Sider, Content } = Layout;
+  const [currContent, setCurrContent] = useState<string>("calendar");
   return (
     <App>
       <Layout className="0 text-white min-h-screen hidden 2xl:flex">
         <Sider className="bg-[#3DBCA2]" width={"250px"}>
           <MenuBar />
         </Sider>
-        <Layout>
-          <Header className="bg-white border  shadow-md">
-            <Navbar />
+        <Layout className="bg-white">
+          <Header className="bg-white border">
+            <Navbar currContent={currContent} setCurrContent={setCurrContent} />
           </Header>
-          <Content>
-            <Calendar />
-          </Content>
+          <Content>{currContent == "calendar" ? <Calendar /> : <ListView />}</Content>
         </Layout>
       </Layout>
       <div className="min-h-[calc(100vh-96px)]  flex 2xl:hidden items-center justify-center font-bold text-xl">
