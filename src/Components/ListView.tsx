@@ -6,7 +6,7 @@ import { useState } from "react";
 const ListView = () => {
   const { bookedSlotsDetails } = useDoctorDetails();
   const [filterDate, setFilterDate] = useState<string | undefined>(undefined); //format - > DD/MM/YYYY
-  const [filterMonth, setFilterMonth] = useState<string>(""); //format MM/YYYY
+  const [filterMonth, setFilterMonth] = useState<string | undefined>(undefined); //format MM/YYYY
   const handleToday = () => {
     if (!filterDate) {
       const todaysDate = dayjs().startOf("date").format("DD/MM/YYYY");
@@ -15,7 +15,6 @@ const ListView = () => {
       setFilterDate(undefined);
     }
   };
-  console.log(filterDate);
   const columns = [
     {
       title: "Date & Time",
@@ -39,9 +38,9 @@ const ListView = () => {
   const dataSource = bookedSlotsDetails.flatMap((dateItem) => {
     return dateItem.slotInfo.map((slot) => {
       return {
-        key: slot.slotTime,
+        key: slot.slotTime + " " + dateItem.date,
         date: dateItem.date,
-        slot: dayjs(dateItem.date, "DD/MM/YYYY").format("DD MMMM ") + " - " + slot.slotTime,
+        slot: dayjs(dateItem.date, "DD/MM/YYYY").format("Do MMMM YYYY ") + " - " + slot.slotTime,
         doctor: dateItem.doctorName,
         action: (
           <Button type="primary" style={{ borderRadius: "4px" }}>
@@ -51,16 +50,18 @@ const ListView = () => {
       };
     });
   });
-  console.log(bookedSlotsDetails);
   const onMonthChange: DatePickerProps["onChange"] = (date) => {
-    console.log(date.format("MM/YYYY"));
     if (date) {
       setFilterMonth(date.format("MM/YYYY"));
     } else {
-      setFilterMonth("");
+      setFilterMonth(undefined);
     }
   };
-  const filteredList = dataSource.filter((item) => (filterDate ? !item.date.localeCompare(filterDate) : true));
+  const filteredList = dataSource
+    .filter((item) => (filterDate ? !item.date.localeCompare(filterDate) : true))
+    .filter((item) =>
+      filterMonth ? !dayjs(item.date, "DD/MM/YYYY").format("MM/YYYY").localeCompare(filterMonth) : true
+    );
   return (
     <>
       <section className="min-h-16 flex justify-between items-center mx-8 mt-4 mb-8">
@@ -72,7 +73,14 @@ const ListView = () => {
         </div>
         <Button type="primary">New Appointment</Button>
       </section>
-      <Table className="mx-4 " columns={columns} dataSource={filteredList} bordered scroll={{ x: true }} />
+      <Table
+        className="mx-4 "
+        columns={columns}
+        dataSource={filteredList}
+        bordered
+        scroll={{ x: true }}
+        pagination={{ pageSize: 8 }}
+      />
       {/* <div className="flex min-h-16 items-center mx-8 ">
         <span className="font-bold flex-[1] ">Date & Time</span>
         <div className="font-bold flex-[3] ">Doctor</div>
