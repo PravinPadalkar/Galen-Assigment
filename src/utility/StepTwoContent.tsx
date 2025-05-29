@@ -35,7 +35,8 @@ const StepTwoContent = ({
     const isAvailable = weekData?.isAvailable;
     const slotStartTime = weekData?.slotStartTime;
     const slotEndTime = weekData?.slotEndTime;
-    const slotDuration = doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration || 30;
+    const slotDuration = doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration || "thirty";
+    console.log(slotDuration);
     const BookedSlots: string[] =
       bookedSlotsDetails.find((item) => selectedDate?.isSame(dayjs(item.date, "DD/MM/YYYY"), "date"))?.bookedSlots ||
       [];
@@ -44,8 +45,8 @@ const StepTwoContent = ({
     const TotalSlots: string[] = [];
     const start = dayjs(slotStartTime, "hh:mm:A");
     const end = dayjs(slotEndTime, "hh:mm:A");
-    if (slotDuration == 30) {
-      for (let current = start; current.isBefore(end) && isAvailable; current = current.add(slotDuration, "minute")) {
+    if (slotDuration == "thirty") {
+      for (let current = start; current.isBefore(end) && isAvailable; current = current.add(30, "minute")) {
         TotalSlots.push(current.format("hh:mm:A"));
       }
     } else {
