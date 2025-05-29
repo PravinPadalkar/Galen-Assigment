@@ -1,12 +1,16 @@
-import { Button, DatePicker, Table, type DatePickerProps } from "antd";
+import { Button, DatePicker, Drawer, Table, type DatePickerProps } from "antd";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 // import { UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import { useState } from "react";
+import AppointmentDrawer from "../utility/AppointmentDrawer";
+import DrawerFooter from "../utility/DrawerFooter";
 const ListView = () => {
-  const { bookedSlotsDetails } = useDoctorDetails();
+  const { bookedSlotsDetails, isAppointmentDrawerOpen, setIsAppointmentDrawerOpen } = useDoctorDetails();
   const [filterDate, setFilterDate] = useState<string | undefined>(undefined); //format - > DD/MM/YYYY
   const [filterMonth, setFilterMonth] = useState<string | undefined>(undefined); //format MM/YYYY
+  const [selectedSlot, setSelectedSlot] = useState<string | undefined>(undefined);
+  const [current, setCurrent] = useState<number>(0);
   const handleToday = () => {
     if (!filterDate) {
       const todaysDate = dayjs().startOf("date").format("DD/MM/YYYY");
@@ -71,7 +75,24 @@ const ListView = () => {
           </Button>
           <DatePicker onChange={onMonthChange} picker="month" />
         </div>
-        <Button type="primary">New Appointment</Button>
+        <Button type="primary" onClick={() => setIsAppointmentDrawerOpen(true)}>
+          New Appointment
+        </Button>
+        <Drawer
+          closable
+          title="New Appointment"
+          onClose={() => setIsAppointmentDrawerOpen(false)}
+          width={600}
+          open={isAppointmentDrawerOpen}
+          footer={<DrawerFooter current={current} setCurrent={setCurrent} selectedSlot={selectedSlot} />}
+        >
+          <AppointmentDrawer
+            current={current}
+            setCurrent={setCurrent}
+            selectedSlot={selectedSlot}
+            setSelectedSlot={setSelectedSlot}
+          />
+        </Drawer>
       </section>
       <Table
         className="mx-4 "
