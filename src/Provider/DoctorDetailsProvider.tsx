@@ -95,10 +95,17 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
             doctorId: "1",
             doctorName: "Test",
             date: "24/05/2025",
-            bookedSlots: ["10:00:AM", "10:30:AM", "11:30:AM"],
+            bookedSlots: ["10:00:AM", "10:30:AM"],
             slotInfo: [
               {
                 slotTime: "10:00:AM",
+                patientName: "test",
+                emailId: "abc@gmail.com",
+                familyMembers: "N/A",
+                note: "Immediate Care",
+              },
+              {
+                slotTime: "10:30:AM",
                 patientName: "test",
                 emailId: "abc@gmail.com",
                 familyMembers: "N/A",
