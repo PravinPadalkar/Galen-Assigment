@@ -1,15 +1,42 @@
-import { Avatar, Button, DatePicker, Divider, type DatePickerProps } from "antd";
+import { Button, DatePicker, Table, type DatePickerProps } from "antd";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
-import { UserOutlined } from "@ant-design/icons";
+// import { UserOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 const ListView = () => {
   const { bookedSlotsDetails } = useDoctorDetails();
-  const BookedSlots = bookedSlotsDetails.flatMap((dateItem) => {
+
+  const columns = [
+    {
+      title: "Date & Time",
+      dataIndex: "slot",
+      key: "slot",
+      innerWidth: 10,
+      width: "100px",
+    },
+    {
+      title: "Doctor",
+      dataIndex: "doctor",
+      key: "doctor",
+      width: "300px",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      width: "50px",
+    },
+  ];
+  const dataSource = bookedSlotsDetails.flatMap((dateItem) => {
     return dateItem.slotInfo.map((slot) => {
       return {
         date: dateItem.date,
-        slot: slot.slotTime,
+        slot: dayjs(dateItem.date, "DD/MM/YYYY").format("DD MMMM ") + " - " + slot.slotTime,
         doctor: dateItem.doctorName,
+        action: (
+          <Button type="primary" style={{ borderRadius: "4px" }}>
+            Start Call
+          </Button>
+        ),
       };
     });
   });
@@ -26,9 +53,8 @@ const ListView = () => {
         </div>
         <Button type="primary">New Appointment</Button>
       </section>
-
-      {/* <Table className="mx-4 " dataSource={dataSource} columns={columns} bordered scroll={{ x: true }} />; */}
-      <div className="flex min-h-16 items-center mx-8 ">
+      <Table className="mx-4 " columns={columns} dataSource={dataSource} bordered scroll={{ x: true }} />
+      {/* <div className="flex min-h-16 items-center mx-8 ">
         <span className="font-bold flex-[1] ">Date & Time</span>
         <div className="font-bold flex-[3] ">Doctor</div>
       </div>
@@ -50,7 +76,7 @@ const ListView = () => {
             </div>
           </div>
         ))
-      )}
+      )} */}
     </>
   );
 };
