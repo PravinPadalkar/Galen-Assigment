@@ -57,21 +57,23 @@ const StepThreeContent = ({
       let newEntry: BookedSlotsDetailsType;
       //edit
       if (isEditingDetails) {
-        setBookedSlotsDetails((prevState) => {
-          return prevState.map((item) => {
-            if (item.date.localeCompare(isEditingDetails.slotDate) === 0) {
-              console.log(item.date, isEditingDetails.slotDate, item.date.localeCompare(isEditingDetails.slotDate));
-              return {
-                ...item,
-                bookedSlots: item.bookedSlots.filter(
-                  (slotTime) => slotTime.localeCompare(isEditingDetails.slotTime) !== 0
-                ),
-                slotInfo: item.slotInfo.filter(
-                  (slots) => slots.slotTime.localeCompare(isEditingDetails.slotTime) !== 0
-                ),
-              };
-            }
-            return item;
+        setTimeout(() => {
+          setBookedSlotsDetails((prevState) => {
+            return prevState.map((item) => {
+              if (item.date.localeCompare(isEditingDetails.slotDate) === 0) {
+                console.log(item.date, isEditingDetails.slotDate, item.date.localeCompare(isEditingDetails.slotDate));
+                return {
+                  ...item,
+                  bookedSlots: item.bookedSlots.filter(
+                    (slotTime) => slotTime.localeCompare(isEditingDetails.slotTime) !== 0
+                  ),
+                  slotInfo: item.slotInfo.filter(
+                    (slots) => slots.slotTime.localeCompare(isEditingDetails.slotTime) !== 0
+                  ),
+                };
+              }
+              return item;
+            });
           });
         });
         setIsEditingDetails(undefined);
