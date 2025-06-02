@@ -15,7 +15,7 @@ type AppointmentDrawerPropsType = {
 const AppointmentDrawer = ({ current, setCurrent, selectedSlot, setSelectedSlot }: AppointmentDrawerPropsType) => {
   const [selectedDate, setSelectedDate] = useState<Dayjs>(dayjs().startOf("day"));
 
-  const [selectedDoctorId, setSelectedDoctorId] = useState<string | undefined>(undefined);
+  const [selectedDoctorId, setSelectedDoctorId] = useState<string>("1");
   // console.log(selectedDate.format("DD/MM/YYYY"), selectedDate.format("ddd"));
   const steps = [
     {

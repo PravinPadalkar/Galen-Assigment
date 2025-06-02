@@ -11,8 +11,8 @@ type StepThreeContentPropType = {
   setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
   selectedSlot: string | undefined;
   setSelectedSlot: React.Dispatch<React.SetStateAction<string | undefined>>;
-  selectedDoctorId: string | undefined;
-  setSelectedDoctorId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  selectedDoctorId: string;
+  setSelectedDoctorId: React.Dispatch<React.SetStateAction<string>>;
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -118,7 +118,7 @@ const StepThreeContent = ({
       form.resetFields();
       setCurrent(0);
       setSelectedSlot(undefined);
-      setSelectedDoctorId(undefined);
+      setSelectedDoctorId("1");
       setSelectedDate(dayjs().startOf("day"));
       setIsAppointmentDrawerOpen(false);
     } catch {
