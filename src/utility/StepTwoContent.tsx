@@ -36,26 +36,26 @@ const StepTwoContent = ({
     const slotStartTime = weekData?.slotStartTime;
     const slotEndTime = weekData?.slotEndTime;
     const slotDuration = doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration || "thirty";
-    console.log(slotDuration);
+
     const BookedSlots: string[] =
-      bookedSlotsDetails.find((item) => selectedDate?.isSame(dayjs(item.date, "DD/MM/YYYY"), "date"))?.bookedSlots ||
-      [];
+      bookedSlotsDetails.find((item) => selectedDate?.isSame(dayjs(item.date), "date"))?.bookedSlots || [];
     //calculate total slots
 
     const TotalSlots: string[] = [];
-    const start = dayjs(slotStartTime, "hh:mm:A");
-    const end = dayjs(slotEndTime, "hh:mm:A");
+    const start = dayjs(slotStartTime);
+    const end = dayjs(slotEndTime);
     if (slotDuration == "thirty") {
       for (let current = start; current.isBefore(end) && isAvailable; current = current.add(30, "minute")) {
-        TotalSlots.push(current.format("hh:mm:A"));
+        TotalSlots.push(current.toISOString());
       }
     } else {
       for (let current = start; current.isBefore(end) && isAvailable; current = current.add(1, "hour")) {
-        TotalSlots.push(current.format("hh:mm:A"));
+        TotalSlots.push(current.toISOString());
       }
     }
+    const formattedBookedSlots = BookedSlots.map((item) => dayjs(item).format("hh:mm:A"));
     // console.log(TotalSlots, "\n", BookedSlots);
-    return TotalSlots.filter((slot) => !BookedSlots.includes(slot));
+    return TotalSlots.filter((slot) => !formattedBookedSlots.includes(dayjs(slot).format("hh:mm:A")));
   };
 
   useEffect(() => {
@@ -109,8 +109,8 @@ const StepTwoContent = ({
           <h1 className=" font-bold mb-4">Available Slots for Date: {selectedDate.format("DD/MM/YYYY")}</h1>
           <div className="flex gap-4 mt-4 flex-wrap">
             {slotArray?.map((slot, i) => (
-              <Button key={i} onClick={() => setSelectedSlot(slot?.toString())}>
-                {slot}
+              <Button key={i} onClick={() => setSelectedSlot(dayjs(slot as string).format("hh:mm:A"))}>
+                {dayjs(slot as string).format("hh:mm:A")}
               </Button>
             ))}
           </div>

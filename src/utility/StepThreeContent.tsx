@@ -36,17 +36,19 @@ const StepThreeContent = ({
 
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     try {
-      const existingDateDetails = bookedSlotsDetails.find((item) => item.date == selectedDate.format("DD/MM/YYYY"));
+      const existingDateDetails = bookedSlotsDetails.find(
+        (item) => dayjs(item.date).format("DD/MM/YYYY") == selectedDate.format("DD/MM/YYYY")
+      );
       let newEntry: BookedSlotsDetailsType;
       if (!existingDateDetails) {
         newEntry = {
           doctorId: "1",
           doctorName: "Test",
-          date: selectedDate.format("DD/MM/YYYY"),
-          bookedSlots: [selectedSlot as string],
+          date: dayjs(selectedDate).toISOString(),
+          bookedSlots: [dayjs(selectedSlot, "hh:mm:A").toISOString()],
           slotInfo: [
             {
-              slotTime: selectedSlot as string,
+              slotTime: dayjs(selectedSlot, "hh:mm:A").toISOString(),
               patientName: values.patientName,
               emailId: values.email,
               familyMembers: values.name,
@@ -58,11 +60,11 @@ const StepThreeContent = ({
       } else {
         newEntry = {
           ...existingDateDetails,
-          bookedSlots: [...existingDateDetails.bookedSlots, selectedSlot as string],
+          bookedSlots: [...existingDateDetails.bookedSlots, dayjs(selectedSlot, "hh:mm:A").toISOString()],
           slotInfo: [
             ...existingDateDetails.slotInfo,
             {
-              slotTime: selectedSlot as string,
+              slotTime: dayjs(selectedSlot, "hh:mm:A").toISOString(),
               patientName: values.patientName,
               emailId: values.email,
               familyMembers: values.name,
@@ -82,8 +84,9 @@ const StepThreeContent = ({
       setSelectedDoctorId(undefined);
       setSelectedDate(dayjs().startOf("day"));
       setIsAppointmentDrawerOpen(false);
-    } catch {
+    } catch (e) {
       message.error("Submission Failed");
+      console.log(e);
     }
   };
   return (

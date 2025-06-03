@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import { type BookedSlotsDetailsType, type doctorDetailsType, type DoctorsWeeklyScheduleType } from "../Helper/types";
-
+import dayjs from "dayjs";
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
   setDoctersDetails: React.Dispatch<React.SetStateAction<doctorDetailsType[]>>;
@@ -38,50 +38,50 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
             doctorId: "1",
             dayOfWeek: "SUN",
             isAvailable: true,
-            slotStartTime: "09:00:AM",
-            slotEndTime: "12:00:PM",
+            slotStartTime: "2025-06-02T15:00:00.000Z",
+            slotEndTime: "2025-06-02T17:30:00.000Z",
           },
           {
             doctorId: "1",
             dayOfWeek: "MON",
             isAvailable: true,
-            slotStartTime: "09:00:AM",
-            slotEndTime: "11:00:AM",
+            slotStartTime: "2025-06-02T15:00:00.000Z",
+            slotEndTime: "2025-06-02T17:30:00.000Z",
           },
           {
             doctorId: "1",
             dayOfWeek: "TUE",
             isAvailable: true,
-            slotStartTime: "09:00:AM",
-            slotEndTime: "03:00:PM",
+            slotStartTime: "2025-06-02T15:00:00.000Z",
+            slotEndTime: "2025-06-02T17:30:00.000Z",
           },
           {
             doctorId: "1",
             dayOfWeek: "WED",
             isAvailable: true,
-            slotStartTime: "09:00:AM",
-            slotEndTime: "04:00:PM",
+            slotStartTime: "2025-06-02T15:00:00.000Z",
+            slotEndTime: "2025-06-02T17:30:00.000Z",
           },
           {
             doctorId: "1",
             dayOfWeek: "THU",
             isAvailable: true,
-            slotStartTime: "09:00:AM",
-            slotEndTime: "10:00:AM",
+            slotStartTime: "2025-06-02T15:00:00.000Z",
+            slotEndTime: "2025-06-02T17:30:00.000Z",
           },
           {
             doctorId: "1",
             dayOfWeek: "FRI",
             isAvailable: true,
-            slotStartTime: "09:00:AM",
-            slotEndTime: "12:00:PM",
+            slotStartTime: "2025-06-02T15:00:00.000Z",
+            slotEndTime: "2025-06-02T17:30:00.000Z",
           },
           {
             doctorId: "1",
             dayOfWeek: "SAT",
             isAvailable: true,
-            slotStartTime: "09:00:AM",
-            slotEndTime: "11:00:AM",
+            slotStartTime: "2025-06-02T15:00:00.000Z",
+            slotEndTime: "2025-06-02T17:30:00.000Z",
           },
         ];
   });
@@ -94,11 +94,11 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
           {
             doctorId: "1",
             doctorName: "Test",
-            date: "24/05/2025",
-            bookedSlots: ["10:00:AM", "10:30:AM", "11:30:AM"],
+            date: dayjs("02/06/2025", "DD/MM/YYYY").toISOString(),
+            bookedSlots: ["2025-06-02T15:00:00.000Z"],
             slotInfo: [
               {
-                slotTime: "10:00:AM",
+                slotTime: "2025-06-02T15:00:00.000Z",
                 patientName: "test",
                 emailId: "abc@gmail.com",
                 familyMembers: "N/A",
