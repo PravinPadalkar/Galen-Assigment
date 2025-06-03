@@ -104,6 +104,13 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
                 familyMembers: "N/A",
                 note: "Immediate Care",
               },
+              {
+                slotTime: "10:30:AM",
+                patientName: "test",
+                emailId: "abc@gmail.com",
+                familyMembers: "N/A",
+                note: "Immediate Care",
+              },
             ],
           },
         ];
