@@ -2,12 +2,16 @@ import { Badge, Button, DatePicker, Layout, Select, Table } from "antd";
 import { Header } from "antd/es/layout/layout";
 import MyDropDown from "../utility/DropDown";
 import { BellOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
+import type { DefaultOptionType } from "antd/es/select";
+import { useState } from "react";
 
 const PastAppointment = () => {
-  const { bookedSlotsDetails } = useDoctorDetails();
+  const { bookedSlotsDetails, doctersDetails } = useDoctorDetails();
   const { RangePicker } = DatePicker;
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const columns = [
     {
       title: "Date & Time",
@@ -34,6 +38,17 @@ const PastAppointment = () => {
       width: "10%",
     },
   ];
+
+  const handleRangeDateSelection = (dates) => {
+    if (dates) {
+      const [startDate, endDate] = dates;
+      setStartDate(startDate);
+      setEndDate(endDate);
+    } else {
+      setStartDate(null);
+      setEndDate(null);
+    }
+  };
   const dataSource = bookedSlotsDetails.flatMap((dateItem) => {
     return dateItem.slotInfo.map((slot) => {
       return {
@@ -51,7 +66,20 @@ const PastAppointment = () => {
     });
   });
 
-  const filteredList = dataSource;
+  const filteredList = dataSource.filter((item) => {
+    if (startDate && endDate) {
+      let currDate = dayjs(item.date);
+      if (
+        (currDate.isAfter(startDate) || currDate.isSame(startDate)) &&
+        (currDate.isBefore(endDate) || currDate.isSame(endDate))
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  });
 
   return (
     <Layout className="bg-white">
@@ -68,9 +96,20 @@ const PastAppointment = () => {
       </Header>
       <section className="min-h-16 flex justify-between items-center text-black mx-8 mt-4 mb-8">
         <div className="flex w-full gap-6">
-          <RangePicker className="w-5/12 " />
-          <Select mode="multiple" allowClear style={{ width: "100%" }} placeholder="Please select" />
-          <Select mode="multiple" allowClear style={{ width: "100%" }} placeholder="Please select" />
+          <RangePicker className="w-3/4 " onChange={(e) => handleRangeDateSelection(e)} />
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: "100%" }}
+            placeholder="Please select Doctor"
+            options={doctersDetails.map((doctor) => {
+              return {
+                label: doctor.doctorName,
+                value: doctor.doctorId,
+              } as DefaultOptionType;
+            })}
+          />
+          <Select mode="multiple" allowClear style={{ width: "100%" }} placeholder="Please select Nurse" />
         </div>
       </section>
       <Table
