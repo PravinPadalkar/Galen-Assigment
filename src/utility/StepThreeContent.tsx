@@ -62,15 +62,14 @@ const StepThreeContent = ({
         setTimeout(() => {
           setBookedSlotsDetails((prevState) => {
             return prevState.map((item) => {
-              if (item.date.localeCompare(isEditingDetails.slotDate) === 0) {
-                console.log(item.date, isEditingDetails.slotDate, item.date.localeCompare(isEditingDetails.slotDate));
+              if (dayjs(item.date).format("DD/MM/YYYY").localeCompare(isEditingDetails.slotDate) === 0) {
                 return {
                   ...item,
                   bookedSlots: item.bookedSlots.filter(
-                    (slotTime) => slotTime.localeCompare(isEditingDetails.slotTime) !== 0
+                    (slotTime) => dayjs(slotTime).format("hh:mm:A").localeCompare(isEditingDetails.slotTime) !== 0
                   ),
                   slotInfo: item.slotInfo.filter(
-                    (slots) => slots.slotTime.localeCompare(isEditingDetails.slotTime) !== 0
+                    (slots) => dayjs(slots.slotTime).format("hh:mm:A").localeCompare(isEditingDetails.slotTime) !== 0
                   ),
                 };
               }
