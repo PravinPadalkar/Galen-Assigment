@@ -53,7 +53,7 @@ const Calendar = () => {
           <li key={i}>
             <Badge
               status="success"
-              text={`${listData.doctorName}/${patientName}/${slotTime}`.slice(0, 15) + "..."}
+              text={`${listData.doctorName}/${patientName}/${dayjs(slotTime).format("hh:mm:A")}`.slice(0, 15) + "..."}
               onClick={() => {
                 setIsModelOpen(true);
                 setModalSlotDetails({
