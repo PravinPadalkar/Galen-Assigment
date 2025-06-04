@@ -7,6 +7,7 @@ import { useState } from "react";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import useApp from "antd/es/app/useApp";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
+import dayjs from "dayjs";
 
 const Calendar = () => {
   const { message } = useApp();
@@ -36,7 +37,9 @@ const Calendar = () => {
     }
   };
   const getListData = (value: Dayjs) => {
-    return bookedSlotsDetails.find((item) => item.date === value.format("DD/MM/YYYY"));
+    return bookedSlotsDetails.find((item) => {
+      return value.format("DD/MM/YYYY") == dayjs(item.date).format("DD/MM/YYYY");
+    });
   };
 
   // console.log(isEditingDetails);
@@ -50,7 +53,7 @@ const Calendar = () => {
           <li key={i}>
             <Badge
               status="success"
-              text={`${listData.doctorName}/${patientName}/${slotTime}`.slice(0, 15) + "..."}
+              text={`${listData.doctorName}/${patientName}/${dayjs(slotTime).format("hh:mm:A")}`.slice(0, 15) + "..."}
               onClick={() => {
                 setIsModelOpen(true);
                 setModalSlotDetails({
@@ -59,7 +62,7 @@ const Calendar = () => {
                   note: note,
                   patientName: patientName,
                   email: emailId,
-                  slotTime: slotTime,
+                  slotTime: dayjs(slotTime).format("hh:mm:A"),
                   doctorName: listData.doctorName,
                   slotDate: value.format("DD/MM/YYYY"),
                 });

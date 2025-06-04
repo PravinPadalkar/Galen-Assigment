@@ -31,16 +31,17 @@ const AvailabilityDrawer = () => {
     key: "isAvailable" | "slotStartTime" | "slotEndTime",
     value: boolean | string
   ) => {
+    console.log(value);
     setTempSchedule((prev) =>
       prev.map((item) => {
         if (item.dayOfWeek == dayOfWeek) {
           let newItem = { ...item, [key]: value };
           if (key == "slotEndTime" || key == "slotStartTime") {
             console.log("checking");
-            let start = dayjs(newItem.slotStartTime, "hh:mm:A");
-            let end = dayjs(newItem.slotEndTime, "hh:mm:A");
+            let start = dayjs(newItem.slotStartTime);
+            let end = dayjs(newItem.slotEndTime);
             if (end.isBefore(start) || end.isSame(start) || start.isAfter(end)) {
-              setSlotTimeError({ dayOfWeek, msg: "EndTime Cannot Be Smaller Or Equal to StartTime" });
+              setSlotTimeError({ dayOfWeek, msg: "End-Time Cannot Be Smaller Or Equal to Start-Time" });
             } else {
               setSlotTimeError(undefined);
             }
@@ -99,8 +100,8 @@ const AvailabilityDrawer = () => {
               <div className="flex gap-2 items-center relative">
                 <TimePicker
                   allowClear={false}
-                  onChange={(e) => handleChange(weekData.dayOfWeek, "slotStartTime", e.format(format))}
-                  defaultValue={weekData.slotStartTime ? dayjs(weekData.slotStartTime, format) : undefined}
+                  onChange={(e) => handleChange(weekData.dayOfWeek, "slotStartTime", e.toISOString())}
+                  defaultValue={weekData.slotStartTime ? dayjs(weekData.slotStartTime) : undefined}
                   placeholder="Start Time"
                   showNow={false}
                   minuteStep={30}
@@ -109,8 +110,8 @@ const AvailabilityDrawer = () => {
                 <p>-</p>
                 <TimePicker
                   allowClear={false}
-                  onChange={(e) => handleChange(weekData.dayOfWeek, "slotEndTime", e.format(format))}
-                  defaultValue={weekData.slotStartTime ? dayjs(weekData.slotEndTime, format) : undefined}
+                  onChange={(e) => handleChange(weekData.dayOfWeek, "slotEndTime", e.toISOString())}
+                  defaultValue={weekData.slotEndTime ? dayjs(weekData.slotEndTime) : undefined}
                   placeholder="End Time"
                   showNow={false}
                   minuteStep={30}

@@ -1,10 +1,12 @@
 import { BellOutlined } from "@ant-design/icons";
 import { Badge, Menu, type MenuProps } from "antd";
 import MyDropDown from "../utility/MyDropDown";
-import { useState } from "react";
 
 type MenuItem = Required<MenuProps>["items"][number];
-
+type NavbarPropType = {
+  currContent: string;
+  setCurrContent: React.Dispatch<React.SetStateAction<string>>;
+};
 const items: MenuItem[] = [
   {
     label: "Calendar View",
@@ -13,13 +15,11 @@ const items: MenuItem[] = [
   {
     label: "List View",
     key: "list",
-    disabled: true,
   },
 ];
-const Navbar = () => {
-  const [current] = useState("Calender View");
+const Navbar = ({ currContent, setCurrContent }: NavbarPropType) => {
   const onClick: MenuProps["onClick"] = (e) => {
-    console.log(e);
+    setCurrContent(e.key);
   };
 
   return (
@@ -27,7 +27,7 @@ const Navbar = () => {
       <Menu
         onClick={onClick}
         style={{ width: "100%", border: "none", height: "60px" }}
-        selectedKeys={[current]}
+        selectedKeys={[currContent]}
         mode="horizontal"
         items={items}
       />
