@@ -20,11 +20,15 @@ const Calendar = () => {
     try {
       setBookedSlotsDetails((prev) => {
         return prev.map((item) => {
-          if (item.date.localeCompare(date) === 0) {
+          if (dayjs(item.date).format("DD/MM/YYYY").localeCompare(date) === 0) {
             return {
               ...item,
-              bookedSlots: item.bookedSlots.filter((slotTime) => slotTime.localeCompare(time) !== 0),
-              slotInfo: item.slotInfo.filter((slots) => slots.slotTime.localeCompare(time) !== 0),
+              bookedSlots: item.bookedSlots.filter(
+                (slotTime) => dayjs(slotTime).format("hh:mm:A").localeCompare(time) !== 0
+              ),
+              slotInfo: item.slotInfo.filter(
+                (slots) => dayjs(slots.slotTime).format("hh:mm:A").localeCompare(time) !== 0
+              ),
             };
           }
           return item;
