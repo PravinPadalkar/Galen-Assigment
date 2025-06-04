@@ -4,14 +4,15 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import type { BookedSlotsDetailsType, slotInfoType } from "../Helper/types";
 import useApp from "antd/es/app/useApp";
+import { useEffect } from "react";
 
 type StepThreeContentPropType = {
   selectedDate: Dayjs;
   setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
   selectedSlot: string | undefined;
   setSelectedSlot: React.Dispatch<React.SetStateAction<string | undefined>>;
-  selectedDoctorId: string | undefined;
-  setSelectedDoctorId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  selectedDoctorId: string;
+  setSelectedDoctorId: React.Dispatch<React.SetStateAction<string>>;
   current: number;
   setCurrent: React.Dispatch<React.SetStateAction<number>>;
 };
@@ -30,16 +31,55 @@ const StepThreeContent = ({
   selectedSlot,
   setCurrent,
 }: StepThreeContentPropType) => {
-  const { bookedSlotsDetails, setBookedSlotsDetails, setIsAppointmentDrawerOpen } = useDoctorDetails();
+  const {
+    bookedSlotsDetails,
+    setBookedSlotsDetails,
+    setIsAppointmentDrawerOpen,
+    isEditingDetails,
+    setIsEditingDetails,
+  } = useDoctorDetails();
   const { message } = useApp();
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    if (isEditingDetails) {
+      form.setFieldsValue({
+        patientName: isEditingDetails.patientName,
+        name: isEditingDetails.familyMember,
+        email: isEditingDetails.email,
+        note: isEditingDetails.note,
+      });
+    }
+  }, []);
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     try {
       const existingDateDetails = bookedSlotsDetails.find(
         (item) => dayjs(item.date).format("DD/MM/YYYY") == selectedDate.format("DD/MM/YYYY")
       );
       let newEntry: BookedSlotsDetailsType;
+      //edit
+      if (isEditingDetails) {
+        setTimeout(() => {
+          setBookedSlotsDetails((prevState) => {
+            return prevState.map((item) => {
+              if (item.date.localeCompare(isEditingDetails.slotDate) === 0) {
+                console.log(item.date, isEditingDetails.slotDate, item.date.localeCompare(isEditingDetails.slotDate));
+                return {
+                  ...item,
+                  bookedSlots: item.bookedSlots.filter(
+                    (slotTime) => slotTime.localeCompare(isEditingDetails.slotTime) !== 0
+                  ),
+                  slotInfo: item.slotInfo.filter(
+                    (slots) => slots.slotTime.localeCompare(isEditingDetails.slotTime) !== 0
+                  ),
+                };
+              }
+              return item;
+            });
+          });
+        });
+        setIsEditingDetails(undefined);
+      }
       if (!existingDateDetails) {
         newEntry = {
           doctorId: "1",
@@ -72,7 +112,6 @@ const StepThreeContent = ({
             } as slotInfoType,
           ],
         };
-
         setBookedSlotsDetails((prevState) =>
           prevState.map((item) => (item.date == existingDateDetails.date ? newEntry : item))
         );
@@ -81,7 +120,7 @@ const StepThreeContent = ({
       form.resetFields();
       setCurrent(0);
       setSelectedSlot(undefined);
-      setSelectedDoctorId(undefined);
+      setSelectedDoctorId("1");
       setSelectedDate(dayjs().startOf("day"));
       setIsAppointmentDrawerOpen(false);
     } catch (e) {

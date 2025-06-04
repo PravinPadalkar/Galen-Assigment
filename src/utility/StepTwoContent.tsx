@@ -8,8 +8,8 @@ type StepTwoContentPropType = {
   setSelectedDate: React.Dispatch<React.SetStateAction<Dayjs>>;
   selectedSlot: string | undefined;
   setSelectedSlot: React.Dispatch<React.SetStateAction<string | undefined>>;
-  selectedDoctorId: string | undefined;
-  setSelectedDoctorId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  selectedDoctorId: string;
+  setSelectedDoctorId: React.Dispatch<React.SetStateAction<string>>;
 };
 const StepTwoContent = ({
   selectedDate,
@@ -73,7 +73,7 @@ const StepTwoContent = ({
           showSearch
           className="w-full my-2"
           placeholder="Search to Select"
-          defaultValue={doctersDetails.find((doctor) => doctor.doctorId == selectedDoctorId)?.doctorName}
+          value={selectedDoctorId}
           optionFilterProp="label"
           onChange={(e) => setSelectedDoctorId(e)}
           filterSort={(optionA, optionB) =>

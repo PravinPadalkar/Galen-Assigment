@@ -1,6 +1,12 @@
 import React, { createContext, useEffect, useState } from "react";
-import { type BookedSlotsDetailsType, type doctorDetailsType, type DoctorsWeeklyScheduleType } from "../Helper/types";
 import dayjs from "dayjs";
+import {
+  type BookedSlotsDetailsType,
+  type doctorDetailsType,
+  type DoctorsWeeklyScheduleType,
+  type ModalSlotDetails,
+} from "../Helper/types";
+
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
   setDoctersDetails: React.Dispatch<React.SetStateAction<doctorDetailsType[]>>;
@@ -12,6 +18,8 @@ interface DoctorDetailsContextType {
   setIsAvailabilityDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isAppointmentDrawerOpen: boolean;
   setIsAppointmentDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditingDetails: ModalSlotDetails | undefined;
+  setIsEditingDetails: React.Dispatch<React.SetStateAction<ModalSlotDetails | undefined>>;
 }
 export const doctorsDetailsContext = createContext<DoctorDetailsContextType | undefined>(undefined);
 
@@ -117,6 +125,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
     const stored = localStorage.getItem("isAppointmentDrawerOpen");
     return stored ? JSON.parse(stored) : false;
   });
+  const [isEditingDetails, setIsEditingDetails] = useState<ModalSlotDetails | undefined>(undefined);
   useEffect(() => {
     localStorage.setItem("doctersDetails", JSON.stringify(doctersDetails));
     localStorage.setItem("doctorsWeeklySchedule", JSON.stringify(doctorsWeeklySchedule));
@@ -137,6 +146,8 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAvailabilityDrawerOpen,
         isAppointmentDrawerOpen,
         setIsAppointmentDrawerOpen,
+        isEditingDetails,
+        setIsEditingDetails,
       }}
     >
       {children}
