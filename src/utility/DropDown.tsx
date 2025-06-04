@@ -3,7 +3,7 @@ import type { MenuProps } from "antd";
 import { Avatar, Button, Dropdown } from "antd";
 import { Link } from "react-router";
 
-const MyDropDown = () => {
+const DropDown = () => {
   const items: MenuProps["items"] = [
     {
       key: "2",
@@ -38,4 +38,4 @@ const MyDropDown = () => {
   );
 };
 
-export default MyDropDown;
+export default DropDown;

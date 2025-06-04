@@ -1,6 +1,6 @@
 import { BellOutlined } from "@ant-design/icons";
 import { Badge, Menu, type MenuProps } from "antd";
-import MyDropDown from "../utility/MyDropDown";
+import MyDropDown from "../utility/DropDown";
 
 type MenuItem = Required<MenuProps>["items"][number];
 type NavbarPropType = {
