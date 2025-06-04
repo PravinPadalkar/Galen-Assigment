@@ -4,22 +4,26 @@ import type { Dayjs } from "dayjs";
 import CalenderHeader from "../utility/CalenderHeader";
 import type { ModalSlotDetails } from "../Helper/types";
 import { useState } from "react";
-import { DeleteFilled } from "@ant-design/icons";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import useApp from "antd/es/app/useApp";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 
 const Calendar = () => {
   const { message } = useApp();
-  const { bookedSlotsDetails, setBookedSlotsDetails } = useDoctorDetails();
+  const { bookedSlotsDetails, setBookedSlotsDetails, setIsAppointmentDrawerOpen, setIsEditingDetails } =
+    useDoctorDetails();
+
+  const [modalSlotDetails, setModalSlotDetails] = useState<ModalSlotDetails>();
+  const [isModalOpen, setIsModelOpen] = useState<boolean>(false);
   const confirmDelete = (date: string, time: string) => {
     try {
       setBookedSlotsDetails((prev) => {
         return prev.map((item) => {
-          if (item.date.localeCompare(date)) {
+          if (item.date.localeCompare(date) === 0) {
             return {
               ...item,
-              bookedSlots: item.bookedSlots.filter((slotTime) => slotTime.localeCompare(time)),
-              slotInfo: item.slotInfo.filter((slots) => slots.slotTime.localeCompare(time)),
+              bookedSlots: item.bookedSlots.filter((slotTime) => slotTime.localeCompare(time) !== 0),
+              slotInfo: item.slotInfo.filter((slots) => slots.slotTime.localeCompare(time) !== 0),
             };
           }
           return item;
@@ -34,8 +38,8 @@ const Calendar = () => {
   const getListData = (value: Dayjs) => {
     return bookedSlotsDetails.find((item) => item.date === value.format("DD/MM/YYYY"));
   };
-  const [modalSlotDetails, setModalSlotDetails] = useState<ModalSlotDetails>();
-  const [isModalOpen, setIsModelOpen] = useState<boolean>(false);
+
+  // console.log(isEditingDetails);
   //To Pass Data From The List
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
@@ -46,7 +50,7 @@ const Calendar = () => {
           <li key={i}>
             <Badge
               status="success"
-              text={`${listData.doctorName}/${patientName}/${slotTime}`}
+              text={`${listData.doctorName}/${patientName}/${slotTime}`.slice(0, 15) + "..."}
               onClick={() => {
                 setIsModelOpen(true);
                 setModalSlotDetails({
@@ -57,7 +61,7 @@ const Calendar = () => {
                   email: emailId,
                   slotTime: slotTime,
                   doctorName: listData.doctorName,
-                  slotDate: value.format("DD-MM-YYYY"),
+                  slotDate: value.format("DD/MM/YYYY"),
                 });
               }}
             />
@@ -86,8 +90,24 @@ const Calendar = () => {
         onCancel={() => setIsModelOpen(false)}
         onOk={() => setIsModelOpen(false)}
         footer={[
+          //editing Icon
           <Popconfirm
-            key="popconfirm"
+            key="editConfirm"
+            title="Edit the Appointment"
+            description="Are you sure to edit this Appointment?"
+            onConfirm={() => {
+              // console.log(modalSlotDetails);
+              setIsEditingDetails(modalSlotDetails);
+              setIsModelOpen(false);
+              setIsAppointmentDrawerOpen(true);
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button key="submit" shape="circle" color="default" icon={<EditFilled />}></Button>
+          </Popconfirm>,
+          <Popconfirm
+            key="deleteConfirm"
             title="Delete the Appointment"
             description="Are you sure to delete this Appointment?"
             onConfirm={() => {
@@ -112,7 +132,7 @@ const Calendar = () => {
             </span>
             <span>
               <p className="font-bold">Email ID:</p>
-              <p>{modalSlotDetails.email && "N/A"}</p>
+              <p>{modalSlotDetails.email ?? "N/A"}</p>
             </span>
             <span>
               <p className="font-bold">Slot Time:</p>
@@ -124,11 +144,11 @@ const Calendar = () => {
             <div className="flex gap-16">
               <span>
                 <p className="font-bold">Family Members: </p>
-                <p>{modalSlotDetails.familyMember && "N/A"}</p>
+                <p>{modalSlotDetails.familyMember ?? "N/A"}</p>
               </span>
               <span>
                 <p className="font-bold">Additional Note: </p>
-                <p> {modalSlotDetails.note && "N/A"}</p>
+                <p> {modalSlotDetails.note ?? "N/A"}</p>
               </span>
             </div>
           </div>
