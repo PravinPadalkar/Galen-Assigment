@@ -16,7 +16,7 @@ const AppLayout = () => {
   }, [currContent]);
   return (
     <App>
-      <Layout className="0 text-white min-h-screen hidden xl:flex">
+      <Layout className="0 text-white min-h-screen hidden sm:flex">
         <Sider className="bg-[#3DBCA2]" width={"250px"}>
           <MenuBar />
         </Sider>
@@ -27,7 +27,7 @@ const AppLayout = () => {
           <Content>{currContent == "calendar" ? <Calendar /> : <ListView />}</Content>
         </Layout>
       </Layout>
-      <div className="min-h-[calc(100vh-96px)]  flex xl:hidden items-center justify-center font-bold text-xl">
+      <div className="min-h-[calc(100vh-96px)]  flex sm:hidden items-center justify-center font-bold text-xl">
         Please Login Through Computer To Access
       </div>
     </App>
