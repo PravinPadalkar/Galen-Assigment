@@ -6,7 +6,6 @@ type StepOneContentPropType = {
 };
 const StepOneContent = ({ selectedDoctorId, setSelectedDoctorId }: StepOneContentPropType) => {
   const { doctersDetails } = useDoctorDetails();
-  console.log(selectedDoctorId);
   return (
     <>
       <h1 className="text-base font-bold">Select Doctor</h1>
