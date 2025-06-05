@@ -5,6 +5,7 @@ import {
   type doctorDetailsType,
   type DoctorsWeeklyScheduleType,
   type ModalSlotDetails,
+  type nurseDetailsType,
 } from "../Helper/types";
 
 interface DoctorDetailsContextType {
@@ -20,6 +21,10 @@ interface DoctorDetailsContextType {
   setIsAppointmentDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isEditingDetails: ModalSlotDetails | undefined;
   setIsEditingDetails: React.Dispatch<React.SetStateAction<ModalSlotDetails | undefined>>;
+
+  //nurse
+  nurseDetails: nurseDetailsType[];
+  setNurseDetails: React.Dispatch<React.SetStateAction<nurseDetailsType[]>>;
 }
 export const doctorsDetailsContext = createContext<DoctorDetailsContextType | undefined>(undefined);
 
@@ -126,13 +131,36 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
     return stored ? JSON.parse(stored) : false;
   });
   const [isEditingDetails, setIsEditingDetails] = useState<ModalSlotDetails | undefined>(undefined);
+
+  const [nurseDetails, setNurseDetails] = useState<nurseDetailsType[]>(() => {
+    const stored = localStorage.getItem("nurseDetails");
+    return stored
+      ? JSON.parse(stored)
+      : [
+          {
+            nurseId: 1,
+            nurseEmailId: "AnpadNurse@gmail.com",
+            nurseFirstName: "Bot",
+            nurseLastName: "Nurse",
+            nursePhoneNo: "+1 9875852020",
+          },
+        ];
+  });
   useEffect(() => {
     localStorage.setItem("doctersDetails", JSON.stringify(doctersDetails));
     localStorage.setItem("doctorsWeeklySchedule", JSON.stringify(doctorsWeeklySchedule));
     localStorage.setItem("bookedSlotDetails", JSON.stringify(bookedSlotsDetails));
     localStorage.setItem("isAvailabilityDrawerOpen", JSON.stringify(isAvailabilityDrawerOpen));
     localStorage.setItem("isAppointmentDrawerOpen", JSON.stringify(isAppointmentDrawerOpen));
-  }, [doctersDetails, doctorsWeeklySchedule, bookedSlotsDetails, isAppointmentDrawerOpen, isAvailabilityDrawerOpen]);
+    localStorage.setItem("nurseDetails", JSON.stringify(nurseDetails));
+  }, [
+    doctersDetails,
+    doctorsWeeklySchedule,
+    bookedSlotsDetails,
+    isAppointmentDrawerOpen,
+    isAvailabilityDrawerOpen,
+    nurseDetails,
+  ]);
   return (
     <doctorsDetailsContext.Provider
       value={{
@@ -148,6 +176,8 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAppointmentDrawerOpen,
         isEditingDetails,
         setIsEditingDetails,
+        nurseDetails,
+        setNurseDetails,
       }}
     >
       {children}

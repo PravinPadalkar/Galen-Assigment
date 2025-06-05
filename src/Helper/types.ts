@@ -14,6 +14,13 @@ export interface doctorDetailsType {
   doctorName: string;
   slotDuration: SlotDurationEnum;
 }
+export interface nurseDetailsType {
+  nurseId: string;
+  nurseFirstName: string;
+  nurseLastName: string;
+  nurseEmailId: string;
+  nursePhoneNo: string;
+}
 
 export interface BookedSlotsDetailsType {
   doctorId: string;
