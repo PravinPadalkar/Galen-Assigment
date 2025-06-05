@@ -39,11 +39,11 @@ const PastAppointment = () => {
     },
   ];
 
-  const handleRangeDateSelection = (dates) => {
+  const handleRangeDateSelection = (dates: [Dayjs | null, Dayjs | null] | null) => {
     if (dates) {
-      const [startDate, endDate] = dates;
-      setStartDate(startDate);
-      setEndDate(endDate);
+      const [start, end] = dates;
+      setStartDate(start);
+      setEndDate(end);
     } else {
       setStartDate(null);
       setEndDate(null);
@@ -96,7 +96,7 @@ const PastAppointment = () => {
       </Header>
       <section className="min-h-16 flex justify-between items-center text-black mx-8 mt-4 mb-8">
         <div className="flex w-full gap-6">
-          <RangePicker className="w-3/4 " onChange={(e) => handleRangeDateSelection(e)} />
+          <RangePicker className="w-3/4 " onChange={handleRangeDateSelection} format="DD-MM-YYYY" />
           <Select
             mode="multiple"
             allowClear
