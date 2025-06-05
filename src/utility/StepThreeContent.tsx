@@ -82,7 +82,7 @@ const StepThreeContent = ({
       if (!existingDateDetails) {
         newEntry = {
           doctorId: "1",
-          doctorName: "Test",
+          doctorName: "TestDoctor",
           date: dayjs(selectedDate).toISOString(),
           bookedSlots: [dayjs(selectedSlot, "hh:mm:A").toISOString()],
           slotInfo: [

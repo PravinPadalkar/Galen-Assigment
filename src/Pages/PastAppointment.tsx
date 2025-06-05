@@ -1,4 +1,4 @@
-import { Badge, Button, DatePicker, Layout, Select, Table } from "antd";
+import { Badge, Button, DatePicker, Drawer, Layout, Select, Table } from "antd";
 import { Header } from "antd/es/layout/layout";
 import MyDropDown from "../utility/DropDown";
 import { BellOutlined } from "@ant-design/icons";
@@ -6,7 +6,16 @@ import dayjs, { Dayjs } from "dayjs";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import type { DefaultOptionType } from "antd/es/select";
 import { useState } from "react";
-
+import ViewDetailsDrawer from "../utility/ViewDetailsDrawer";
+export type ViewDetailsContentType = {
+  doctorName: string;
+  patientName: string;
+  slotTime: string;
+  date: string;
+  familyMemEmailId?: string;
+  familyMemName?: string;
+  Note?: string;
+};
 const PastAppointment = () => {
   const { bookedSlotsDetails, doctersDetails, nurseDetails } = useDoctorDetails();
   const { RangePicker } = DatePicker;
@@ -14,6 +23,8 @@ const PastAppointment = () => {
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [selectedDoctors, setSelectedDoctors] = useState<string[]>([]);
   const [selectedCaregivers, setSelectedCaregivers] = useState<string[]>([]);
+  const [isViewDetailsDrawerOpen, setIsViewDetailsDrawerOpen] = useState<boolean>(false);
+  const [viewDetailsContent, setViewDetailsContent] = useState<ViewDetailsContentType | undefined>(undefined);
   const columns = [
     {
       title: "Date & Time",
@@ -58,9 +69,25 @@ const PastAppointment = () => {
         date: dateItem.date,
         slot: dayjs(dateItem.date).format("Do MMMM YYYY ") + " - " + dayjs(slot.slotTime).format("hh:mm:A"),
         doctorName: dateItem.doctorName,
+        doctorId: dateItem.doctorId,
         caregiver: "Nurse",
         action: (
-          <Button type="default" style={{ borderRadius: "4px" }}>
+          <Button
+            type="default"
+            style={{ borderRadius: "4px" }}
+            onClick={() => {
+              setIsViewDetailsDrawerOpen(true);
+              setViewDetailsContent({
+                doctorName: dateItem.doctorName,
+                patientName: slot.patientName,
+                date: dateItem.date,
+                slotTime: slot.slotTime,
+                familyMemEmailId: slot.emailId,
+                familyMemName: slot.familyMembers,
+                Note: slot.note,
+              });
+            }}
+          >
             View Details
           </Button>
         ),
@@ -97,7 +124,6 @@ const PastAppointment = () => {
         return selectedCaregivers.includes(item.caregiver);
       }
     });
-
   return (
     <Layout className="bg-white">
       <Header className="bg-white ">
@@ -122,7 +148,7 @@ const PastAppointment = () => {
             options={doctersDetails.map((doctor) => {
               return {
                 label: doctor.doctorName,
-                value: doctor.doctorId,
+                value: doctor.doctorName,
               } as DefaultOptionType;
             })}
             onChange={(e) => setSelectedDoctors(e)}
@@ -150,6 +176,15 @@ const PastAppointment = () => {
         scroll={{ x: true }}
         pagination={{ pageSize: 8 }}
       />
+      <Drawer
+        closable
+        title="Appointment Details"
+        onClose={() => setIsViewDetailsDrawerOpen(false)}
+        width={600}
+        open={isViewDetailsDrawerOpen}
+      >
+        <ViewDetailsDrawer viewDetailsContent={viewDetailsContent} />
+      </Drawer>
     </Layout>
   );
 };
