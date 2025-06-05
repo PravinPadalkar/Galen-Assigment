@@ -12,6 +12,8 @@ const PastAppointment = () => {
   const { RangePicker } = DatePicker;
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
+  const [selectedDoctors, setSelectedDoctors] = useState<string[]>([]);
+  const [selectedCaregivers, setSelectedCaregivers] = useState<string[]>([]);
   const columns = [
     {
       title: "Date & Time",
@@ -21,8 +23,8 @@ const PastAppointment = () => {
     },
     {
       title: "Doctor",
-      dataIndex: "doctor",
-      key: "doctor",
+      dataIndex: "doctorName",
+      key: "doctorName",
       width: "20%",
     },
     {
@@ -55,7 +57,7 @@ const PastAppointment = () => {
         key: slot.slotTime + " " + dateItem.date,
         date: dateItem.date,
         slot: dayjs(dateItem.date).format("Do MMMM YYYY ") + " - " + dayjs(slot.slotTime).format("hh:mm:A"),
-        doctor: dateItem.doctorName,
+        doctorName: dateItem.doctorName,
         caregiver: "Nurse",
         action: (
           <Button type="default" style={{ borderRadius: "4px" }}>
@@ -66,20 +68,35 @@ const PastAppointment = () => {
     });
   });
 
-  const filteredList = dataSource.filter((item) => {
-    if (startDate && endDate) {
-      let currDate = dayjs(item.date);
-      if (
-        (currDate.isAfter(startDate) || currDate.isSame(startDate)) &&
-        (currDate.isBefore(endDate) || currDate.isSame(endDate))
-      ) {
+  const filteredList = dataSource
+    .filter((item) => {
+      if (startDate && endDate) {
+        let currDate = dayjs(item.date);
+        if (
+          (currDate.isAfter(startDate) || currDate.isSame(startDate)) &&
+          (currDate.isBefore(endDate) || currDate.isSame(endDate))
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+      return true;
+    })
+    .filter((item) => {
+      if (selectedDoctors.length === 0) {
         return true;
       } else {
-        return false;
+        return selectedDoctors.includes(item.doctorName);
       }
-    }
-    return true;
-  });
+    })
+    .filter((item) => {
+      if (selectedCaregivers.length === 0) {
+        return true;
+      } else {
+        return selectedCaregivers.includes(item.caregiver);
+      }
+    });
 
   return (
     <Layout className="bg-white">
@@ -108,6 +125,7 @@ const PastAppointment = () => {
                 value: doctor.doctorId,
               } as DefaultOptionType;
             })}
+            onChange={(e) => setSelectedDoctors(e)}
           />
           <Select
             mode="multiple"
@@ -120,6 +138,7 @@ const PastAppointment = () => {
                 value: nurse.nurseId,
               } as DefaultOptionType;
             })}
+            onChange={(e) => setSelectedCaregivers(e)}
           />
         </div>
       </section>
