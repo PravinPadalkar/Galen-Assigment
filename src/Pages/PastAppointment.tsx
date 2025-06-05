@@ -8,7 +8,7 @@ import type { DefaultOptionType } from "antd/es/select";
 import { useState } from "react";
 
 const PastAppointment = () => {
-  const { bookedSlotsDetails, doctersDetails } = useDoctorDetails();
+  const { bookedSlotsDetails, doctersDetails, nurseDetails } = useDoctorDetails();
   const { RangePicker } = DatePicker;
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
@@ -109,7 +109,18 @@ const PastAppointment = () => {
               } as DefaultOptionType;
             })}
           />
-          <Select mode="multiple" allowClear style={{ width: "100%" }} placeholder="Please select Nurse" />
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: "100%" }}
+            placeholder="Please select caregiver"
+            options={nurseDetails.map((nurse) => {
+              return {
+                label: nurse.nurseFirstName + " " + nurse.nurseLastName,
+                value: nurse.nurseId,
+              } as DefaultOptionType;
+            })}
+          />
         </div>
       </section>
       <Table
