@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from "react";
-import dayjs from "dayjs";
 import {
   type BookedSlotsDetailsType,
   type doctorDetailsType,
@@ -7,6 +6,7 @@ import {
   type ModalSlotDetails,
   type nurseDetailsType,
 } from "../Helper/types";
+import { defaultBookedSlotDetailsDummyData, defaultWeeklyScheduleDummyData } from "../Helper/DummyData";
 
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
@@ -44,82 +44,12 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [doctorsWeeklySchedule, setDoctorsWeeklySchedule] = useState<DoctorsWeeklyScheduleType[]>(() => {
     const stored = localStorage.getItem("doctorsWeeklySchedule");
-    return stored
-      ? JSON.parse(stored)
-      : [
-          {
-            doctorId: "1",
-            dayOfWeek: "SUN",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "MON",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "TUE",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "WED",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "THU",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "FRI",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "SAT",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-        ];
+    return stored ? JSON.parse(stored) : defaultWeeklyScheduleDummyData;
   });
 
   const [bookedSlotsDetails, setBookedSlotsDetails] = useState<BookedSlotsDetailsType[]>(() => {
     const stored = localStorage.getItem("bookedSlotDetails");
-    return stored
-      ? JSON.parse(stored)
-      : [
-          {
-            doctorId: "1",
-            doctorName: "Test",
-            date: dayjs("02/06/2025", "DD/MM/YYYY").toISOString(),
-            bookedSlots: ["2025-06-02T15:00:00.000Z"],
-            slotInfo: [
-              {
-                slotTime: "2025-06-02T15:00:00.000Z",
-                patientName: "test",
-                emailId: "abc@gmail.com",
-                familyMembers: "N/A",
-                note: "Immediate Care",
-              },
-            ],
-          },
-        ];
+    return stored ? JSON.parse(stored) : defaultBookedSlotDetailsDummyData;
   });
 
   const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(() => {
