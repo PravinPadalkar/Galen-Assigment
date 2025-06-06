@@ -124,7 +124,7 @@ const StepThreeContent = ({
       setIsAppointmentDrawerOpen(false);
     } catch (e) {
       message.error("Submission Failed");
-      console.log(e);
+      // console.log(e);
     }
   };
   return (

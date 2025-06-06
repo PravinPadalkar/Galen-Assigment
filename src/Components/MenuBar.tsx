@@ -11,7 +11,7 @@ const MenuBar = () => {
     { key: "pastAppointment", icon: <HistoryOutlined />, label: "Past Appointment" },
   ];
   const handleNavigation: MenuProps["onClick"] = (e) => {
-    console.log(e.key);
+    // console.log(e.key);
     navigate(e.key);
   };
 

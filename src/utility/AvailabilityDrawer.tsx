@@ -31,13 +31,13 @@ const AvailabilityDrawer = () => {
     key: "isAvailable" | "slotStartTime" | "slotEndTime",
     value: boolean | string
   ) => {
-    console.log(value);
+    // console.log(value);
     setTempSchedule((prev) =>
       prev.map((item) => {
         if (item.dayOfWeek == dayOfWeek) {
           let newItem = { ...item, [key]: value };
           if (key == "slotEndTime" || key == "slotStartTime") {
-            console.log("checking");
+            // console.log("checking");
             let start = dayjs(newItem.slotStartTime);
             let end = dayjs(newItem.slotEndTime);
             if (end.isBefore(start) || end.isSame(start) || start.isAfter(end)) {
