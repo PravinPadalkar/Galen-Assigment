@@ -178,7 +178,7 @@ const PastAppointment = () => {
       />
       <Drawer
         closable
-        title="Appointment Details"
+        title="Appointment Info"
         onClose={() => setIsViewDetailsDrawerOpen(false)}
         width={600}
         open={isViewDetailsDrawerOpen}
