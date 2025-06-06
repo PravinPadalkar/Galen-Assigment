@@ -1,6 +1,6 @@
 import { BellOutlined } from "@ant-design/icons";
 import { Badge, Menu, type MenuProps } from "antd";
-import MyDropDown from "../utility/DropDown";
+import DropDown from "../utility/DropDown";
 
 type MenuItem = Required<MenuProps>["items"][number];
 type NavbarPropType = {
@@ -35,7 +35,7 @@ const Navbar = ({ currContent, setCurrContent }: NavbarPropType) => {
         <Badge count={0} showZero>
           <BellOutlined className="text-2xl" />
         </Badge>
-        <MyDropDown />
+        <DropDown />
       </div>
     </nav>
   );

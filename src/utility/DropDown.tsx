@@ -1,6 +1,6 @@
 import { LogoutOutlined, MoneyCollectOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Avatar, Button, Dropdown } from "antd";
+import { Avatar, Button, Dropdown as AntdDropDown } from "antd";
 import { Link } from "react-router";
 
 const DropDown = () => {
@@ -23,7 +23,7 @@ const DropDown = () => {
   ];
 
   return (
-    <Dropdown menu={{ items }} trigger={["click"]}>
+    <AntdDropDown menu={{ items }} trigger={["click"]}>
       <Link to="#" onClick={(e) => e.preventDefault()}>
         <Button
           type="text"
@@ -34,7 +34,7 @@ const DropDown = () => {
           Head Doctor
         </Button>
       </Link>
-    </Dropdown>
+    </AntdDropDown>
   );
 };
 
