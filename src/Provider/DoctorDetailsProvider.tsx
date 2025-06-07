@@ -38,6 +38,8 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
             doctorId: "1",
             doctorName: "TestDoctor",
             slotDuration: "thirty",
+            doctorEmailId: "abc@gmail.com",
+            password: "abc123",
           },
         ];
   });
@@ -73,6 +75,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
             nurseFirstName: "Bot",
             nurseLastName: "Nurse",
             nursePhoneNo: "+1 9875852020",
+            password: "abc123",
           },
         ];
   });

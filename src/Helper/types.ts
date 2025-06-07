@@ -16,13 +16,16 @@ export interface doctorDetailsType {
   doctorId: string;
   doctorName: string;
   slotDuration: SlotDurationEnum;
+  doctorEmailId: string;
+  password: string;
 }
 export interface nurseDetailsType {
   nurseId: string;
   nurseFirstName: string;
   nurseLastName: string;
-  nurseEmailId: string;
   nursePhoneNo: string;
+  nurseEmailId: string;
+  password: string;
 }
 
 export interface BookedSlotsDetailsType {
