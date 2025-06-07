@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from "react";
 import {
   type BookedSlotsDetailsType,
   type doctorDetailsType,
-  type DoctorsWeeklyScheduleType,
+  type DoctorsWeeklyScheduleListType,
   type ModalSlotDetails,
   type nurseDetailsType,
 } from "../Helper/types";
@@ -11,8 +11,8 @@ import { defaultBookedSlotDetailsDummyData, defaultWeeklyScheduleDummyData } fro
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
   setDoctersDetails: React.Dispatch<React.SetStateAction<doctorDetailsType[]>>;
-  doctorsWeeklySchedule: DoctorsWeeklyScheduleType[];
-  setDoctorsWeeklySchedule: React.Dispatch<React.SetStateAction<DoctorsWeeklyScheduleType[]>>;
+  doctorsWeeklyScheduleList: DoctorsWeeklyScheduleListType[];
+  setDoctorsWeeklyScheduleList: React.Dispatch<React.SetStateAction<DoctorsWeeklyScheduleListType[]>>;
   bookedSlotsDetails: BookedSlotsDetailsType[];
   setBookedSlotsDetails: React.Dispatch<React.SetStateAction<BookedSlotsDetailsType[]>>;
   isAvailabilityDrawerOpen: boolean;
@@ -42,9 +42,9 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
         ];
   });
 
-  const [doctorsWeeklySchedule, setDoctorsWeeklySchedule] = useState<DoctorsWeeklyScheduleType[]>(() => {
-    const stored = localStorage.getItem("doctorsWeeklySchedule");
-    return stored ? JSON.parse(stored) : defaultWeeklyScheduleDummyData;
+  const [doctorsWeeklyScheduleList, setDoctorsWeeklyScheduleList] = useState<DoctorsWeeklyScheduleListType[]>(() => {
+    const stored = localStorage.getItem("doctorsWeeklyScheduleList");
+    return stored ? JSON.parse(stored) : [{ doctorId: "1", doctorWeeklySchedule: defaultWeeklyScheduleDummyData }];
   });
 
   const [bookedSlotsDetails, setBookedSlotsDetails] = useState<BookedSlotsDetailsType[]>(() => {
@@ -78,14 +78,14 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
   });
   useEffect(() => {
     localStorage.setItem("doctersDetails", JSON.stringify(doctersDetails));
-    localStorage.setItem("doctorsWeeklySchedule", JSON.stringify(doctorsWeeklySchedule));
+    localStorage.setItem("doctorsWeeklyScheduleList", JSON.stringify(doctorsWeeklyScheduleList));
     localStorage.setItem("bookedSlotDetails", JSON.stringify(bookedSlotsDetails));
     localStorage.setItem("isAvailabilityDrawerOpen", JSON.stringify(isAvailabilityDrawerOpen));
     localStorage.setItem("isAppointmentDrawerOpen", JSON.stringify(isAppointmentDrawerOpen));
     localStorage.setItem("nurseDetails", JSON.stringify(nurseDetails));
   }, [
     doctersDetails,
-    doctorsWeeklySchedule,
+    doctorsWeeklyScheduleList,
     bookedSlotsDetails,
     isAppointmentDrawerOpen,
     isAvailabilityDrawerOpen,
@@ -96,8 +96,8 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         doctersDetails,
         setDoctersDetails,
-        doctorsWeeklySchedule,
-        setDoctorsWeeklySchedule,
+        doctorsWeeklyScheduleList,
+        setDoctorsWeeklyScheduleList,
         bookedSlotsDetails,
         setBookedSlotsDetails,
         isAvailabilityDrawerOpen,

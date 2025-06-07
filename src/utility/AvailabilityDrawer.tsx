@@ -1,10 +1,11 @@
 import { DeleteOutlined } from "@ant-design/icons";
 import { Button, Divider, Select, TimePicker, Tooltip } from "antd";
-import type { DoctorsWeeklyScheduleType, SlotDurationEnum } from "../Helper/types";
+import type { DoctorWeeklyScheduleType, SlotDurationEnum } from "../Helper/types";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import useApp from "antd/es/app/useApp";
+import { defaultWeeklyScheduleDummyData } from "../Helper/DummyData";
 type SlotTimeErrorType = {
   dayOfWeek: string;
   msg: string;
@@ -13,19 +14,22 @@ const AvailabilityDrawer = () => {
   const {
     doctersDetails,
     setDoctersDetails,
-    doctorsWeeklySchedule,
-    setDoctorsWeeklySchedule,
+    doctorsWeeklyScheduleList,
+    setDoctorsWeeklyScheduleList,
     setIsAvailabilityDrawerOpen,
   } = useDoctorDetails();
   const format = "hh:mm:A";
   const { message } = useApp();
-  const [tempSchedule, setTempSchedule] = useState<DoctorsWeeklyScheduleType[]>([]);
+  const [tempSchedule, setTempSchedule] = useState<DoctorWeeklyScheduleType[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<SlotDurationEnum>();
   const [slotTimeError, setSlotTimeError] = useState<SlotTimeErrorType>();
   useEffect(() => {
-    setTempSchedule(doctorsWeeklySchedule);
+    setTempSchedule(
+      doctorsWeeklyScheduleList.find((item) => item.doctorId == "1")?.doctorWeeklySchedule ||
+        defaultWeeklyScheduleDummyData
+    );
     setSelectedSlot(doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration);
-  }, [doctorsWeeklySchedule]);
+  }, [doctorsWeeklyScheduleList]);
   const handleChange = (
     dayOfWeek: string,
     key: "isAvailable" | "slotStartTime" | "slotEndTime",
@@ -59,12 +63,19 @@ const AvailabilityDrawer = () => {
       );
     }
     message.success("Schedule Updated Successfully!!");
-    setDoctorsWeeklySchedule(tempSchedule);
+    setDoctorsWeeklyScheduleList((prevState) => {
+      return prevState.map((item) => {
+        if (item.doctorId == "1") {
+          return { ...item, doctorWeeklySchedule: tempSchedule };
+        }
+        return item;
+      });
+    });
     setIsAvailabilityDrawerOpen(false);
   };
   const oncancel = () => {
     setIsAvailabilityDrawerOpen(false);
-    setTempSchedule(doctorsWeeklySchedule);
+    setTempSchedule(doctorsWeeklyScheduleList.find((item) => item.doctorId == "1")!.doctorWeeklySchedule);
   };
 
   return (
