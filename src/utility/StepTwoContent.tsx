@@ -19,7 +19,8 @@ const StepTwoContent = ({
   selectedDoctorId,
   setSelectedDoctorId,
 }: StepTwoContentPropType) => {
-  const { doctorsWeeklySchedule, doctersDetails, bookedSlotsDetails } = useDoctorDetails();
+  const { doctorsWeeklyScheduleList, doctersDetails, bookedSlotsDetails } = useDoctorDetails();
+  const doctorsWeeklySchedule = doctorsWeeklyScheduleList.find((item) => item.doctorId == "1")!.doctorWeeklySchedule;
   const [slotArray, setSlotArray] = useState<React.ReactNode[]>();
   const onDateChange: DatePickerProps["onChange"] = (date) => {
     setSelectedDate(date);
