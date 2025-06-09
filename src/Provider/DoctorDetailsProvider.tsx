@@ -6,7 +6,7 @@ import {
   type ModalSlotDetails,
   type nurseDetailsType,
 } from "../Helper/types";
-import { defaultBookedSlotDetailsDummyData, defaultWeeklyScheduleDummyData } from "../Helper/DefaultScheduleList";
+import { defaultBookedSlotDetailsDummyList, defaultWeeklyScheduleDummyList } from "../Helper/DefaultScheduleList";
 
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
@@ -46,12 +46,12 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
 
   const [doctorsWeeklyScheduleList, setDoctorsWeeklyScheduleList] = useState<DoctorsWeeklyScheduleListType[]>(() => {
     const stored = localStorage.getItem("doctorsWeeklyScheduleList");
-    return stored ? JSON.parse(stored) : [{ doctorId: "1", doctorWeeklySchedule: defaultWeeklyScheduleDummyData }];
+    return stored ? JSON.parse(stored) : [{ doctorId: "1", doctorWeeklySchedule: defaultWeeklyScheduleDummyList }];
   });
 
   const [bookedSlotsDetails, setBookedSlotsDetails] = useState<BookedSlotsDetailsType[]>(() => {
     const stored = localStorage.getItem("bookedSlotDetails");
-    return stored ? JSON.parse(stored) : defaultBookedSlotDetailsDummyData;
+    return stored ? JSON.parse(stored) : defaultBookedSlotDetailsDummyList;
   });
 
   const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(() => {

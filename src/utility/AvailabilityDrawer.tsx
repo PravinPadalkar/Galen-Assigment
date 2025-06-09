@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import useApp from "antd/es/app/useApp";
-import { defaultWeeklyScheduleDummyData } from "../Helper/DefaultScheduleList";
+import { defaultWeeklyScheduleDummyList } from "../Helper/DefaultScheduleList";
 type SlotTimeErrorType = {
   dayOfWeek: string;
   msg: string;
@@ -26,7 +26,7 @@ const AvailabilityDrawer = () => {
   useEffect(() => {
     setTempSchedule(
       doctorsWeeklyScheduleList.find((item) => item.doctorId == "1")?.doctorWeeklySchedule ||
-        defaultWeeklyScheduleDummyData
+        defaultWeeklyScheduleDummyList
     );
     setSelectedSlot(doctersDetails.find((doctor) => doctor.doctorId == "1")?.slotDuration);
   }, [doctorsWeeklyScheduleList]);

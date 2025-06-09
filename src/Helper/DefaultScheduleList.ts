@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import type { DoctorWeeklyScheduleType } from "./types";
-export const defaultWeeklyScheduleDummyData: DoctorWeeklyScheduleType[] = [
+export const defaultWeeklyScheduleDummyList: DoctorWeeklyScheduleType[] = [
   {
     dayOfWeek: "SUN",
     isAvailable: true,
@@ -44,7 +44,7 @@ export const defaultWeeklyScheduleDummyData: DoctorWeeklyScheduleType[] = [
     slotEndTime: "2025-06-02T17:30:00.000Z",
   },
 ];
-export const defaultBookedSlotDetailsDummyData = [
+export const defaultBookedSlotDetailsDummyList = [
   {
     doctorId: "1",
     doctorName: "Test",
