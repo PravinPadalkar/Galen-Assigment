@@ -6,7 +6,7 @@ import {
   type ModalSlotDetails,
   type nurseDetailsType,
 } from "../Helper/types";
-import { defaultBookedSlotDetailsDummyData, defaultWeeklyScheduleDummyData } from "../Helper/DummyData";
+import { defaultBookedSlotDetailsDummyData, defaultWeeklyScheduleDummyData } from "../Helper/DefaultScheduleList";
 
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];

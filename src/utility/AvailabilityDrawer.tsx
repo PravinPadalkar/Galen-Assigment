@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import useApp from "antd/es/app/useApp";
-import { defaultWeeklyScheduleDummyData } from "../Helper/DummyData";
+import { defaultWeeklyScheduleDummyData } from "../Helper/DefaultScheduleList";
 type SlotTimeErrorType = {
   dayOfWeek: string;
   msg: string;

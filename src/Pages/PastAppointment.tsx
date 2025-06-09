@@ -1,4 +1,4 @@
-import { Badge, Button, DatePicker, Drawer, Layout, Select, Table } from "antd";
+import { Badge, Button, DatePicker, Drawer, Select, Table } from "antd";
 import { Header } from "antd/es/layout/layout";
 import MyDropDown from "../utility/DropDown";
 import { BellOutlined } from "@ant-design/icons";
@@ -125,8 +125,8 @@ const PastAppointment = () => {
       }
     });
   return (
-    <Layout className="bg-white">
-      <Header className="bg-white ">
+    <div className="bg-white w-full">
+      <Header className="bg-white w-full ">
         <div className="flex items-center justify-between h-full">
           <p className="text-3xl ">Appointment Records</p>
           <div className="flex justify-center items-center gap-3">
@@ -185,7 +185,7 @@ const PastAppointment = () => {
       >
         <ViewDetailsDrawer viewDetailsContent={viewDetailsContent} />
       </Drawer>
-    </Layout>
+    </div>
   );
 };
 

@@ -15,12 +15,12 @@ const Appointment = () => {
     localStorage.setItem("tab", JSON.stringify(currContent));
   }, [currContent]);
   return (
-    <Layout className="bg-white">
+    <div className="bg-white w-full ">
       <Header className="bg-white border">
         <Navbar currContent={currContent} setCurrContent={setCurrContent} />
       </Header>
       <Content>{currContent == "calendar" ? <Calendar /> : <ListView />}</Content>
-    </Layout>
+    </div>
   );
 };
 
