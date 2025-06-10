@@ -7,7 +7,7 @@ type MenuItem = Required<MenuProps>["items"][number];
 const MenuBar = () => {
   const navigate = useNavigate();
   const items: MenuItem[] = [
-    { key: "/", icon: <CalendarOutlined />, label: "Appointment" },
+    { key: "appointment", icon: <CalendarOutlined />, label: "Appointment" },
     { key: "pastAppointment", icon: <HistoryOutlined />, label: "Past Appointment" },
   ];
   const handleNavigation: MenuProps["onClick"] = (e) => {
@@ -22,7 +22,7 @@ const MenuBar = () => {
         <MedicineBoxFilled className="text-3xl" />
       </div>
       <Menu
-        defaultSelectedKeys={["/"]}
+        defaultSelectedKeys={["appointment"]}
         mode="inline"
         className="bg-inherit shadow-none"
         items={items}
