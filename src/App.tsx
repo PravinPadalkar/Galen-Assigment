@@ -6,6 +6,8 @@ import ThemeProvider from "./Provider/ThemeProvider";
 import DoctorDetailsProvider from "./Provider/DoctorDetailsProvider";
 import Appointment from "./Pages/Appointment";
 import PastAppointment from "./Pages/PastAppointment";
+import LoginPage from "./Pages/LoginPage";
+import SignupPage from "./Pages/SignupPage";
 
 function App() {
   const { pathname } = useLocation();
@@ -18,6 +20,10 @@ function App() {
           <Route element={<AppLayout />}>
             <Route path="appointment" element={<Appointment />} />
             <Route path="pastAppointment" element={<PastAppointment />} />
+          </Route>
+          <Route>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
           </Route>
         </Routes>
       </DoctorDetailsProvider>
