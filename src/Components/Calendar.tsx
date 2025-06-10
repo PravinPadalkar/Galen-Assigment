@@ -50,7 +50,6 @@ const Calendar = () => {
   //To Pass Data From The List
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
-
     return (
       <ul className="events">
         {listData?.slotInfo.map(({ emailId, familyMembers, patientName, slotTime, note }, i) => (
@@ -111,7 +110,13 @@ const Calendar = () => {
             okText="Yes"
             cancelText="No"
           >
-            <Button key="submit" shape="circle" color="default" icon={<EditFilled />}></Button>
+            <Button
+              key="submit"
+              shape="circle"
+              color="default"
+              disabled={dayjs(modalSlotDetails?.slotDate).isBefore(dayjs())}
+              icon={<EditFilled />}
+            ></Button>
           </Popconfirm>,
           <Popconfirm
             key="deleteConfirm"
@@ -125,7 +130,14 @@ const Calendar = () => {
             okText="Yes"
             cancelText="No"
           >
-            <Button key="submit" variant="solid" shape="circle" color="danger" icon={<DeleteFilled />}></Button>
+            <Button
+              key="submit"
+              variant="solid"
+              shape="circle"
+              color="danger"
+              disabled={dayjs(modalSlotDetails?.slotDate).isBefore(dayjs())}
+              icon={<DeleteFilled />}
+            ></Button>
           </Popconfirm>,
           <Button key="okay" onClick={() => setIsModelOpen(false)} type="primary">
             Okay

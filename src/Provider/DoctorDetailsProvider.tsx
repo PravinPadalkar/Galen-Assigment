@@ -1,17 +1,18 @@
 import React, { createContext, useEffect, useState } from "react";
-import dayjs from "dayjs";
 import {
   type BookedSlotsDetailsType,
   type doctorDetailsType,
-  type DoctorsWeeklyScheduleType,
+  type DoctorsWeeklyScheduleListType,
   type ModalSlotDetails,
+  type nurseDetailsType,
 } from "../Helper/types";
+import { defaultBookedSlotDetailsDummyList, defaultWeeklyScheduleDummyList } from "../Helper/DefaultScheduleList";
 
 interface DoctorDetailsContextType {
   doctersDetails: doctorDetailsType[];
   setDoctersDetails: React.Dispatch<React.SetStateAction<doctorDetailsType[]>>;
-  doctorsWeeklySchedule: DoctorsWeeklyScheduleType[];
-  setDoctorsWeeklySchedule: React.Dispatch<React.SetStateAction<DoctorsWeeklyScheduleType[]>>;
+  doctorsWeeklyScheduleList: DoctorsWeeklyScheduleListType[];
+  setDoctorsWeeklyScheduleList: React.Dispatch<React.SetStateAction<DoctorsWeeklyScheduleListType[]>>;
   bookedSlotsDetails: BookedSlotsDetailsType[];
   setBookedSlotsDetails: React.Dispatch<React.SetStateAction<BookedSlotsDetailsType[]>>;
   isAvailabilityDrawerOpen: boolean;
@@ -20,6 +21,10 @@ interface DoctorDetailsContextType {
   setIsAppointmentDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   isEditingDetails: ModalSlotDetails | undefined;
   setIsEditingDetails: React.Dispatch<React.SetStateAction<ModalSlotDetails | undefined>>;
+
+  //nurse
+  nurseDetails: nurseDetailsType[];
+  setNurseDetails: React.Dispatch<React.SetStateAction<nurseDetailsType[]>>;
 }
 export const doctorsDetailsContext = createContext<DoctorDetailsContextType | undefined>(undefined);
 
@@ -33,88 +38,20 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
             doctorId: "1",
             doctorName: "TestDoctor",
             slotDuration: "thirty",
+            doctorEmailId: "abc@gmail.com",
+            password: "abc123",
           },
         ];
   });
 
-  const [doctorsWeeklySchedule, setDoctorsWeeklySchedule] = useState<DoctorsWeeklyScheduleType[]>(() => {
-    const stored = localStorage.getItem("doctorsWeeklySchedule");
-    return stored
-      ? JSON.parse(stored)
-      : [
-          {
-            doctorId: "1",
-            dayOfWeek: "SUN",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "MON",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "TUE",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "WED",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "THU",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "FRI",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-          {
-            doctorId: "1",
-            dayOfWeek: "SAT",
-            isAvailable: true,
-            slotStartTime: "2025-06-02T15:00:00.000Z",
-            slotEndTime: "2025-06-02T17:30:00.000Z",
-          },
-        ];
+  const [doctorsWeeklyScheduleList, setDoctorsWeeklyScheduleList] = useState<DoctorsWeeklyScheduleListType[]>(() => {
+    const stored = localStorage.getItem("doctorsWeeklyScheduleList");
+    return stored ? JSON.parse(stored) : [{ doctorId: "1", doctorWeeklySchedule: defaultWeeklyScheduleDummyList }];
   });
 
   const [bookedSlotsDetails, setBookedSlotsDetails] = useState<BookedSlotsDetailsType[]>(() => {
     const stored = localStorage.getItem("bookedSlotDetails");
-    return stored
-      ? JSON.parse(stored)
-      : [
-          {
-            doctorId: "1",
-            doctorName: "Test",
-            date: dayjs("02/06/2025", "DD/MM/YYYY").toISOString(),
-            bookedSlots: ["2025-06-02T15:00:00.000Z"],
-            slotInfo: [
-              {
-                slotTime: "2025-06-02T15:00:00.000Z",
-                patientName: "test",
-                emailId: "abc@gmail.com",
-                familyMembers: "N/A",
-                note: "Immediate Care",
-              },
-            ],
-          },
-        ];
+    return stored ? JSON.parse(stored) : defaultBookedSlotDetailsDummyList;
   });
 
   const [isAvailabilityDrawerOpen, setIsAvailabilityDrawerOpen] = useState(() => {
@@ -126,20 +63,44 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
     return stored ? JSON.parse(stored) : false;
   });
   const [isEditingDetails, setIsEditingDetails] = useState<ModalSlotDetails | undefined>(undefined);
+
+  const [nurseDetails, setNurseDetails] = useState<nurseDetailsType[]>(() => {
+    const stored = localStorage.getItem("nurseDetails");
+    return stored
+      ? JSON.parse(stored)
+      : [
+          {
+            nurseId: 1,
+            nurseEmailId: "AnpadNurse@gmail.com",
+            nurseFirstName: "Bot",
+            nurseLastName: "Nurse",
+            nursePhoneNo: "+1 9875852020",
+            password: "abc123",
+          },
+        ];
+  });
   useEffect(() => {
     localStorage.setItem("doctersDetails", JSON.stringify(doctersDetails));
-    localStorage.setItem("doctorsWeeklySchedule", JSON.stringify(doctorsWeeklySchedule));
+    localStorage.setItem("doctorsWeeklyScheduleList", JSON.stringify(doctorsWeeklyScheduleList));
     localStorage.setItem("bookedSlotDetails", JSON.stringify(bookedSlotsDetails));
     localStorage.setItem("isAvailabilityDrawerOpen", JSON.stringify(isAvailabilityDrawerOpen));
     localStorage.setItem("isAppointmentDrawerOpen", JSON.stringify(isAppointmentDrawerOpen));
-  }, [doctersDetails, doctorsWeeklySchedule, bookedSlotsDetails, isAppointmentDrawerOpen, isAvailabilityDrawerOpen]);
+    localStorage.setItem("nurseDetails", JSON.stringify(nurseDetails));
+  }, [
+    doctersDetails,
+    doctorsWeeklyScheduleList,
+    bookedSlotsDetails,
+    isAppointmentDrawerOpen,
+    isAvailabilityDrawerOpen,
+    nurseDetails,
+  ]);
   return (
     <doctorsDetailsContext.Provider
       value={{
         doctersDetails,
         setDoctersDetails,
-        doctorsWeeklySchedule,
-        setDoctorsWeeklySchedule,
+        doctorsWeeklyScheduleList,
+        setDoctorsWeeklyScheduleList,
         bookedSlotsDetails,
         setBookedSlotsDetails,
         isAvailabilityDrawerOpen,
@@ -148,6 +109,8 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAppointmentDrawerOpen,
         isEditingDetails,
         setIsEditingDetails,
+        nurseDetails,
+        setNurseDetails,
       }}
     >
       {children}

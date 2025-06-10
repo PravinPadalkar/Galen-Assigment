@@ -65,7 +65,7 @@ const ListView = () => {
     .filter((item) => (filterDate ? !dayjs(item.date).format("DD/MM/YYYY").localeCompare(filterDate) : true))
     .filter((item) => (filterMonth ? !dayjs(item.date).format("MM/YYYY").localeCompare(filterMonth) : true));
   return (
-    <>
+    <div>
       <section className="min-h-16 flex justify-between items-center mx-8 mt-4 mb-8">
         <div className="flex gap-6">
           <Button type={filterDate ? "primary" : "default"} onClick={handleToday}>
@@ -100,7 +100,7 @@ const ListView = () => {
         scroll={{ x: true }}
         pagination={{ pageSize: 8 }}
       />
-    </>
+    </div>
   );
 };
 
