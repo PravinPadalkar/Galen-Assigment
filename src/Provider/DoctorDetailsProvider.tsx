@@ -36,7 +36,9 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
       : [
           {
             doctorId: "1",
-            doctorName: "TestDoctor",
+            doctorFirstName: "Test",
+            doctorLastName: "Doctor",
+            doctorPhoneNo: "8958950560",
             slotDuration: "thirty",
             emailId: "abc@gmail.com",
             password: "abc123",

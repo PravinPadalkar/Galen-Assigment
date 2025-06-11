@@ -14,7 +14,9 @@ export interface DoctorsWeeklyScheduleListType {
 }
 export interface doctorDetailsType {
   doctorId: string;
-  doctorName: string;
+  doctorFirstName: string;
+  doctorLastName: string;
+  doctorPhoneNo: string;
   slotDuration: SlotDurationEnum;
   emailId: string;
   password: string;
