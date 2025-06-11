@@ -1,9 +1,10 @@
 import { Button, Form, Input, Radio, type FormProps } from "antd";
 import background from "/background.png";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import type { CheckboxGroupProps } from "antd/es/checkbox";
 import { useState } from "react";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
+import { useAuth } from "../hooks/useAuth";
 
 type FieldType = {
   email?: string;
@@ -13,18 +14,54 @@ type FieldType = {
 
 const LoginPage = () => {
   const { doctersDetails, nurseDetails } = useDoctorDetails();
+  const { setIsAuthenticated, setLoggedInUserDetails } = useAuth();
+  const navigate = useNavigate();
+  const [selectedRole, setSelectedRole] = useState<string>("doctor");
+
   const RadioOptions: CheckboxGroupProps<string>["options"] = [
     { label: "Doctor", value: "doctor", className: "label-1" },
     { label: "Nurse", value: "nurse", className: "label-2" },
   ];
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    console.log("Success:", values);
+    // console.log("Success:", values);
+    if (selectedRole == "doctor") {
+      const existingUser = doctersDetails.find((user) => user.emailId == values.email);
+      if (existingUser && existingUser.password == values.password) {
+        // console.log("Authenticate");
+        setIsAuthenticated(true);
+        setLoggedInUserDetails({
+          userId: existingUser.doctorId,
+          userFirstName: existingUser.doctorName,
+          userRole: "doctor",
+          userEmailId: existingUser.emailId,
+        });
+        navigate("/doctor/appointment");
+      } else {
+        console.log("Invalid Credentials");
+      }
+    } else {
+      const existingUser = nurseDetails.find((user) => user.emailId == values.email);
+      if (existingUser && existingUser.password == values.password) {
+        // console.log("Authenticate");
+        setIsAuthenticated(true);
+        setLoggedInUserDetails({
+          userId: existingUser.nurseId,
+          userFirstName: existingUser.nurseFirstName,
+          userLastName: existingUser.nurseLastName,
+          userPhoneNo: existingUser.nursePhoneNo,
+          userRole: "nurse",
+          userEmailId: existingUser.emailId,
+        });
+        navigate("/nurse/appointment");
+      } else {
+        console.log("Invalid Credentials");
+      }
+    }
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const [selectedRole, setSelectedRole] = useState<string>("doctor");
 
   return (
     <section className="flex">
@@ -45,23 +82,21 @@ const LoginPage = () => {
             name="email"
             rules={[{ required: true, message: "Please input your username!" }]}
           >
-            <Input />
+            <Input placeholder="Enter Email" />
           </Form.Item>
           <Form.Item<FieldType>
             label="Password"
             name="password"
             rules={[{ required: true, message: "Please input your password!" }]}
           >
-            <Input.Password />
+            <Input.Password placeholder="Enter Password" />
           </Form.Item>
           <div className="flex gap-3 items-center my-8">
             <span className="font-medium">Sign In As :</span>
             <Radio.Group
               options={RadioOptions}
-              optionType="button"
               onChange={(e) => setSelectedRole(e.target.value)}
               value={selectedRole}
-              buttonStyle="solid"
             />
           </div>
           <div className="mb-8">

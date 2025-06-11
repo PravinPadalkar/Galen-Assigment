@@ -16,7 +16,7 @@ export interface doctorDetailsType {
   doctorId: string;
   doctorName: string;
   slotDuration: SlotDurationEnum;
-  doctorEmailId: string;
+  emailId: string;
   password: string;
 }
 export interface nurseDetailsType {
@@ -24,7 +24,7 @@ export interface nurseDetailsType {
   nurseFirstName: string;
   nurseLastName: string;
   nursePhoneNo: string;
-  nurseEmailId: string;
+  emailId: string;
   password: string;
 }
 
@@ -53,3 +53,12 @@ export type ModalSlotDetails = {
   email: string;
   note: string | undefined;
 };
+
+export interface ILoggedInUserDetails {
+  userId: string;
+  userRole: string;
+  userFirstName: string;
+  userLastName?: string;
+  userEmailId?: string;
+  userPhoneNo?: string;
+}

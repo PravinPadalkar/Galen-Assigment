@@ -3,8 +3,8 @@ import type { ILoggedInUserDetails } from "../Helper/types";
 interface IAuthContext {
   isAuthenticated: boolean;
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
-  loggedInUserDetails: ILoggedInUserDetails | undefined;
-  setLoggedInUserDetails: React.Dispatch<React.SetStateAction<ILoggedInUserDetails | undefined>>;
+  loggedInUserDetails: ILoggedInUserDetails | null;
+  setLoggedInUserDetails: React.Dispatch<React.SetStateAction<ILoggedInUserDetails | null>>;
 }
 
 export const AuthContext = createContext<IAuthContext | undefined>(undefined);
@@ -14,9 +14,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const stored = localStorage.getItem("isAuthenticated");
     return stored ? JSON.parse(stored) : false;
   });
-  const [loggedInUserDetails, setLoggedInUserDetails] = useState<ILoggedInUserDetails | undefined>(() => {
+  const [loggedInUserDetails, setLoggedInUserDetails] = useState<ILoggedInUserDetails | null>(() => {
     const stored = localStorage.getItem("loggedInUserDetails");
-    return stored ? JSON.parse(stored) : undefined;
+    return stored ? JSON.parse(stored) : null;
   });
   useEffect(() => {
     localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));

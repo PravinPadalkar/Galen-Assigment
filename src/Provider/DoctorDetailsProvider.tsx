@@ -38,7 +38,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
             doctorId: "1",
             doctorName: "TestDoctor",
             slotDuration: "thirty",
-            doctorEmailId: "abc@gmail.com",
+            emailId: "abc@gmail.com",
             password: "abc123",
           },
         ];
@@ -71,7 +71,7 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
       : [
           {
             nurseId: 1,
-            nurseEmailId: "AnpadNurse@gmail.com",
+            emailId: "AnpadNurse@gmail.com",
             nurseFirstName: "Bot",
             nurseLastName: "Nurse",
             nursePhoneNo: "+1 9875852020",

@@ -68,13 +68,11 @@ const SignupPage = () => {
             <Input.Password placeholder="Confirm Password" />
           </Form.Item>
           <div className="flex gap-3 items-center my-8">
-            <span className="font-medium">Sign Up As :</span>
+            <span className="font-medium">Sign In As :</span>
             <Radio.Group
               options={RadioOptions}
-              optionType="button"
               onChange={(e) => setSelectedRole(e.target.value)}
               value={selectedRole}
-              buttonStyle="solid"
             />
           </div>
           <div className="mb-8">
