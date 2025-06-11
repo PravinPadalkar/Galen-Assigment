@@ -38,10 +38,12 @@ const LoginPage = () => {
           userRole: "doctor",
           userEmailId: existingUser.emailId,
         });
-        message.success(`Login Successful!!! Welcome ${existingUser.doctorFirstName}`);
+        message.success(
+          `Login Successful!!! Welcome ${existingUser.doctorFirstName + " " + existingUser.doctorLastName}`
+        );
         navigate("/doctor/appointment");
       } else {
-        console.log("Invalid Credentials");
+        message.error("Invalid Credentials");
       }
     } else {
       const existingUser = nurseDetails.find((user) => user.emailId == values.email);
@@ -56,15 +58,18 @@ const LoginPage = () => {
           userRole: "nurse",
           userEmailId: existingUser.emailId,
         });
+        message.success(
+          `Login Successful!!! Welcome ${existingUser.nurseFirstName + " " + existingUser.nurseLastName}`
+        );
         navigate("/nurse/appointment");
       } else {
-        console.log("Invalid Credentials");
+        message.error("Invalid Credentials");
       }
     }
   };
 
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    message.error("Submission Failed");
   };
 
   return (

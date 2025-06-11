@@ -2,8 +2,22 @@ import { LogoutOutlined, MoneyCollectOutlined, UserOutlined } from "@ant-design/
 import type { MenuProps } from "antd";
 import { Avatar, Button, Dropdown as AntdDropDown } from "antd";
 import { Link } from "react-router";
+import { useAuth } from "../hooks/useAuth";
+import useApp from "antd/es/app/useApp";
 
 const DropDown = () => {
+  const { loggedInUserDetails, setIsAuthenticated, setLoggedInUserDetails } = useAuth();
+  const { message } = useApp();
+  const handleLogout = () => {
+    console.log("first");
+    try {
+      setIsAuthenticated(false);
+      setLoggedInUserDetails(null);
+      message.info("Logout Successful!!!");
+    } catch {
+      message.error("Logout Failed");
+    }
+  };
   const items: MenuProps["items"] = [
     {
       key: "2",
@@ -19,6 +33,7 @@ const DropDown = () => {
       key: "4",
       label: "Logout",
       icon: <LogoutOutlined />,
+      onClick: handleLogout,
     },
   ];
 
@@ -31,7 +46,7 @@ const DropDown = () => {
           className="outline-none border-0 text-lg"
           icon={<Avatar icon={<UserOutlined />} />}
         >
-          Head Doctor
+          {loggedInUserDetails?.userFirstName + " " + loggedInUserDetails?.userLastName}
         </Button>
       </Link>
     </AntdDropDown>
