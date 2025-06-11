@@ -5,6 +5,7 @@ import type { CheckboxGroupProps } from "antd/es/checkbox";
 import { useState } from "react";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import { useAuth } from "../hooks/useAuth";
+import useApp from "antd/es/app/useApp";
 
 type FieldType = {
   email?: string;
@@ -13,6 +14,7 @@ type FieldType = {
 };
 
 const LoginPage = () => {
+  const { message } = useApp();
   const { doctersDetails, nurseDetails } = useDoctorDetails();
   const { setIsAuthenticated, setLoggedInUserDetails } = useAuth();
   const navigate = useNavigate();
@@ -23,7 +25,6 @@ const LoginPage = () => {
     { label: "Nurse", value: "nurse", className: "label-2" },
   ];
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    // console.log("Success:", values);
     if (selectedRole == "doctor") {
       const existingUser = doctersDetails.find((user) => user.emailId == values.email);
       if (existingUser && existingUser.password == values.password) {
@@ -31,10 +32,13 @@ const LoginPage = () => {
         setIsAuthenticated(true);
         setLoggedInUserDetails({
           userId: existingUser.doctorId,
-          userFirstName: existingUser.doctorName,
+          userFirstName: existingUser.doctorFirstName,
+          userLastName: existingUser.doctorLastName,
+          userPhoneNo: existingUser.doctorPhoneNo,
           userRole: "doctor",
           userEmailId: existingUser.emailId,
         });
+        message.success(`Login Successful!!! Welcome ${existingUser.doctorFirstName}`);
         navigate("/doctor/appointment");
       } else {
         console.log("Invalid Credentials");
