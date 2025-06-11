@@ -1,74 +1,74 @@
-import { Button, Form, Input, Radio, type FormProps } from "antd";
+import { Button, Form, Input, type FormProps } from "antd";
 import background from "/background.png";
 import { Link, useNavigate } from "react-router";
-import type { CheckboxGroupProps } from "antd/es/checkbox";
-import { useState } from "react";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
 import { useAuth } from "../hooks/useAuth";
 import useApp from "antd/es/app/useApp";
+import bcrypt from "bcryptjs";
 
 type FieldType = {
-  email?: string;
-  password?: string;
-  remember?: string;
+  email: string;
+  password: string;
 };
 
 const LoginPage = () => {
   const { message } = useApp();
   const { doctersDetails, nurseDetails } = useDoctorDetails();
-  const { setIsAuthenticated, setLoggedInUserDetails } = useAuth();
+  const { setIsAuthenticated, setLoggedInUserDetails, usersList } = useAuth();
   const navigate = useNavigate();
-  const [selectedRole, setSelectedRole] = useState<string>("doctor");
 
-  const RadioOptions: CheckboxGroupProps<string>["options"] = [
-    { label: "Doctor", value: "doctor", className: "label-1" },
-    { label: "Nurse", value: "nurse", className: "label-2" },
-  ];
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    if (selectedRole == "doctor") {
-      const existingUser = doctersDetails.find((user) => user.emailId == values.email);
-      if (existingUser && existingUser.password == values.password) {
-        // console.log("Authenticate");
-        setIsAuthenticated(true);
-        setLoggedInUserDetails({
-          userId: existingUser.doctorId,
-          userFirstName: existingUser.doctorFirstName,
-          userLastName: existingUser.doctorLastName,
-          userPhoneNo: existingUser.doctorPhoneNo,
-          userRole: "doctor",
-          userEmailId: existingUser.emailId,
-        });
-        message.success(
-          `Login Successful!!! Welcome ${existingUser.doctorFirstName + " " + existingUser.doctorLastName}`
-        );
-        navigate("/doctor/appointment");
-      } else {
-        message.error("Invalid Credentials");
-      }
+    const matchedUser = usersList.find((user) => user.emailId == values.email);
+    if (matchedUser) {
+      // console.log("Authenticate");
+      bcrypt.compare(values.password, matchedUser.password, (err, res) => {
+        if (!res) {
+          message.error("Invalid Credentials!!" + err);
+          console.log(values.password, matchedUser.password);
+          return;
+        }
+        if (matchedUser.role == "doctor") {
+          const userDetails = doctersDetails.find((doctor) => doctor.doctorId == matchedUser.userId);
+          if (userDetails) {
+            setIsAuthenticated(true);
+            setLoggedInUserDetails({
+              userId: userDetails.doctorId,
+              userFirstName: userDetails.doctorFirstName,
+              userLastName: userDetails.doctorLastName,
+              userPhoneNo: userDetails.doctorPhoneNo,
+              userRole: "doctor",
+              userEmailId: userDetails.emailId,
+            });
+            message.success(`Login Successful!!! Welcome `);
+            navigate("/doctor/appointment");
+          } else {
+            message.error("Couldn't Match Id");
+          }
+        } else if (matchedUser.role == "nurse") {
+          const userDetails = nurseDetails.find((nurse) => nurse.nurseId == matchedUser.userId);
+          if (userDetails) {
+            setIsAuthenticated(true);
+            setLoggedInUserDetails({
+              userId: userDetails.emailId,
+              userFirstName: userDetails.nurseFirstName,
+              userLastName: userDetails.nurseLastName,
+              userPhoneNo: userDetails.nursePhoneNo,
+              userRole: "nurse",
+              userEmailId: userDetails.emailId,
+            });
+            message.success(`Login Successful!!! Welcome `);
+            navigate("/nurse/appointment");
+          } else {
+            message.error("Couldn't Match Id");
+          }
+        }
+      });
     } else {
-      const existingUser = nurseDetails.find((user) => user.emailId == values.email);
-      if (existingUser && existingUser.password == values.password) {
-        // console.log("Authenticate");
-        setIsAuthenticated(true);
-        setLoggedInUserDetails({
-          userId: existingUser.nurseId,
-          userFirstName: existingUser.nurseFirstName,
-          userLastName: existingUser.nurseLastName,
-          userPhoneNo: existingUser.nursePhoneNo,
-          userRole: "nurse",
-          userEmailId: existingUser.emailId,
-        });
-        message.success(
-          `Login Successful!!! Welcome ${existingUser.nurseFirstName + " " + existingUser.nurseLastName}`
-        );
-        navigate("/nurse/appointment");
-      } else {
-        message.error("Invalid Credentials");
-      }
+      message.error("Invalid Credentials1");
     }
   };
 
-  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (errorInfo) => {
+  const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = () => {
     message.error("Submission Failed");
   };
 
@@ -100,14 +100,6 @@ const LoginPage = () => {
           >
             <Input.Password placeholder="Enter Password" />
           </Form.Item>
-          <div className="flex gap-3 items-center my-8">
-            <span className="font-medium">Sign In As :</span>
-            <Radio.Group
-              options={RadioOptions}
-              onChange={(e) => setSelectedRole(e.target.value)}
-              value={selectedRole}
-            />
-          </div>
           <div className="mb-8">
             <p>
               Don't Have Account ?

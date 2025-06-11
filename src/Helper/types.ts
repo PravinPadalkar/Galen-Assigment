@@ -19,7 +19,6 @@ export interface doctorDetailsType {
   doctorPhoneNo: string;
   slotDuration: SlotDurationEnum;
   emailId: string;
-  password: string;
 }
 export interface nurseDetailsType {
   nurseId: string;
@@ -27,7 +26,6 @@ export interface nurseDetailsType {
   nurseLastName: string;
   nursePhoneNo: string;
   emailId: string;
-  password: string;
 }
 
 export interface BookedSlotsDetailsType {
@@ -63,4 +61,11 @@ export interface ILoggedInUserDetails {
   userLastName?: string;
   userEmailId?: string;
   userPhoneNo?: string;
+}
+
+export interface IUsersList {
+  userId: string;
+  emailId: string;
+  password: string;
+  role: "doctor" | "nurse";
 }

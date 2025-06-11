@@ -41,7 +41,6 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
             doctorPhoneNo: "8958950560",
             slotDuration: "thirty",
             emailId: "abc@gmail.com",
-            password: "abc123",
           },
         ];
   });
@@ -72,12 +71,11 @@ const DoctorDetailsProvider = ({ children }: { children: React.ReactNode }) => {
       ? JSON.parse(stored)
       : [
           {
-            nurseId: 1,
+            nurseId: "2",
             emailId: "AnpadNurse@gmail.com",
             nurseFirstName: "Bot",
             nurseLastName: "Nurse",
             nursePhoneNo: "+1 9875852020",
-            password: "abc123",
           },
         ];
   });
