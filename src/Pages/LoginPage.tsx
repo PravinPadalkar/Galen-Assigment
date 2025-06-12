@@ -102,7 +102,7 @@ const LoginPage = () => {
           </Form.Item>
           <div className="mb-8">
             <p>
-              Don't Have Account ?
+              Don't Have An Account ?
               <Link to="/signup" className="font-bold ml-2">
                 SignUp
               </Link>

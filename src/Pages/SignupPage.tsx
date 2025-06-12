@@ -166,7 +166,7 @@ const SignupPage = () => {
           </div>
           <div className="mb-8">
             <p>
-              Already Have Account ?
+              Already Have An Account ?
               <Link to="/login" className="font-bold ml-2">
                 Sign In
               </Link>
