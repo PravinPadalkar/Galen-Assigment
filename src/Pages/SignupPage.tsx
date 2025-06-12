@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router";
 import type { CheckboxGroupProps } from "antd/es/checkbox";
 import { useState } from "react";
 import { useDoctorDetails } from "../hooks/useDoctorDetails";
-import type { doctorDetailsType, nurseDetailsType } from "../Helper/types";
+import type { doctorDetailsType, IUsersList, nurseDetailsType } from "../Helper/types";
 import useApp from "antd/es/app/useApp";
+import { useAuth } from "../hooks/useAuth";
+import bcrypt from "bcryptjs";
 
 type FieldType = {
   email: string;
@@ -17,17 +19,17 @@ type FieldType = {
 };
 
 const SignupPage = () => {
-  const { doctersDetails, setDoctersDetails, nurseDetails, setNurseDetails } = useDoctorDetails();
+  const { setDoctersDetails, setNurseDetails } = useDoctorDetails();
+  const { usersList, setUsersList } = useAuth();
   const navigate = useNavigate();
   const [form] = Form.useForm<FieldType>();
   const { message } = useApp();
-
+  const SALT_ROUNDS = 10;
   const RadioOptions: CheckboxGroupProps<string>["options"] = [
     { label: "Doctor", value: "doctor", className: "label-1" },
     { label: "Nurse", value: "nurse", className: "label-2" },
   ];
-
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values) => {
     if (values.password !== values.confirmPassword) {
       form.setFields([
         {
@@ -38,27 +40,34 @@ const SignupPage = () => {
       return;
     }
     try {
+      let newId = (usersList.length + 1).toString();
+      const hashedPassword = await bcrypt.hash(values.password, SALT_ROUNDS);
+      let newUser = {
+        userId: newId,
+        emailId: values.email,
+        password: hashedPassword,
+        role: selectedRole,
+      } as IUsersList;
       if (selectedRole == "doctor") {
-        let newEntry = {
-          doctorId: (doctersDetails.length + 1).toString(),
+        let newDoctorDetails = {
+          doctorId: newId,
           doctorFirstName: values.firstName,
           doctorLastName: values.lastName,
           doctorPhoneNo: values.phoneNo,
           emailId: values.email,
-          password: values.password,
         } as doctorDetailsType;
-        setDoctersDetails((prev) => [...prev, newEntry]);
-      } else {
-        let newEntry = {
-          nurseId: (nurseDetails.length + 1).toString(),
+        setDoctersDetails((prev) => [...prev, newDoctorDetails]);
+      } else if (selectedRole == "nurse") {
+        let newNurseEntry = {
+          nurseId: newId,
           nurseFirstName: values.firstName,
           nurseLastName: values.lastName,
           nursePhoneNo: values.phoneNo,
           emailId: values.email,
-          password: values.password,
         } as nurseDetailsType;
-        setNurseDetails((prev) => [...prev, newEntry]);
+        setNurseDetails((prev) => [...prev, newNurseEntry]);
       }
+      setUsersList((prev) => [...prev, newUser]);
       message.success("Signup  Successful!!!");
       navigate("/login");
     } catch {
@@ -88,14 +97,18 @@ const SignupPage = () => {
           <Form.Item<FieldType>
             label="Email"
             name="email"
-            rules={[{ required: true, message: "Please input your Email ID!" }]}
+            rules={[
+              { required: true, message: "Please input your Email ID!" },
+              { pattern: /^[^@]+@[^@]+\.[^@]+$/, message: "Please Enter A Valid Email" },
+            ]}
           >
             <Input placeholder="Enter Email Id" />
           </Form.Item>
-          <div className="flex justify-between">
+          <div className="flex space-x-4">
             <Form.Item<FieldType>
               label="First Name"
               name="firstName"
+              className="w-full"
               rules={[{ required: true, message: "Please input your first name!" }]}
             >
               <Input placeholder="Enter Your First Name" />
@@ -103,6 +116,7 @@ const SignupPage = () => {
             <Form.Item<FieldType>
               label="Last Name"
               name="lastName"
+              className="w-full"
               rules={[{ required: true, message: "Please input your first name!" }]}
             >
               <Input placeholder="Enter your Last Name" />
@@ -111,7 +125,13 @@ const SignupPage = () => {
           <Form.Item<FieldType>
             label="Phone Number"
             name="phoneNo"
-            rules={[{ required: true, message: "Please input Valid Number!" }]}
+            rules={[
+              { required: true, message: "Please input Valid Number!" },
+              {
+                pattern: /^[6-9]\d{9}$/,
+                message: "Enter a valid 10-digit Indian phone number",
+              },
+            ]}
           >
             <Input placeholder="Enter Phone Number" />
           </Form.Item>
@@ -119,7 +139,13 @@ const SignupPage = () => {
           <Form.Item<FieldType>
             label="Password"
             name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
+            rules={[
+              { required: true, message: "Please input your password!" },
+              {
+                pattern: /^(?=.*[^A-Za-z0-9]).{8,}$/,
+                message: "Password Must be 8 characters long and contains atleast one special character",
+              },
+            ]}
           >
             <Input.Password placeholder="Enter The Password" />
           </Form.Item>

@@ -1,16 +1,17 @@
 import { LogoutOutlined, MoneyCollectOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Avatar, Button, Dropdown as AntdDropDown } from "antd";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import useApp from "antd/es/app/useApp";
 
 const DropDown = () => {
   const { loggedInUserDetails, setIsAuthenticated, setLoggedInUserDetails } = useAuth();
   const { message } = useApp();
+  const navigate = useNavigate();
   const handleLogout = () => {
-    console.log("first");
     try {
+      navigate("/login");
       setIsAuthenticated(false);
       setLoggedInUserDetails(null);
       message.info("Logout Successful!!!");
