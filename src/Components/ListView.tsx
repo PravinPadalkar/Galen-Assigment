@@ -76,7 +76,7 @@ const ListView = () => {
           </Button>
           <DatePicker onChange={onMonthChange} picker="month" />
         </div>
-        (
+        
         <Button
           type="primary"
           onClick={() => setIsAppointmentDrawerOpen(true)}
@@ -84,7 +84,7 @@ const ListView = () => {
         >
           New Appointment
         </Button>
-        )
+        
         <Drawer
           closable
           title="New Appointment"
